@@ -1,232 +1,402 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Mermaid Resort | Saint Martin's Island, Bangladesh</title>
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Waterfall&display=swap"
-      rel="stylesheet"
-    />
-    <!-- Styling -->
-    <link rel="stylesheet" href="css/styles.css" />
+    <title>Mermaid Resort - Saint Martin's Island</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="styles.css" />
   </head>
-  <body>
-    <!-- Header & Navigation -->
-    <header>
-      <div class="container header-container">
-        <a href="#home" class="logo">
-          <div class="logo-icon">
-            <i class="fas fa-water"></i>
+  <body class="min-h-screen bg-[#0a0a0a] text-white overflow-x-hidden">
+    <!-- Navigation -->
+    <nav
+      id="navbar"
+      class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent py-6"
+    >
+      <div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <div
+            class="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center"
+          >
+            <i data-lucide="palmtree" class="w-5 h-5 text-white"></i>
           </div>
-          <div class="logo-text">
-            <h1>Mermaid Resort</h1>
-            <div class="cursive">Saint Martin's Island</div>
-          </div>
-        </a>
+          <span class="text-xl font-semibold tracking-wide"
+            >Mermaid Resort</span
+          >
+        </div>
 
-        <button class="mobile-menu-btn" id="mobileMenuBtn">
-          <i class="fas fa-bars"></i>
+        <div class="hidden md:flex items-center gap-8">
+          <a
+            href="#home"
+            class="text-gray-300 hover:text-cyan-400 transition-colors text-sm tracking-wider uppercase"
+            >Home</a
+          >
+          <a
+            href="#about"
+            class="text-gray-300 hover:text-cyan-400 transition-colors text-sm tracking-wider uppercase"
+            >About</a
+          >
+          <a
+            href="#rooms"
+            class="text-gray-300 hover:text-cyan-400 transition-colors text-sm tracking-wider uppercase"
+            >Rooms</a
+          >
+          <a
+            href="#amenities"
+            class="text-gray-300 hover:text-cyan-400 transition-colors text-sm tracking-wider uppercase"
+            >Amenities</a
+          >
+          <a
+            href="#gallery"
+            class="text-gray-300 hover:text-cyan-400 transition-colors text-sm tracking-wider uppercase"
+            >Gallery</a
+          >
+          <a
+            href="#contact"
+            class="text-gray-300 hover:text-cyan-400 transition-colors text-sm tracking-wider uppercase"
+            >Contact</a
+          >
+          <button
+            id="navBookBtn"
+            class="px-6 py-2 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full text-sm font-medium hover:opacity-90 transition-opacity"
+          >
+            Book Now
+          </button>
+        </div>
+
+        <button id="mobile-menu-btn" class="md:hidden text-white">
+          <i data-lucide="menu" id="menu-icon"></i>
         </button>
-
-        <nav id="mainNav">
-          <ul>
-            <li><a href="#home">Home</a></li>
-            <li><a href="#about">About</a></li>
-            <li><a href="#rooms">Rooms</a></li>
-            <li><a href="#amenities">Amenities</a></li>
-            <li><a href="#gallery">Gallery</a></li>
-            <li><a href="#booking">Book Now</a></li>
-          </ul>
-        </nav>
       </div>
-    </header>
+
+      <!-- Mobile Menu -->
+      <div
+        id="mobile-menu"
+        class="hidden md:hidden absolute top-full left-0 right-0 bg-[#0a0a0a]/98 backdrop-blur-lg border-t border-gray-800"
+      >
+        <div class="flex flex-col p-6 gap-4">
+          <a
+            href="#home"
+            class="mobile-link text-gray-300 hover:text-cyan-400 transition-colors text-left py-2"
+            >Home</a
+          >
+          <a
+            href="#about"
+            class="mobile-link text-gray-300 hover:text-cyan-400 transition-colors text-left py-2"
+            >About</a
+          >
+          <a
+            href="#rooms"
+            class="mobile-link text-gray-300 hover:text-cyan-400 transition-colors text-left py-2"
+            >Rooms</a
+          >
+          <a
+            href="#amenities"
+            class="mobile-link text-gray-300 hover:text-cyan-400 transition-colors text-left py-2"
+            >Amenities</a
+          >
+          <a
+            href="#gallery"
+            class="mobile-link text-gray-300 hover:text-cyan-400 transition-colors text-left py-2"
+            >Gallery</a
+          >
+          <a
+            href="#contact"
+            class="mobile-link text-gray-300 hover:text-cyan-400 transition-colors text-left py-2"
+            >Contact</a
+          >
+          <button
+            class="mt-4 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full text-sm font-medium"
+          >
+            Book Now
+          </button>
+        </div>
+      </div>
+    </nav>
 
     <!-- Hero Section -->
-    <section class="hero" id="home">
-      <div class="container">
-        <div class="hero-content">
-          <div class="cursive">Welcome to Paradise</div>
-          <h1>Mermaid Resort</h1>
-          <p>
-            Experience the enchanting beauty of Saint Martin's Island from our
-            seaside sanctuary. Where turquoise waters meet golden sands,
-            creating unforgettable memories.
-          </p>
+    <section
+      id="home"
+      class="relative h-screen flex items-center justify-center overflow-hidden"
+    >
+      <div class="absolute inset-0">
+        <img
+          src="https://public.youware.com/users-website-assets/prod/f70327e6-7fdd-496f-a82a-6b3f06d5bd99/8120d5d377f94211a60fce5be0f4f17c.jpg"
+          alt="Saint Martin's Island"
+          class="w-full h-full object-cover"
+        />
+        <div
+          class="absolute inset-0 bg-gradient-to-b from-[#0a0a0a]/60 via-[#0a0a0a]/40 to-[#0a0a0a]"
+        ></div>
+      </div>
 
-          <div class="hero-btns">
-            <a href="#booking" class="btn">Book Your Stay</a>
-            <a href="#gallery" class="btn btn-secondary">View Gallery</a>
-          </div>
+      <div
+        class="relative z-10 text-center px-6 max-w-4xl mx-auto fade-in-up reveal-on-load"
+      >
+        <p class="text-cyan-400 tracking-[0.3em] uppercase text-sm mb-4">
+          Welcome to Paradise
+        </p>
+        <h1
+          class="text-5xl md:text-7xl font-bold mb-6 bg-gradient-to-r from-white via-cyan-100 to-cyan-200 bg-clip-text text-transparent"
+        >
+          Mermaid Resort
+        </h1>
+        <p class="text-xl md:text-2xl text-gray-300 mb-8 font-light">
+          Saint Martin's Island, Bangladesh
+        </p>
+        <div class="flex items-center justify-center gap-2 mb-8">
+          <i
+            data-lucide="star"
+            class="w-5 h-5 fill-yellow-400 text-yellow-400"
+          ></i>
+          <span class="text-lg">4.2</span>
+          <span class="text-gray-400">(400+ reviews)</span>
+        </div>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <button
+            id="heroBookBtn"
+            class="px-8 py-4 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full font-medium hover:opacity-90 transition-opacity"
+          >
+            Book Your Stay
+          </button>
+          <a
+            href="#about"
+            class="px-8 py-4 border border-white/30 rounded-full font-medium hover:bg-white/10 transition-colors inline-block text-center"
+          >
+            Explore Resort
+          </a>
+        </div>
+      </div>
 
-          <div class="rating-badge">
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star"></i>
-            <i class="fas fa-star-half-alt"></i>
-            <span>4.2/5 (400+ reviews)</span>
-          </div>
+      <div
+        class="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce-small"
+      >
+        <div
+          class="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center pt-2"
+        >
+          <div class="w-1 h-2 bg-white/50 rounded-full"></div>
         </div>
       </div>
     </section>
 
     <!-- About Section -->
-    <section id="about" class="about">
-      <div class="container">
-        <div class="section-title">
-          <div class="cursive">Our Story</div>
-          <h2>Welcome to Mermaid Resort</h2>
-          <p class="section-subtitle">
-            A tranquil escape on Bangladesh's only coral island, where luxury
-            meets nature's beauty
-          </p>
-        </div>
-
-        <div class="about-content">
-          <div class="about-image">
-            <img
-              src="https://images.unsplash.com/photo-1564501049418-3c27787d01e8?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
-              alt="Mermaid Resort Saint Martin's Island"
-            />
-          </div>
-          <div class="about-text">
-            <h2>Your Island Paradise Awaits</h2>
-            <p>
-              Nestled along the pristine shores of Saint Martin's Island,
-              Mermaid Resort offers an unparalleled tropical getaway. As the
-              only coral island in Bangladesh, Saint Martin's provides a unique
-              ecosystem of breathtaking beauty.
+    <section id="about" class="py-24 px-6 bg-[#0d0d0d]">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-16 items-center">
+          <div class="fade-in-left scroll-reveal">
+            <p class="text-cyan-400 tracking-[0.2em] uppercase text-sm mb-4">
+              About Us
             </p>
-            <p>
-              Our resort combines modern comfort with traditional Bangladeshi
-              hospitality, creating a sanctuary where you can unwind to the
-              rhythm of the waves. Wake up to spectacular ocean views, savor
-              fresh seafood cuisine, and explore the vibrant marine life just
-              steps from your door.
+            <h2 class="text-4xl md:text-5xl font-bold mb-6">
+              Experience Paradise on
+              <span class="text-cyan-400">Saint Martin's Island</span>
+            </h2>
+            <p class="text-gray-400 text-lg leading-relaxed mb-6">
+              Nestled on the pristine shores of the Bay of Bengal, Mermaid
+              Resort offers an unparalleled escape to Bangladesh's only coral
+              island. Our resort combines natural beauty with modern luxury.
             </p>
-            <p>
-              Whether you're seeking a romantic escape, family adventure, or
-              peaceful retreat, our dedicated team ensures your stay is nothing
-              short of magical.
+            <p class="text-gray-400 text-lg leading-relaxed mb-8">
+              Whether you're seeking a romantic getaway, an adventure of scuba
+              diving in crystal-clear waters, or simply relaxation on pristine
+              beaches, Mermaid Resort is your gateway to paradise.
             </p>
-
-            <div class="contact-info">
-              <div class="contact-item">
-                <i class="fas fa-map-marker-alt"></i>
-                <div>
-                  <h4>Address</h4>
-                  <p>
-                    Mermaid Rd, Saint Martin's Island, Cox's Bazar 4762,
-                    Bangladesh
-                  </p>
-                </div>
-              </div>
-              <div class="contact-item">
-                <i class="fas fa-phone"></i>
-                <div>
-                  <h4>Phone Number</h4>
-                  <p>+880 1819-077914</p>
-                </div>
-              </div>
-              <div class="contact-item">
-                <i class="fas fa-star"></i>
-                <div>
-                  <h4>Google Rating</h4>
-                  <p>4.2 Stars (approx. 400 reviews)</p>
-                </div>
-              </div>
+            <div class="flex items-center gap-2 text-cyan-400">
+              <i data-lucide="map-pin" class="w-5 h-5"></i>
+              <span
+                >Mermaid Rd, Saint Martin's Island, Cox's Bazar 4762,
+                Bangladesh</span
+              >
             </div>
+          </div>
+
+          <div class="relative fade-in-right scroll-reveal">
+            <div class="relative z-10 rounded-2xl overflow-hidden">
+              <img
+                src="https://public.youware.com/users-website-assets/prod/f70327e6-7fdd-496f-a82a-6b3f06d5bd99/fb751332c96d47b387c6e1e064d0ebae.jpg"
+                alt="Resort view"
+                class="w-full h-[500px] object-cover"
+              />
+            </div>
+            <div
+              class="absolute -bottom-6 -left-6 w-48 h-48 bg-cyan-500/20 rounded-full blur-3xl"
+            ></div>
+            <div
+              class="absolute -top-6 -right-6 w-32 h-32 bg-blue-500/20 rounded-full blur-2xl"
+            ></div>
           </div>
         </div>
       </div>
     </section>
 
     <!-- Rooms Section -->
-    <section id="rooms" class="rooms">
-      <div class="container">
-        <div class="section-title">
-          <div class="cursive">Luxury Accommodations</div>
-          <h2>Rooms & Suites</h2>
-          <p class="section-subtitle">
-            Choose from our selection of beautifully appointed rooms, each
-            offering stunning views and premium amenities
+    <section id="rooms" class="py-24 px-6 bg-[#0a0a0a]">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16 fade-in-up scroll-reveal">
+          <p class="text-cyan-400 tracking-[0.2em] uppercase text-sm mb-4">
+            Accommodation
           </p>
+          <h2 class="text-4xl md:text-5xl font-bold">Luxury Rooms & Suites</h2>
         </div>
 
-        <div class="room-grid">
-          <div class="room-card">
-            <div
-              class="room-img"
-              style="
-                background-image: url('https://images.unsplash.com/photo-1611892440504-42a792e24d32?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');
-              "
-            ></div>
-            <div class="room-content">
-              <h3>Ocean View Room</h3>
-              <p>
-                Wake up to panoramic views of the Bay of Bengal from your
-                private balcony. Perfect for couples and solo travelers.
-              </p>
-              <div class="room-features">
-                <span>King Bed</span>
-                <span>Sea View</span>
-                <span>Private Balcony</span>
+        <div class="grid md:grid-cols-3 gap-8">
+          <!-- Ocean View Suite -->
+          <div
+            class="room-card group bg-[#111] rounded-2xl overflow-hidden border border-white/5 hover:border-cyan-500/30 transition-all duration-300 fade-in-up scroll-reveal"
+            style="transition-delay: 0.1s"
+            data-room="Ocean View Suite"
+            data-price="15000"
+          >
+            <div class="relative h-64 overflow-hidden">
+              <img
+                src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&q=80"
+                alt="Ocean View Suite"
+                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              />
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"
+              ></div>
+              <div class="absolute bottom-4 left-4">
+                <span class="text-2xl font-bold">৳15,000</span>
+                <span class="text-gray-400 text-sm">/night</span>
               </div>
-              <div class="room-price">From ৳5,500/night</div>
-              <a href="#booking" class="btn">Book Now</a>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-semibold mb-2">Ocean View Suite</h3>
+              <p class="text-gray-400 mb-4">
+                Wake up to breathtaking panoramic views of the Bay of Bengal
+              </p>
+              <div class="flex flex-wrap gap-2 mb-4">
+                <span
+                  class="px-3 py-1 text-xs bg-white/5 rounded-full text-gray-300"
+                  >King Bed</span
+                >
+                <span
+                  class="px-3 py-1 text-xs bg-white/5 rounded-full text-gray-300"
+                  >Ocean View</span
+                >
+                <span
+                  class="px-3 py-1 text-xs bg-white/5 rounded-full text-gray-300"
+                  >Balcony</span
+                >
+                <span
+                  class="px-3 py-1 text-xs bg-white/5 rounded-full text-gray-300"
+                  >AC</span
+                >
+              </div>
+              <button
+                class="select-room-btn w-full py-3 bg-cyan-600/20 border border-cyan-500/30 rounded-full text-cyan-300 hover:bg-cyan-600/40 transition-all font-medium"
+              >
+                Select Room
+              </button>
             </div>
           </div>
 
-          <div class="room-card">
-            <div
-              class="room-img"
-              style="
-                background-image: url('https://images.unsplash.com/photo-1566665797739-1674de7a421a?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');
-              "
-            ></div>
-            <div class="room-content">
-              <h3>Beachfront Suite</h3>
-              <p>
-                Step directly onto the sand from your private terrace. Spacious
-                suite with separate living area and premium amenities.
-              </p>
-              <div class="room-features">
-                <span>King Bed</span>
-                <span>Beach Access</span>
-                <span>Living Area</span>
+          <!-- Beachfront Cottage -->
+          <div
+            class="room-card group bg-[#111] rounded-2xl overflow-hidden border border-white/5 hover:border-cyan-500/30 transition-all duration-300 fade-in-up scroll-reveal"
+            style="transition-delay: 0.2s"
+            data-room="Beachfront Cottage"
+            data-price="12000"
+          >
+            <div class="relative h-64 overflow-hidden">
+              <img
+                src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&q=80"
+                alt="Beachfront Cottage"
+                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              />
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"
+              ></div>
+              <div class="absolute bottom-4 left-4">
+                <span class="text-2xl font-bold">৳12,000</span>
+                <span class="text-gray-400 text-sm">/night</span>
               </div>
-              <div class="room-price">From ৳8,500/night</div>
-              <a href="#booking" class="btn">Book Now</a>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-semibold mb-2">Beachfront Cottage</h3>
+              <p class="text-gray-400 mb-4">
+                Step directly onto pristine white sand from your private cottage
+              </p>
+              <div class="flex flex-wrap gap-2 mb-4">
+                <span
+                  class="px-3 py-1 text-xs bg-white/5 rounded-full text-gray-300"
+                  >Queen Bed</span
+                >
+                <span
+                  class="px-3 py-1 text-xs bg-white/5 rounded-full text-gray-300"
+                  >Beach Access</span
+                >
+                <span
+                  class="px-3 py-1 text-xs bg-white/5 rounded-full text-gray-300"
+                  >Private Deck</span
+                >
+                <span
+                  class="px-3 py-1 text-xs bg-white/5 rounded-full text-gray-300"
+                  >Mini Bar</span
+                >
+              </div>
+              <button
+                class="select-room-btn w-full py-3 bg-cyan-600/20 border border-cyan-500/30 rounded-full text-cyan-300 hover:bg-cyan-600/40 transition-all font-medium"
+              >
+                Select Room
+              </button>
             </div>
           </div>
 
-          <div class="room-card">
-            <div
-              class="room-img"
-              style="
-                background-image: url('https://images.unsplash.com/photo-1618773928121-c32242e63f39?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80');
-              "
-            ></div>
-            <div class="room-content">
-              <h3>Family Villa</h3>
-              <p>
-                Spacious two-bedroom villa perfect for families. Includes
-                kitchenette and private garden area.
-              </p>
-              <div class="room-features">
-                <span>Two Bedrooms</span>
-                <span>Kitchenette</span>
-                <span>Private Garden</span>
+          <!-- Deluxe Room -->
+          <div
+            class="room-card group bg-[#111] rounded-2xl overflow-hidden border border-white/5 hover:border-cyan-500/30 transition-all duration-300 fade-in-up scroll-reveal"
+            style="transition-delay: 0.3s"
+            data-room="Deluxe Room"
+            data-price="8000"
+          >
+            <div class="relative h-64 overflow-hidden">
+              <img
+                src="https://images.unsplash.com/photo-1590490360182-c33d57733427?w=800&q=80"
+                alt="Deluxe Room"
+                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              />
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"
+              ></div>
+              <div class="absolute bottom-4 left-4">
+                <span class="text-2xl font-bold">৳8,000</span>
+                <span class="text-gray-400 text-sm">/night</span>
               </div>
-              <div class="room-price">From ৳12,000/night</div>
-              <a href="#booking" class="btn">Book Now</a>
+            </div>
+            <div class="p-6">
+              <h3 class="text-xl font-semibold mb-2">Deluxe Room</h3>
+              <p class="text-gray-400 mb-4">
+                Comfortable accommodation with modern amenities
+              </p>
+              <div class="flex flex-wrap gap-2 mb-4">
+                <span
+                  class="px-3 py-1 text-xs bg-white/5 rounded-full text-gray-300"
+                  >Double Bed</span
+                >
+                <span
+                  class="px-3 py-1 text-xs bg-white/5 rounded-full text-gray-300"
+                  >Garden View</span
+                >
+                <span
+                  class="px-3 py-1 text-xs bg-white/5 rounded-full text-gray-300"
+                  >TV</span
+                >
+                <span
+                  class="px-3 py-1 text-xs bg-white/5 rounded-full text-gray-300"
+                  >AC</span
+                >
+              </div>
+              <button
+                class="select-room-btn w-full py-3 bg-cyan-600/20 border border-cyan-500/30 rounded-full text-cyan-300 hover:bg-cyan-600/40 transition-all font-medium"
+              >
+                Select Room
+              </button>
             </div>
           </div>
         </div>
@@ -234,284 +404,614 @@
     </section>
 
     <!-- Amenities Section -->
-    <section id="amenities">
-      <div class="container">
-        <div class="section-title">
-          <div class="cursive">Resort Features</div>
-          <h2>Premier Amenities</h2>
-          <p class="section-subtitle">
-            Enjoy exceptional facilities and services designed for your comfort
-            and enjoyment
+    <section id="amenities" class="py-24 px-6 bg-[#0d0d0d]">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16 fade-in-up scroll-reveal">
+          <p class="text-cyan-400 tracking-[0.2em] uppercase text-sm mb-4">
+            Experience
           </p>
+          <h2 class="text-4xl md:text-5xl font-bold">World-Class Amenities</h2>
         </div>
 
-        <div class="amenities-grid">
-          <div class="amenity-card">
-            <i class="fas fa-umbrella-beach"></i>
-            <h3>Private Beach Area</h3>
-            <p>
-              Exclusive access to our pristine stretch of Saint Martin's famous
-              white sand beach
-            </p>
+        <div class="grid md:grid-cols-3 gap-8">
+          <div
+            class="group p-8 bg-[#111] rounded-2xl border border-white/5 hover:border-cyan-500/30 transition-all duration-300 text-center fade-in-up scroll-reveal"
+            style="transition-delay: 0.1s"
+          >
+            <div
+              class="w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to-br from-cyan-500/20 to-blue-600/20 flex items-center justify-center group-hover:scale-110 transition-transform"
+            >
+              <i data-lucide="waves" class="w-8 h-8 text-cyan-400"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-2">Beach Access</h3>
+            <p class="text-gray-400">Private beach area</p>
           </div>
 
-          <div class="amenity-card">
-            <i class="fas fa-swimming-pool"></i>
-            <h3>Infinity Pool</h3>
-            <p>
-              Stunning ocean-view infinity pool with swim-up bar and comfortable
-              loungers
-            </p>
+          <div
+            class="group p-8 bg-[#111] rounded-2xl border border-white/5 hover:border-cyan-500/30 transition-all duration-300 text-center fade-in-up scroll-reveal"
+            style="transition-delay: 0.2s"
+          >
+            <div
+              class="w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to-br from-cyan-500/20 to-blue-600/20 flex items-center justify-center group-hover:scale-110 transition-transform"
+            >
+              <i
+                data-lucide="utensils-crossed"
+                class="w-8 h-8 text-cyan-400"
+              ></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-2">Restaurant</h3>
+            <p class="text-gray-400">Fresh seafood & local cuisine</p>
           </div>
 
-          <div class="amenity-card">
-            <i class="fas fa-utensils"></i>
-            <h3>Seafood Restaurant</h3>
-            <p>
-              Fresh catch of the day prepared with local spices and traditional
-              recipes
-            </p>
+          <div
+            class="group p-8 bg-[#111] rounded-2xl border border-white/5 hover:border-cyan-500/30 transition-all duration-300 text-center fade-in-up scroll-reveal"
+            style="transition-delay: 0.3s"
+          >
+            <div
+              class="w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to-br from-cyan-500/20 to-blue-600/20 flex items-center justify-center group-hover:scale-110 transition-transform"
+            >
+              <i data-lucide="coffee" class="w-8 h-8 text-cyan-400"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-2">Café</h3>
+            <p class="text-gray-400">Coffee & snacks</p>
           </div>
 
-          <div class="amenity-card">
-            <i class="fas fa-ship"></i>
-            <h3>Boat Tours</h3>
-            <p>
-              Guided snorkeling and island hopping tours to explore coral reefs
-            </p>
+          <div
+            class="group p-8 bg-[#111] rounded-2xl border border-white/5 hover:border-cyan-500/30 transition-all duration-300 text-center fade-in-up scroll-reveal"
+            style="transition-delay: 0.4s"
+          >
+            <div
+              class="w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to-br from-cyan-500/20 to-blue-600/20 flex items-center justify-center group-hover:scale-110 transition-transform"
+            >
+              <i data-lucide="music" class="w-8 h-8 text-cyan-400"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-2">Beach Bar</h3>
+            <p class="text-gray-400">Live music evenings</p>
           </div>
 
-          <div class="amenity-card">
-            <i class="fas fa-spa"></i>
-            <h3>Beachside Spa</h3>
-            <p>
-              Traditional Bengali massage therapies with ocean sounds as your
-              soundtrack
-            </p>
+          <div
+            class="group p-8 bg-[#111] rounded-2xl border border-white/5 hover:border-cyan-500/30 transition-all duration-300 text-center fade-in-up scroll-reveal"
+            style="transition-delay: 0.5s"
+          >
+            <div
+              class="w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to-br from-cyan-500/20 to-blue-600/20 flex items-center justify-center group-hover:scale-110 transition-transform"
+            >
+              <i data-lucide="ship" class="w-8 h-8 text-cyan-400"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-2">Boat Tours</h3>
+            <p class="text-gray-400">Island hopping</p>
           </div>
 
-          <div class="amenity-card">
-            <i class="fas fa-wifi"></i>
-            <h3>High-Speed WiFi</h3>
-            <p>
-              Stay connected with complimentary high-speed internet throughout
-              the resort
-            </p>
+          <div
+            class="group p-8 bg-[#111] rounded-2xl border border-white/5 hover:border-cyan-500/30 transition-all duration-300 text-center fade-in-up scroll-reveal"
+            style="transition-delay: 0.6s"
+          >
+            <div
+              class="w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to-br from-cyan-500/20 to-blue-600/20 flex items-center justify-center group-hover:scale-110 transition-transform"
+            >
+              <i data-lucide="camera" class="w-8 h-8 text-cyan-400"></i>
+            </div>
+            <h3 class="text-xl font-semibold mb-2">Scuba Diving</h3>
+            <p class="text-gray-400">Explore coral reefs</p>
           </div>
         </div>
       </div>
     </section>
 
     <!-- Gallery Section -->
-    <section id="gallery" class="gallery">
-      <div class="container">
-        <div class="section-title">
-          <div class="cursive">Visual Journey</div>
-          <h2>Resort Gallery</h2>
-          <p class="section-subtitle">
-            Explore the beauty of Mermaid Resort and Saint Martin's Island
-            through our photo collection
+    <section id="gallery" class="py-24 px-6 bg-[#0a0a0a]">
+      <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-16 fade-in-up scroll-reveal">
+          <p class="text-cyan-400 tracking-[0.2em] uppercase text-sm mb-4">
+            Gallery
           </p>
+          <h2 class="text-4xl md:text-5xl font-bold">Captured Moments</h2>
         </div>
 
-        <div class="gallery-container">
-          <div class="gallery-item">
-            <img
-              src="https://images.unsplash.com/photo-1573843989-c9dde0b4234e?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-              alt="Resort Beach"
-            />
+        <div
+          class="relative rounded-2xl overflow-hidden h-[600px] fade-in-up scroll-reveal"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80"
+            class="gallery-slide absolute inset-0 w-full h-full object-cover opacity-100 z-10"
+          />
+          <img
+            src="https://images.unsplash.com/photo-1519046904884-53103b34b271?w=800&q=80"
+            class="gallery-slide absolute inset-0 w-full h-full object-cover opacity-0 z-0"
+          />
+          <img
+            src="https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=800&q=80"
+            class="gallery-slide absolute inset-0 w-full h-full object-cover opacity-0 z-0"
+          />
+          <img
+            src="https://images.unsplash.com/photo-1476673160081-cf065607f449?w=800&q=80"
+            class="gallery-slide absolute inset-0 w-full h-full object-cover opacity-0 z-0"
+          />
+          <img
+            src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&q=80"
+            class="gallery-slide absolute inset-0 w-full h-full object-cover opacity-0 z-0"
+          />
+          <img
+            src="https://images.unsplash.com/photo-1537956965359-7573183d1f57?w=800&q=80"
+            class="gallery-slide absolute inset-0 w-full h-full object-cover opacity-0 z-0"
+          />
+
+          <div
+            class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-20"
+            id="gallery-dots"
+          >
+            <button
+              class="gallery-dot w-8 h-2 rounded-full transition-all bg-cyan-400"
+              onclick="goToSlide(0)"
+            ></button>
+            <button
+              class="gallery-dot w-2 h-2 rounded-full transition-all bg-white/30"
+              onclick="goToSlide(1)"
+            ></button>
+            <button
+              class="gallery-dot w-2 h-2 rounded-full transition-all bg-white/30"
+              onclick="goToSlide(2)"
+            ></button>
+            <button
+              class="gallery-dot w-2 h-2 rounded-full transition-all bg-white/30"
+              onclick="goToSlide(3)"
+            ></button>
+            <button
+              class="gallery-dot w-2 h-2 rounded-full transition-all bg-white/30"
+              onclick="goToSlide(4)"
+            ></button>
+            <button
+              class="gallery-dot w-2 h-2 rounded-full transition-all bg-white/30"
+              onclick="goToSlide(5)"
+            ></button>
           </div>
-          <div class="gallery-item">
-            <img
-              src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&auto=format&fit=crop&w-800&q=80"
-              alt="Resort Pool"
-            />
-          </div>
-          <div class="gallery-item">
-            <img
-              src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-              alt="Beach View"
-            />
-          </div>
-          <div class="gallery-item">
-            <img
-              src="https://images.unsplash.com/photo-1571896349842-33c89424de2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
-              alt="Resort Room"
-            />
-          </div>
+
+          <button
+            onclick="prevSlide()"
+            class="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/30 flex items-center justify-center hover:bg-black/50 transition-colors z-20"
+          >
+            <i data-lucide="chevron-left" class="w-6 h-6"></i>
+          </button>
+          <button
+            onclick="nextSlide()"
+            class="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/30 flex items-center justify-center hover:bg-black/50 transition-colors z-20"
+          >
+            <i data-lucide="chevron-right" class="w-6 h-6"></i>
+          </button>
         </div>
       </div>
     </section>
 
-    <!-- Booking Section -->
-    <section id="booking" class="booking">
-      <div class="container">
-        <div class="section-title">
-          <div class="cursive">Plan Your Escape</div>
-          <h2>Book Your Stay</h2>
-          <p class="section-subtitle">
-            Complete the form below to check availability and reserve your
-            island getaway
-          </p>
-        </div>
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 px-6 bg-[#0d0d0d]">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid md:grid-cols-2 gap-16">
+          <div class="fade-in-up scroll-reveal">
+            <p class="text-cyan-400 tracking-[0.2em] uppercase text-sm mb-4">
+              Contact
+            </p>
+            <h2 class="text-4xl md:text-5xl font-bold mb-6">Get in Touch</h2>
+            <p class="text-gray-400 text-lg mb-8">
+              Ready to experience paradise? Contact us to plan your perfect
+              getaway to Saint Martin's Island.
+            </p>
 
-        <div class="booking-form">
-          <form id="reservationForm">
-            <div class="form-row">
-              <div class="form-group">
-                <label for="checkin">Check-in Date</label>
-                <input type="date" id="checkin" name="checkin" required />
+            <div class="space-y-6">
+              <div class="flex items-start gap-4">
+                <div
+                  class="w-12 h-12 rounded-full bg-cyan-500/20 flex items-center justify-center flex-shrink-0"
+                >
+                  <i data-lucide="map-pin" class="w-5 h-5 text-cyan-400"></i>
+                </div>
+                <div>
+                  <h4 class="font-semibold mb-1">Address</h4>
+                  <p class="text-gray-400">
+                    Mermaid Rd, Saint Martin's Island, Cox's Bazar 4762,
+                    Bangladesh
+                  </p>
+                </div>
               </div>
 
-              <div class="form-group">
-                <label for="checkout">Check-out Date</label>
-                <input type="date" id="checkout" name="checkout" required />
+              <div class="flex items-start gap-4">
+                <div
+                  class="w-12 h-12 rounded-full bg-cyan-500/20 flex items-center justify-center flex-shrink-0"
+                >
+                  <i data-lucide="phone" class="w-5 h-5 text-cyan-400"></i>
+                </div>
+                <div>
+                  <h4 class="font-semibold mb-1">Phone</h4>
+                  <p class="text-gray-400">+880 1819-077914</p>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-4">
+                <div
+                  class="w-12 h-12 rounded-full bg-cyan-500/20 flex items-center justify-center flex-shrink-0"
+                >
+                  <i data-lucide="clock" class="w-5 h-5 text-cyan-400"></i>
+                </div>
+                <div>
+                  <h4 class="font-semibold mb-1">Check-in / Check-out</h4>
+                  <p class="text-gray-400">12:00 PM / 11:00 AM</p>
+                </div>
               </div>
             </div>
+          </div>
 
-            <div class="form-row">
-              <div class="form-group">
-                <label for="guests">Number of Guests</label>
-                <select id="guests" name="guests" required>
-                  <option value="1">1 Guest</option>
-                  <option value="2" selected>2 Guests</option>
-                  <option value="3">3 Guests</option>
-                  <option value="4">4 Guests</option>
-                  <option value="5+">5+ Guests</option>
-                </select>
+          <div
+            class="bg-[#111] rounded-2xl p-8 border border-white/5 fade-in-up scroll-reveal"
+          >
+            <form class="space-y-6" id="contactForm">
+              <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label class="block text-sm text-gray-400 mb-2">Name</label>
+                  <input
+                    type="text"
+                    class="w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-500 transition-colors"
+                    placeholder="Your name"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm text-gray-400 mb-2">Email</label>
+                  <input
+                    type="email"
+                    class="w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-500 transition-colors"
+                    placeholder="your@email.com"
+                  />
+                </div>
               </div>
-
-              <div class="form-group">
-                <label for="roomType">Room Type</label>
-                <select id="roomType" name="roomType" required>
-                  <option value="ocean-view">Ocean View Room</option>
-                  <option value="beachfront">Beachfront Suite</option>
-                  <option value="family">Family Villa</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <label for="name">Full Name</label>
+              <div>
+                <label class="block text-sm text-gray-400 mb-2"
+                  >Check-in Date</label
+                >
                 <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  placeholder="Your full name"
-                  required
+                  type="date"
+                  class="w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-500 transition-colors text-gray-400"
                 />
               </div>
-
-              <div class="form-group">
-                <label for="email">Email Address</label>
-                <input
-                  type="email"
-                  id="email"
-                  name="email"
-                  placeholder="your.email@example.com"
-                  required
-                />
+              <div>
+                <label class="block text-sm text-gray-400 mb-2">Message</label>
+                <textarea
+                  rows="4"
+                  class="w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-500 transition-colors resize-none"
+                  placeholder="Tell us about your stay..."
+                ></textarea>
               </div>
-            </div>
-
-            <div class="form-row">
-              <div class="form-group">
-                <label for="phone">Phone Number</label>
-                <input
-                  type="tel"
-                  id="phone"
-                  name="phone"
-                  placeholder="+880 1XXX-XXXXXX"
-                  required
-                />
-              </div>
-
-              <div class="form-group">
-                <label for="country">Country</label>
-                <input
-                  type="text"
-                  id="country"
-                  name="country"
-                  placeholder="Your country"
-                  required
-                />
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label for="message">Special Requests</label>
-              <textarea
-                id="message"
-                name="message"
-                rows="4"
-                placeholder="Any special requirements or requests..."
-              ></textarea>
-            </div>
-
-            <button type="submit" class="btn" style="width: 100%">
-              Check Availability & Book Now
-            </button>
-          </form>
+              <button
+                type="button"
+                class="w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-lg font-medium hover:opacity-90 transition-opacity"
+              >
+                Send Inquiry
+              </button>
+            </form>
+          </div>
         </div>
       </div>
     </section>
 
     <!-- Footer -->
-    <footer>
-      <div class="container">
-        <div class="footer-content">
-          <div class="footer-column">
-            <h3>Mermaid Resort</h3>
-            <p>
-              Experience the enchanting beauty of Saint Martin's Island from our
-              seaside sanctuary. Your perfect tropical getaway awaits.
-            </p>
-            <div class="social-icons">
-              <a href="#"><i class="fab fa-facebook-f"></i></a>
-              <a href="#"><i class="fab fa-instagram"></i></a>
-              <a href="#"><i class="fab fa-tripadvisor"></i></a>
-              <a href="#"><i class="fab fa-google"></i></a>
+    <footer class="py-16 px-6 bg-[#050505] border-t border-white/5">
+      <div class="max-w-7xl mx-auto">
+        <div class="grid md:grid-cols-4 gap-12">
+          <div>
+            <div class="flex items-center gap-2 mb-6">
+              <div
+                class="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center"
+              >
+                <i data-lucide="palmtree" class="w-5 h-5 text-white"></i>
+              </div>
+              <span class="text-xl font-semibold">Mermaid Resort</span>
             </div>
-          </div>
-
-          <div class="footer-column">
-            <h3>Contact Info</h3>
-            <p>
-              <i class="fas fa-map-marker-alt"></i> Mermaid Rd, Saint Martin's
-              Island, Cox's Bazar 4762, Bangladesh
-            </p>
-            <p><i class="fas fa-phone"></i> +880 1819-077914</p>
-            <p>
-              <i class="fas fa-envelope"></i> info@mermaidresortsaintmartin.com
-            </p>
-            <p>
-              <i class="fas fa-star"></i> Google Rating: 4.2/5 (400+ reviews)
+            <p class="text-gray-400">
+              Your gateway to paradise on Saint Martin's Island, Bangladesh.
             </p>
           </div>
 
-          <div class="footer-column">
-            <h3>Quick Links</h3>
-            <a href="#home">Home</a>
-            <a href="#about">About Resort</a>
-            <a href="#rooms">Rooms & Suites</a>
-            <a href="#amenities">Amenities</a>
-            <a href="#gallery">Photo Gallery</a>
-            <a href="#booking">Book Now</a>
+          <div>
+            <h4 class="font-semibold mb-4">Quick Links</h4>
+            <ul class="space-y-2">
+              <li>
+                <a
+                  href="#home"
+                  class="text-gray-400 hover:text-cyan-400 transition-colors"
+                  >Home</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#about"
+                  class="text-gray-400 hover:text-cyan-400 transition-colors"
+                  >About</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#rooms"
+                  class="text-gray-400 hover:text-cyan-400 transition-colors"
+                  >Rooms</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#amenities"
+                  class="text-gray-400 hover:text-cyan-400 transition-colors"
+                  >Amenities</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#gallery"
+                  class="text-gray-400 hover:text-cyan-400 transition-colors"
+                  >Gallery</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#contact"
+                  class="text-gray-400 hover:text-cyan-400 transition-colors"
+                  >Contact</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-semibold mb-4">Contact</h4>
+            <ul class="space-y-3 text-gray-400">
+              <li class="flex items-center gap-2">
+                <i data-lucide="map-pin" class="w-4 h-4 text-cyan-400"></i>
+                <span>Saint Martin's Island</span>
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="phone" class="w-4 h-4 text-cyan-400"></i>
+                <span>+880 1819-077914</span>
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="font-semibold mb-4">Follow Us</h4>
+            <div class="flex gap-4">
+              <a
+                href="#"
+                class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-cyan-500/20 transition-colors"
+              >
+                <span class="text-sm capitalize">f</span>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-cyan-500/20 transition-colors"
+              >
+                <span class="text-sm capitalize">i</span>
+              </a>
+              <a
+                href="#"
+                class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-cyan-500/20 transition-colors"
+              >
+                <span class="text-sm capitalize">t</span>
+              </a>
+            </div>
           </div>
         </div>
 
-        <div class="copyright">
-          <p>
-            &copy; 2023 Mermaid Resort, Saint Martin's Island. All rights
-            reserved. | Designed with
-            <i class="fas fa-heart" style="color: var(--coral)"></i> for
-            paradise seekers
-          </p>
+        <div
+          class="mt-12 pt-8 border-t border-white/5 text-center text-gray-500"
+        >
+          <p>© 2024 Mermaid Resort. All rights reserved.</p>
         </div>
       </div>
     </footer>
-    <!-- Script -->
-    <script src="js/script.js"></script>
+
+    <!-- Booking Modal (Pop-up) -->
+    <div
+      id="bookingModal"
+      class="fixed inset-0 z-50 hidden overflow-y-auto"
+      aria-labelledby="modal-title"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div
+        class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0"
+      >
+        <!-- Background overlay -->
+        <div
+          class="fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity"
+          aria-hidden="true"
+        ></div>
+
+        <!-- Modal panel -->
+        <div
+          class="inline-block align-bottom bg-[#111] rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl w-full border border-cyan-500/30"
+        >
+          <!-- Modal header -->
+          <div
+            class="flex items-center justify-between p-6 border-b border-white/10"
+          >
+            <h3 class="text-2xl font-semibold text-cyan-400" id="modal-title">
+              Complete Your Booking
+            </h3>
+            <button
+              id="closeModalBtn"
+              class="text-gray-400 hover:text-white transition-colors"
+            >
+              <i data-lucide="x" class="w-6 h-6"></i>
+            </button>
+          </div>
+
+          <!-- Modal body -->
+          <div class="p-6">
+            <!-- Selected Room Display -->
+            <div
+              class="flex flex-wrap items-center justify-between gap-4 pb-4 mb-4 border-b border-white/10"
+            >
+              <div>
+                <span class="text-gray-400 text-sm">Selected room</span>
+                <p
+                  id="selectedRoomDisplay"
+                  class="text-xl font-semibold text-cyan-400"
+                >
+                  Not selected
+                </p>
+              </div>
+              <div
+                id="pricePerNightDisplay"
+                class="text-lg price-tag px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/30"
+              >
+                —
+              </div>
+            </div>
+
+            <!-- Dates and Guests -->
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+              <div>
+                <label class="block text-sm text-gray-400 mb-1"
+                  >Check‑in *</label
+                >
+                <input
+                  type="date"
+                  id="checkin"
+                  class="input-field w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-500"
+                />
+              </div>
+              <div>
+                <label class="block text-sm text-gray-400 mb-1"
+                  >Check‑out *</label
+                >
+                <input
+                  type="date"
+                  id="checkout"
+                  class="input-field w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-500"
+                />
+              </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+              <div>
+                <label class="block text-sm text-gray-400 mb-1">Guests *</label>
+                <input
+                  type="number"
+                  id="guests"
+                  min="1"
+                  max="6"
+                  value="2"
+                  class="input-field w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-500"
+                />
+              </div>
+              <div>
+                <label class="block text-sm text-gray-400 mb-1"
+                  >Full Name *</label
+                >
+                <input
+                  type="text"
+                  id="fullName"
+                  placeholder="e.g. John Doe"
+                  class="input-field w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-500"
+                />
+              </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-6">
+              <div>
+                <label class="block text-sm text-gray-400 mb-1">Phone *</label>
+                <input
+                  type="tel"
+                  id="phone"
+                  placeholder="01XXXXXXXXX"
+                  class="input-field w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-500"
+                />
+              </div>
+              <div>
+                <label class="block text-sm text-gray-400 mb-1">Email *</label>
+                <input
+                  type="email"
+                  id="email"
+                  placeholder="you@example.com"
+                  class="input-field w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-500"
+                />
+              </div>
+            </div>
+
+            <div class="mb-6">
+              <label class="block text-sm text-gray-400 mb-1"
+                >Special request</label
+              >
+              <textarea
+                id="request"
+                rows="2"
+                class="input-field w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-500 resize-none"
+                placeholder="Any preferences... (optional)"
+              ></textarea>
+            </div>
+
+            <!-- Price Summary -->
+            <div
+              class="bg-[#0a0a0a] p-5 rounded-xl border border-white/10 mb-6 space-y-2"
+            >
+              <div class="flex justify-between">
+                <span>Nights:</span>
+                <span id="nightsCalc" class="font-mono">0</span>
+              </div>
+              <div class="flex justify-between">
+                <span>Total stay:</span>
+                <span id="totalAmount" class="font-mono text-cyan-300">৳0</span>
+              </div>
+              <div
+                class="flex justify-between text-cyan-400 font-semibold pt-2 border-t border-white/10"
+              >
+                <span>Advance (30%):</span>
+                <span id="advanceAmount" class="font-mono">৳0</span>
+              </div>
+            </div>
+
+            <!-- Status Messages -->
+            <div
+              id="formError"
+              class="error-msg text-red-400 text-sm mb-3 min-h-[24px]"
+            ></div>
+            <div
+              id="formSuccess"
+              class="success-msg text-green-400 text-sm mb-3"
+            ></div>
+
+            <!-- Payment Instructions (hidden until success) -->
+            <div
+              id="paymentInstruction"
+              class="mb-5 p-4 bg-cyan-950/40 border border-cyan-800 rounded-xl hidden"
+            >
+              <p class="font-medium text-cyan-300 mb-2 flex items-center gap-2">
+                <i data-lucide="check-circle" class="w-5 h-5"></i> Booking
+                recorded! Please send 30% advance to:
+              </p>
+              <p class="text-gray-300">
+                bKash:
+                <span class="font-mono bg-black/30 px-2 py-1 rounded"
+                  >01819-077914</span
+                ><br />
+                Nagad:
+                <span class="font-mono bg-black/30 px-2 py-1 rounded"
+                  >01819-077914</span
+                >
+              </p>
+              <p class="text-gray-400 text-sm mt-2 flex items-center gap-2">
+                <i data-lucide="message-circle" class="w-4 h-4"></i> Send
+                payment screenshot to WhatsApp
+                <span class="font-mono">01819-077914</span>
+              </p>
+            </div>
+
+            <!-- Submit Button -->
+            <button
+              id="submitBooking"
+              class="w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-lg font-medium hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+            >
+              <i data-lucide="send" class="w-5 h-5"></i> Confirm Booking
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main JavaScript -->
+    <script src="script.js"></script>
   </body>
 </html>
