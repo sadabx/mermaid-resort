@@ -2,7 +2,7 @@
 
 **Live:** [mermaid-resort](https://mermaid-resort.netlify.app/)
 
-## 📁 Project Structure
+## Structure
 
 The project is built with clean, modular code:
 * `index.html` - Main landing page structure.
