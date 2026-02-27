@@ -1,20 +1,10 @@
-# Mermaid Resort 🧜‍♀️🏝️
+# Mermaid Resort
 
-A modern, responsive resort website featuring smooth animations and a dynamic user interface. 
-
-**Live Demo:** [mermaid-resort.netlify.app](https://mermaid-resort.netlify.app/)
+**Live:** [mermaid-resort](https://mermaid-resort.netlify.app/)
 
 ## 📁 Project Structure
 
 The project is built with clean, modular code:
 * `index.html` - Main landing page structure.
-* `css/styles.css` - Custom styling and layout.
-* `js/script.js` - Interactive elements and animations.
-
-## 🚀 Local Setup
-
-To run this project locally:
-
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/sadabx/mermaid-resort.git
+* `styles.css` - Custom styling and layout.
+* `script.js` - Interactive elements and animations.
