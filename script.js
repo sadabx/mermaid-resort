@@ -2,6 +2,14 @@
 // Initialize Lucide Icons
 lucide.createIcons();
 
+// Global variables for booking
+let currentRoom = '';
+let currentPrice = 0;
+let currentGuestName = '';
+let currentAdvance = 0;
+let currentTotal = 0;
+let isMenuOpen = false;
+
 // ========== NAVBAR SCROLL EFFECT ==========
 const navbar = document.getElementById("navbar");
 window.addEventListener("scroll", () => {
@@ -9,7 +17,6 @@ window.addEventListener("scroll", () => {
     navbar.classList.add("bg-[#0a0a0a]/98", "backdrop-blur-md", "py-4");
     navbar.classList.remove("bg-transparent", "py-6");
   } else {
-    // Only go transparent if the mobile menu is CLOSED
     if (!isMenuOpen) {
       navbar.classList.add("bg-transparent", "py-6");
       navbar.classList.remove("bg-[#0a0a0a]/98", "bg-[#0a0a0a]", "backdrop-blur-md", "py-4");
@@ -23,20 +30,17 @@ const mobileMenu = document.getElementById("mobile-menu");
 const menuIcon = document.getElementById("menu-icon");
 const mobileLinks = document.querySelectorAll(".mobile-link");
 const mobileBookBtn = document.getElementById("mobileBookBtn");
-let isMenuOpen = false;
 
 function toggleMenu() {
   isMenuOpen = !isMenuOpen;
   if (isMenuOpen) {
     mobileMenu.classList.remove("hidden");
     menuIcon.setAttribute("data-lucide", "x");
-    // Force solid background when open so text doesn't bleed through
     navbar.classList.add("bg-[#0a0a0a]", "py-4");
     navbar.classList.remove("bg-transparent", "py-6");
   } else {
     mobileMenu.classList.add("hidden");
     menuIcon.setAttribute("data-lucide", "menu");
-    // Restore transparency if we are at the top of the page
     if (window.scrollY <= 50) {
       navbar.classList.add("bg-transparent", "py-6");
       navbar.classList.remove("bg-[#0a0a0a]", "bg-[#0a0a0a]/98", "backdrop-blur-md", "py-4");
@@ -119,13 +123,11 @@ setInterval(nextSlide, 5000);
 
 // ========== DYNAMIC ROOM RENDERING & LOGIC ==========
 const roomsContainer = document.getElementById('rooms-container');
-let currentRoom = '';
-let currentPrice = 0;
 
 if (roomsContainer && typeof roomsData !== 'undefined') {
-  // 1. Generate HTML for all rooms dynamically
+  // Generate HTML for all rooms dynamically
   roomsContainer.innerHTML = roomsData.map((room, index) => `
-    <div class="room-card group bg-[#111] rounded-2xl overflow-hidden border border-white/5 hover:border-cyan-500/30 transition-all duration-300 fade-in-up scroll-reveal" style="transition-delay: 0.${index + 1}s" data-room="${room.name}" data-price="${room.price}">
+    <div class="room-card bg-[#111] rounded-2xl overflow-hidden border border-white/5 hover:border-cyan-500/30 transition-all duration-300 fade-in-up scroll-reveal" style="transition-delay: 0.${index + 1}s" data-room="${room.name}" data-price="${room.price}">
       <div class="relative h-64 overflow-hidden">
         <div class="room-gallery absolute inset-0">
           ${room.images.map((img, i) => `<img src="${img}" class="gallery-img ${i === 0 ? 'active' : ''}" alt="${room.name}" />`).join('')}
@@ -151,13 +153,13 @@ if (roomsContainer && typeof roomsData !== 'undefined') {
     </div>
   `).join('');
 
-  // 2. Tell the scroll observer to watch these newly created elements
+  // Watch newly created elements for scroll reveal
   document.querySelectorAll('#rooms-container .scroll-reveal').forEach(el => revealObserver.observe(el));
   
-  // 3. Initialize icons for the injected HTML
+  // Initialize icons for the injected HTML
   lucide.createIcons();
 
-  // 4. Attach Gallery Slider Logic
+  // Attach Gallery Slider Logic to each room
   document.querySelectorAll('.room-card').forEach(card => {
     const gallery = card.querySelector('.room-gallery');
     if (!gallery) return;
@@ -176,7 +178,7 @@ if (roomsContainer && typeof roomsData !== 'undefined') {
     if (nextBtn) nextBtn.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); currentIndex = (currentIndex + 1) % images.length; showImage(currentIndex); });
   });
 
-  // 5. Attach Booking Modal Selection Logic
+  // Attach Booking Modal Selection Logic
   document.querySelectorAll('.select-room-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
@@ -214,48 +216,29 @@ const roomsSection = document.getElementById('rooms');
 // Scroll to rooms function
 function scrollToRooms() {
   roomsSection.scrollIntoView({ behavior: 'smooth' });
-  if (isMenuOpen) toggleMenu(); // Close mobile menu if open
+  if (isMenuOpen) toggleMenu();
 }
 
-// Update button behaviors
-if (navBookBtn) {
-  navBookBtn.addEventListener('click', scrollToRooms);
-}
-if (heroBookBtn) {
-  heroBookBtn.addEventListener('click', scrollToRooms);
-}
-if (mobileBookBtn) {
-  mobileBookBtn.addEventListener('click', scrollToRooms);
-}
+if (navBookBtn) navBookBtn.addEventListener('click', scrollToRooms);
+if (heroBookBtn) heroBookBtn.addEventListener('click', scrollToRooms);
+if (mobileBookBtn) mobileBookBtn.addEventListener('click', scrollToRooms);
 
-// Close modal functions
 function closeModal() {
   modal.classList.add('hidden');
   document.body.style.overflow = '';
-  // Reset to form view for next time
   bookingFormView.classList.remove('hidden');
   successView.classList.add('hidden');
 }
 
-if (closeModalBtn) {
-  closeModalBtn.addEventListener('click', closeModal);
-}
-if (closeSuccessBtn) {
-  closeSuccessBtn.addEventListener('click', closeModal);
-}
+if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
+if (closeSuccessBtn) closeSuccessBtn.addEventListener('click', closeModal);
 
-// Close modal when clicking outside
 modal.addEventListener('click', (e) => {
-  if (e.target === modal) {
-    closeModal();
-  }
+  if (e.target === modal) closeModal();
 });
 
-// Escape key to close modal
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
-    closeModal();
-  }
+  if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal();
 });
 
 // ========== FLATPICKR DATE PICKER ==========
@@ -337,21 +320,16 @@ function updateCalculation() {
   }
 }
 
-if (guests) {
-  guests.addEventListener('input', updateCalculation);
-}
+if (guests) guests.addEventListener('input', updateCalculation);
 
 // ========== GOOGLE SHEETS INTEGRATION ==========
-// IMPORTANT: Replace with your deployed Apps Script URL
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw5wG-WQXyhkHPJgFWot3wuM2vi1fkg2XGaPXC8NPMsR3hhO3crs5ZRLp5xvdw2QbBTGg/exec';
-
 const submitBtn = document.getElementById('submitBooking');
 
 async function submitToSheets(data) {
   try {
     const response = await fetch(APPS_SCRIPT_URL, {
       method: 'POST',
-      // DO NOT USE mode: 'no-cors' - it breaks JSON data transfer
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify(data)
     });
@@ -407,7 +385,6 @@ if (submitBtn) {
     currentTotal = total;
     currentAdvance = advance;
 
-    // --- FETCH REAL IP ADDRESS ---
     let userIP = "Unknown";
     try {
       const ipResponse = await fetch('https://api.ipify.org?format=json');
@@ -473,7 +450,7 @@ if (whatsappBtn) {
   });
 }
 
-// ========== WEB3FORMS CONTACT FORM INTEGRATION ==========
+// ========== WEB3FORMS CONTACT FORM ==========
 const contactForm = document.getElementById('contactForm');
 const contactResult = document.getElementById('contactResult');
 
@@ -500,17 +477,20 @@ if (contactForm) {
       let json = await response.json();
       if (response.status == 200) {
         contactResult.innerHTML = "Message sent successfully! We'll be in touch.";
-        contactResult.classList.replace("text-cyan-400", "text-green-400");
+        contactResult.classList.remove("text-cyan-400", "text-red-400");
+        contactResult.classList.add("text-green-400");
       } else {
         console.log(response);
-        contactResult.innerHTML = json.message;
-        contactResult.classList.replace("text-cyan-400", "text-red-400");
+        contactResult.innerHTML = json.message || "Something went wrong!";
+        contactResult.classList.remove("text-cyan-400", "text-green-400");
+        contactResult.classList.add("text-red-400");
       }
     })
     .catch(error => {
       console.log(error);
       contactResult.innerHTML = "Something went wrong! Please try again later.";
-      contactResult.classList.replace("text-cyan-400", "text-red-400");
+      contactResult.classList.remove("text-cyan-400", "text-green-400");
+      contactResult.classList.add("text-red-400");
     })
     .then(function() {
       contactForm.reset();
@@ -526,7 +506,6 @@ const backToTopBtn = document.getElementById('backToTopBtn');
 
 if (backToTopBtn) {
   window.addEventListener('scroll', () => {
-    // Show button after scrolling down 500px
     if (window.scrollY > 500) {
       backToTopBtn.classList.remove('opacity-0', 'invisible', 'translate-y-4');
       backToTopBtn.classList.add('opacity-100', 'visible', 'translate-y-0');
