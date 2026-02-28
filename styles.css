@@ -28,6 +28,44 @@
   transition: opacity 0.5s ease-in-out;
 }
 
+/* Room Gallery Styles */
+.room-gallery {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.room-gallery .gallery-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+  z-index: 0;
+}
+
+.room-gallery .gallery-img.active {
+  opacity: 1;
+  z-index: 1;
+}
+
+/* Image zoom on hover - only affects active image */
+.room-card:hover .gallery-img.active {
+  transform: scale(1.1);
+}
+
+/* Room card border effect */
+.room-card {
+  transition: all 0.3s ease;
+}
+
+.room-card:hover {
+  border-color: rgba(6, 182, 212, 0.5) !important;
+}
+
 /* Bounce Animation */
 @keyframes bounce-small {
   0%, 100% { transform: translateY(0); }
@@ -44,7 +82,18 @@
   border: 1px solid rgba(6, 182, 212, 0.3);
 }
 
+.input-field {
+  background: #0a0a0a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  padding: 0.75rem 1rem;
+  color: white;
+  width: 100%;
+  transition: all 0.2s;
+}
+
 .input-field:focus {
+  outline: none;
   border-color: #22d3ee;
   box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.1);
 }
@@ -87,4 +136,66 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* Flatpickr Custom Theme */
+.flatpickr-calendar {
+  background: #1a1a1a !important;
+  border: 1px solid rgba(6, 182, 212, 0.3) !important;
+  border-radius: 1rem !important;
+  overflow: hidden;
+}
+
+.flatpickr-months {
+  background: #111 !important;
+}
+
+.flatpickr-month {
+  color: #fff !important;
+}
+
+.flatpickr-weekday {
+  color: #22d3ee !important;
+  font-weight: 500 !important;
+}
+
+.flatpickr-day {
+  color: #fff !important;
+}
+
+.flatpickr-day:hover {
+  background: rgba(6, 182, 212, 0.2) !important;
+  border-color: #22d3ee !important;
+}
+
+.flatpickr-day.selected {
+  background: #22d3ee !important;
+  border-color: #22d3ee !important;
+  color: #000 !important;
+}
+
+.flatpickr-day.today {
+  border-color: #22d3ee !important;
+}
+
+.flatpickr-day.disabled {
+  color: #4b5563 !important;
+  pointer-events: none;
+}
+
+.flatpickr-prev-month, .flatpickr-next-month {
+  fill: #22d3ee !important;
+}
+
+.flatpickr-prev-month:hover, .flatpickr-next-month:hover {
+  background: rgba(6, 182, 212, 0.1) !important;
+}
+
+/* Amenities card hover */
+.group {
+  transition: all 0.3s ease;
+}
+
+.group:hover {
+  border-color: rgba(6, 182, 212, 0.5) !important;
 }
