@@ -6,11 +6,14 @@ lucide.createIcons();
 const navbar = document.getElementById("navbar");
 window.addEventListener("scroll", () => {
   if (window.scrollY > 50) {
-    navbar.classList.add("bg-[#0a0a0a]/95", "backdrop-blur-md", "py-4");
+    navbar.classList.add("bg-[#0a0a0a]/98", "backdrop-blur-md", "py-4");
     navbar.classList.remove("bg-transparent", "py-6");
   } else {
-    navbar.classList.add("bg-transparent", "py-6");
-    navbar.classList.remove("bg-[#0a0a0a]/95", "backdrop-blur-md", "py-4");
+    // Only go transparent if the mobile menu is CLOSED
+    if (!isMenuOpen) {
+      navbar.classList.add("bg-transparent", "py-6");
+      navbar.classList.remove("bg-[#0a0a0a]/98", "bg-[#0a0a0a]", "backdrop-blur-md", "py-4");
+    }
   }
 });
 
@@ -27,14 +30,22 @@ function toggleMenu() {
   if (isMenuOpen) {
     mobileMenu.classList.remove("hidden");
     menuIcon.setAttribute("data-lucide", "x");
+    // Force solid background when open so text doesn't bleed through
+    navbar.classList.add("bg-[#0a0a0a]", "py-4");
+    navbar.classList.remove("bg-transparent", "py-6");
   } else {
     mobileMenu.classList.add("hidden");
     menuIcon.setAttribute("data-lucide", "menu");
+    // Restore transparency if we are at the top of the page
+    if (window.scrollY <= 50) {
+      navbar.classList.add("bg-transparent", "py-6");
+      navbar.classList.remove("bg-[#0a0a0a]", "bg-[#0a0a0a]/98", "backdrop-blur-md", "py-4");
+    }
   }
   lucide.createIcons();
 }
 
-mobileMenuBtn.addEventListener("click", toggleMenu);
+if (mobileMenuBtn) mobileMenuBtn.addEventListener("click", toggleMenu);
 mobileLinks.forEach((link) => {
   link.addEventListener("click", () => {
     if (isMenuOpen) toggleMenu();
@@ -318,7 +329,7 @@ if (guests) {
 
 // ========== GOOGLE SHEETS INTEGRATION ==========
 // IMPORTANT: Replace with your deployed Apps Script URL
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx_placeholder/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw5wG-WQXyhkHPJgFWot3wuM2vi1fkg2XGaPXC8NPMsR3hhO3crs5ZRLp5xvdw2QbBTGg/exec';
 
 const submitBtn = document.getElementById('submitBooking');
 
@@ -326,11 +337,11 @@ async function submitToSheets(data) {
   try {
     const response = await fetch(APPS_SCRIPT_URL, {
       method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
+      // DO NOT USE mode: 'no-cors' - it breaks JSON data transfer
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify(data)
     });
-    return true;
+    return await response.json();
   } catch (error) {
     console.error('Submission error:', error);
     throw error;
@@ -358,7 +369,6 @@ if (submitBtn) {
     const nameInput = document.getElementById('fullName');
     const phoneInput = document.getElementById('phone');
     const emailInput = document.getElementById('email');
-    const requestInput = document.getElementById('request');
     
     const name = nameInput ? nameInput.value.trim() : '';
     const phone = phoneInput ? phoneInput.value.trim() : '';
@@ -383,6 +393,16 @@ if (submitBtn) {
     currentTotal = total;
     currentAdvance = advance;
 
+    // --- FETCH REAL IP ADDRESS ---
+    let userIP = "Unknown";
+    try {
+      const ipResponse = await fetch('https://api.ipify.org?format=json');
+      const ipData = await ipResponse.json();
+      userIP = ipData.ip;
+    } catch (err) {
+      console.log("Could not fetch IP", err);
+    }
+
     const payload = {
       timestamp: new Date().toLocaleString('en-US', { timeZone: 'Asia/Dhaka' }),
       room: currentRoom,
@@ -396,7 +416,7 @@ if (submitBtn) {
       fullName: name,
       phone: phone,
       email: email,
-      specialRequest: requestInput ? requestInput.value.trim() : ''
+      ipAddress: userIP
     };
 
     const originalText = submitBtn.innerHTML;
@@ -436,6 +456,74 @@ if (whatsappBtn) {
       `Hi Mermaid Resort! I just submitted a booking for ${currentGuestName || 'a guest'}. I am sending the 30% advance of ৳${currentAdvance.toLocaleString()} now. Please confirm my reservation.`
     );
     window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
+  });
+}
+
+// ========== WEB3FORMS CONTACT FORM INTEGRATION ==========
+const contactForm = document.getElementById('contactForm');
+const contactResult = document.getElementById('contactResult');
+
+if (contactForm) {
+  contactForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const formData = new FormData(contactForm);
+    const object = Object.fromEntries(formData);
+    const json = JSON.stringify(object);
+    
+    contactResult.innerHTML = "Sending...";
+    contactResult.className = "text-sm text-center font-medium mt-4 text-cyan-400 block";
+    contactResult.classList.remove("hidden");
+
+    fetch('https://api.web3forms.com/submit', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: json
+    })
+    .then(async (response) => {
+      let json = await response.json();
+      if (response.status == 200) {
+        contactResult.innerHTML = "Message sent successfully! We'll be in touch.";
+        contactResult.classList.replace("text-cyan-400", "text-green-400");
+      } else {
+        console.log(response);
+        contactResult.innerHTML = json.message;
+        contactResult.classList.replace("text-cyan-400", "text-red-400");
+      }
+    })
+    .catch(error => {
+      console.log(error);
+      contactResult.innerHTML = "Something went wrong! Please try again later.";
+      contactResult.classList.replace("text-cyan-400", "text-red-400");
+    })
+    .then(function() {
+      contactForm.reset();
+      setTimeout(() => {
+        contactResult.classList.add("hidden");
+      }, 5000);
+    });
+  });
+}
+
+// ========== BACK TO TOP BUTTON ==========
+const backToTopBtn = document.getElementById('backToTopBtn');
+
+if (backToTopBtn) {
+  window.addEventListener('scroll', () => {
+    // Show button after scrolling down 500px
+    if (window.scrollY > 500) {
+      backToTopBtn.classList.remove('opacity-0', 'invisible', 'translate-y-4');
+      backToTopBtn.classList.add('opacity-100', 'visible', 'translate-y-0');
+    } else {
+      backToTopBtn.classList.add('opacity-0', 'invisible', 'translate-y-4');
+      backToTopBtn.classList.remove('opacity-100', 'visible', 'translate-y-0');
+    }
+  });
+
+  backToTopBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 }
 
