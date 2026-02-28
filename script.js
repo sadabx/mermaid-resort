@@ -117,39 +117,89 @@ window.goToSlide = function(index) {
 // Auto-advance main gallery
 setInterval(nextSlide, 5000);
 
-// ========== ROOM GALLERY ==========
-document.querySelectorAll('.room-card').forEach(card => {
-  const gallery = card.querySelector('.room-gallery');
-  if (!gallery) return;
+// ========== DYNAMIC ROOM RENDERING & LOGIC ==========
+const roomsContainer = document.getElementById('rooms-container');
+let currentRoom = '';
+let currentPrice = 0;
+
+if (roomsContainer && typeof roomsData !== 'undefined') {
+  // 1. Generate HTML for all rooms dynamically
+  roomsContainer.innerHTML = roomsData.map((room, index) => `
+    <div class="room-card group bg-[#111] rounded-2xl overflow-hidden border border-white/5 hover:border-cyan-500/30 transition-all duration-300 fade-in-up scroll-reveal" style="transition-delay: 0.${index + 1}s" data-room="${room.name}" data-price="${room.price}">
+      <div class="relative h-64 overflow-hidden">
+        <div class="room-gallery absolute inset-0">
+          ${room.images.map((img, i) => `<img src="${img}" class="gallery-img ${i === 0 ? 'active' : ''}" alt="${room.name}" />`).join('')}
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+        <div class="absolute bottom-4 left-4 z-10 bg-black/60 px-3 py-1 rounded-full backdrop-blur-sm">
+          <span class="text-2xl font-bold text-white">৳${room.price.toLocaleString()}</span>
+          <span class="text-gray-300 text-sm">/night</span>
+        </div>
+        <div class="absolute bottom-4 right-4 flex gap-2 z-20">
+          <button class="gallery-prev w-8 h-8 rounded-full bg-black/50 flex items-center justify-center hover:bg-black/70 transition-colors"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
+          <button class="gallery-next w-8 h-8 rounded-full bg-black/50 flex items-center justify-center hover:bg-black/70 transition-colors"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
+        </div>
+      </div>
+      <div class="p-6">
+        <h3 class="text-xl font-semibold mb-2">${room.name}</h3>
+        <p class="text-gray-400 mb-4">${room.description}</p>
+        <div class="flex flex-wrap gap-2 mb-4">
+          ${room.features.map(f => `<span class="px-3 py-1 text-xs bg-white/5 rounded-full text-gray-300">${f}</span>`).join('')}
+        </div>
+        <button class="select-room-btn w-full py-3 bg-cyan-600/20 border border-cyan-500/30 rounded-full text-cyan-300 hover:bg-cyan-600/40 transition-all font-medium">Select Room</button>
+      </div>
+    </div>
+  `).join('');
+
+  // 2. Tell the scroll observer to watch these newly created elements
+  document.querySelectorAll('#rooms-container .scroll-reveal').forEach(el => revealObserver.observe(el));
   
-  const prevBtn = card.querySelector('.gallery-prev');
-  const nextBtn = card.querySelector('.gallery-next');
-  const images = gallery.querySelectorAll('.gallery-img');
-  let currentIndex = 0;
+  // 3. Initialize icons for the injected HTML
+  lucide.createIcons();
 
-  function showImage(index) {
-    images.forEach(img => img.classList.remove('active'));
-    images[index].classList.add('active');
-  }
+  // 4. Attach Gallery Slider Logic
+  document.querySelectorAll('.room-card').forEach(card => {
+    const gallery = card.querySelector('.room-gallery');
+    if (!gallery) return;
+    
+    const prevBtn = card.querySelector('.gallery-prev');
+    const nextBtn = card.querySelector('.gallery-next');
+    const images = gallery.querySelectorAll('.gallery-img');
+    let currentIndex = 0;
 
-  if (prevBtn) {
-    prevBtn.addEventListener('click', (e) => {
+    function showImage(index) {
+      images.forEach(img => img.classList.remove('active'));
+      images[index].classList.add('active');
+    }
+
+    if (prevBtn) prevBtn.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); currentIndex = (currentIndex - 1 + images.length) % images.length; showImage(currentIndex); });
+    if (nextBtn) nextBtn.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); currentIndex = (currentIndex + 1) % images.length; showImage(currentIndex); });
+  });
+
+  // 5. Attach Booking Modal Selection Logic
+  document.querySelectorAll('.select-room-btn').forEach(btn => {
+    btn.addEventListener('click', (e) => {
       e.preventDefault();
-      e.stopPropagation();
-      currentIndex = (currentIndex - 1 + images.length) % images.length;
-      showImage(currentIndex);
+      const card = btn.closest('.room-card');
+      currentRoom = card.dataset.room;
+      currentPrice = parseInt(card.dataset.price);
+      
+      const selectedRoomDisplay = document.getElementById('selectedRoomDisplay');
+      const pricePerNightDisplay = document.getElementById('pricePerNightDisplay');
+      
+      if (selectedRoomDisplay) selectedRoomDisplay.innerText = currentRoom;
+      if (pricePerNightDisplay) pricePerNightDisplay.innerText = `৳${currentPrice.toLocaleString()}/night`;
+      
+      if (bookingFormView) bookingFormView.classList.remove('hidden');
+      if (successView) successView.classList.add('hidden');
+      
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      lucide.createIcons();
+      updateCalculation();
     });
-  }
-
-  if (nextBtn) {
-    nextBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      currentIndex = (currentIndex + 1) % images.length;
-      showImage(currentIndex);
-    });
-  }
-});
+  });
+}
 
 // ========== BOOKING MODAL ==========
 const modal = document.getElementById('bookingModal');
@@ -205,42 +255,6 @@ modal.addEventListener('click', (e) => {
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
     closeModal();
-  }
-});
-
-// ========== ROOM SELECTION ==========
-const roomCards = document.querySelectorAll('.room-card');
-const selectedRoomDisplay = document.getElementById('selectedRoomDisplay');
-const pricePerNightDisplay = document.getElementById('pricePerNightDisplay');
-let currentRoom = '';
-let currentPrice = 0;
-let currentGuestName = '';
-let currentAdvance = 0;
-let currentTotal = 0;
-
-roomCards.forEach(card => {
-  const btn = card.querySelector('.select-room-btn');
-  if (btn) {
-    btn.addEventListener('click', (e) => {
-      e.preventDefault();
-      currentRoom = card.dataset.room;
-      currentPrice = parseInt(card.dataset.price);
-      if (selectedRoomDisplay) {
-        selectedRoomDisplay.innerText = currentRoom;
-      }
-      if (pricePerNightDisplay) {
-        pricePerNightDisplay.innerText = `৳${currentPrice.toLocaleString()}/night`;
-      }
-      
-      // Reset to form view when opening modal
-      if (bookingFormView) bookingFormView.classList.remove('hidden');
-      if (successView) successView.classList.add('hidden');
-      
-      modal.classList.remove('hidden');
-      document.body.style.overflow = 'hidden';
-      lucide.createIcons();
-      updateCalculation();
-    });
   }
 });
 
