@@ -19,6 +19,7 @@ const mobileMenuBtn = document.getElementById("mobile-menu-btn");
 const mobileMenu = document.getElementById("mobile-menu");
 const menuIcon = document.getElementById("menu-icon");
 const mobileLinks = document.querySelectorAll(".mobile-link");
+const mobileBookBtn = document.getElementById("mobileBookBtn");
 let isMenuOpen = false;
 
 function toggleMenu() {
@@ -59,7 +60,7 @@ setTimeout(() => {
   });
 }, 100);
 
-// ========== GALLERY SLIDER ==========
+// ========== MAIN GALLERY SLIDER ==========
 let currentSlide = 0;
 const slides = document.querySelectorAll(".gallery-slide");
 const dots = document.querySelectorAll(".gallery-dot");
@@ -68,21 +69,21 @@ const totalSlides = slides.length;
 function updateSlider(index) {
   slides.forEach((slide, i) => {
     if (i === index) {
-      slide.classList.replace("opacity-0", "opacity-100");
-      slide.classList.replace("z-0", "z-10");
+      slide.classList.add("opacity-100", "z-10");
+      slide.classList.remove("opacity-0", "z-0");
     } else {
-      slide.classList.replace("opacity-100", "opacity-0");
-      slide.classList.replace("z-10", "z-0");
+      slide.classList.add("opacity-0", "z-0");
+      slide.classList.remove("opacity-100", "z-10");
     }
   });
 
   dots.forEach((dot, i) => {
     if (i === index) {
-      dot.classList.replace("w-2", "w-8");
-      dot.classList.replace("bg-white/30", "bg-cyan-400");
+      dot.classList.add("w-8", "bg-cyan-400");
+      dot.classList.remove("w-2", "bg-white/30");
     } else {
-      dot.classList.replace("w-8", "w-2");
-      dot.classList.replace("bg-cyan-400", "bg-white/30");
+      dot.classList.add("w-2", "bg-white/30");
+      dot.classList.remove("w-8", "bg-cyan-400");
     }
   });
 }
@@ -102,32 +103,85 @@ window.goToSlide = function(index) {
   updateSlider(currentSlide);
 };
 
-// Auto-advance slider
+// Auto-advance main gallery
 setInterval(nextSlide, 5000);
+
+// ========== ROOM GALLERY ==========
+document.querySelectorAll('.room-card').forEach(card => {
+  const gallery = card.querySelector('.room-gallery');
+  if (!gallery) return;
+  
+  const prevBtn = card.querySelector('.gallery-prev');
+  const nextBtn = card.querySelector('.gallery-next');
+  const images = gallery.querySelectorAll('.gallery-img');
+  let currentIndex = 0;
+
+  function showImage(index) {
+    images.forEach(img => img.classList.remove('active'));
+    images[index].classList.add('active');
+  }
+
+  if (prevBtn) {
+    prevBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      showImage(currentIndex);
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      e.stopPropagation();
+      currentIndex = (currentIndex + 1) % images.length;
+      showImage(currentIndex);
+    });
+  }
+});
 
 // ========== BOOKING MODAL ==========
 const modal = document.getElementById('bookingModal');
 const closeModalBtn = document.getElementById('closeModalBtn');
+const closeSuccessBtn = document.getElementById('closeSuccessBtn');
+const bookingFormView = document.getElementById('bookingFormView');
+const successView = document.getElementById('successView');
 const navBookBtn = document.getElementById('navBookBtn');
 const heroBookBtn = document.getElementById('heroBookBtn');
+const roomsSection = document.getElementById('rooms');
 
-// Open modal
-function openModal() {
-  modal.classList.remove('hidden');
-  document.body.style.overflow = 'hidden'; // Prevent background scrolling
-  lucide.createIcons(); // Re-initialize icons in modal
+// Scroll to rooms function
+function scrollToRooms() {
+  roomsSection.scrollIntoView({ behavior: 'smooth' });
+  if (isMenuOpen) toggleMenu(); // Close mobile menu if open
 }
 
-// Close modal
+// Update button behaviors
+if (navBookBtn) {
+  navBookBtn.addEventListener('click', scrollToRooms);
+}
+if (heroBookBtn) {
+  heroBookBtn.addEventListener('click', scrollToRooms);
+}
+if (mobileBookBtn) {
+  mobileBookBtn.addEventListener('click', scrollToRooms);
+}
+
+// Close modal functions
 function closeModal() {
   modal.classList.add('hidden');
-  document.body.style.overflow = ''; // Restore scrolling
+  document.body.style.overflow = '';
+  // Reset to form view for next time
+  bookingFormView.classList.remove('hidden');
+  successView.classList.add('hidden');
 }
 
-// Event listeners
-navBookBtn.addEventListener('click', openModal);
-heroBookBtn.addEventListener('click', openModal);
-closeModalBtn.addEventListener('click', closeModal);
+if (closeModalBtn) {
+  closeModalBtn.addEventListener('click', closeModal);
+}
+if (closeSuccessBtn) {
+  closeSuccessBtn.addEventListener('click', closeModal);
+}
 
 // Close modal when clicking outside
 modal.addEventListener('click', (e) => {
@@ -149,44 +203,86 @@ const selectedRoomDisplay = document.getElementById('selectedRoomDisplay');
 const pricePerNightDisplay = document.getElementById('pricePerNightDisplay');
 let currentRoom = '';
 let currentPrice = 0;
+let currentGuestName = '';
+let currentAdvance = 0;
+let currentTotal = 0;
 
 roomCards.forEach(card => {
   const btn = card.querySelector('.select-room-btn');
-  btn.addEventListener('click', (e) => {
-    e.preventDefault();
-    currentRoom = card.dataset.room;
-    currentPrice = parseInt(card.dataset.price);
-    selectedRoomDisplay.innerText = currentRoom;
-    pricePerNightDisplay.innerText = `৳${currentPrice.toLocaleString()}/night`;
-    openModal(); // Open modal when room is selected
-    updateCalculation();
-  });
+  if (btn) {
+    btn.addEventListener('click', (e) => {
+      e.preventDefault();
+      currentRoom = card.dataset.room;
+      currentPrice = parseInt(card.dataset.price);
+      if (selectedRoomDisplay) {
+        selectedRoomDisplay.innerText = currentRoom;
+      }
+      if (pricePerNightDisplay) {
+        pricePerNightDisplay.innerText = `৳${currentPrice.toLocaleString()}/night`;
+      }
+      
+      // Reset to form view when opening modal
+      if (bookingFormView) bookingFormView.classList.remove('hidden');
+      if (successView) successView.classList.add('hidden');
+      
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      lucide.createIcons();
+      updateCalculation();
+    });
+  }
 });
 
-// ========== DATE & CALCULATION ==========
-const checkin = document.getElementById('checkin');
-const checkout = document.getElementById('checkout');
+// ========== FLATPICKR DATE PICKER ==========
+const checkinInput = document.getElementById('checkin');
+const checkoutInput = document.getElementById('checkout');
+
+let checkinPicker, checkoutPicker;
+
+if (checkinInput) {
+  checkinPicker = flatpickr(checkinInput, {
+    minDate: 'today',
+    dateFormat: 'Y-m-d',
+    onChange: function(selectedDates) {
+      if (selectedDates.length > 0 && checkoutPicker) {
+        checkoutPicker.set('minDate', selectedDates[0]);
+      }
+      validateDates();
+      updateCalculation();
+    }
+  });
+}
+
+if (checkoutInput) {
+  checkoutPicker = flatpickr(checkoutInput, {
+    minDate: 'today',
+    dateFormat: 'Y-m-d',
+    onChange: function() {
+      validateDates();
+      updateCalculation();
+    }
+  });
+}
+
+// ========== DATE VALIDATION & CALCULATION ==========
 const guests = document.getElementById('guests');
 const nightsSpan = document.getElementById('nightsCalc');
 const totalSpan = document.getElementById('totalAmount');
 const advanceSpan = document.getElementById('advanceAmount');
-
-// Set min dates to today
-const today = new Date().toISOString().split('T')[0];
-checkin.min = today;
-checkout.min = today;
+const formError = document.getElementById('formError');
 
 function validateDates() {
-  const inVal = checkin.value;
-  const outVal = checkout.value;
-  if (inVal && outVal) {
-    const inD = new Date(inVal);
-    const outD = new Date(outVal);
-    if (outD <= inD) {
-      document.getElementById('formError').innerText = 'Check-out must be after check-in';
+  if (!checkinPicker || !checkoutPicker) return true;
+  
+  const inDate = checkinPicker.selectedDates[0];
+  const outDate = checkoutPicker.selectedDates[0];
+  
+  if (inDate && outDate) {
+    if (outDate <= inDate) {
+      if (formError) formError.innerText = 'Check-out must be after check-in';
       return false;
     } else {
-      document.getElementById('formError').innerText = '';
+      if (formError) formError.innerText = '';
       return true;
     }
   }
@@ -194,23 +290,20 @@ function validateDates() {
 }
 
 function updateCalculation() {
-  if (!currentPrice) {
-    nightsSpan.innerText = '0';
-    totalSpan.innerText = '৳0';
-    advanceSpan.innerText = '৳0';
-    return;
-  }
+  if (!currentPrice || !nightsSpan || !totalSpan || !advanceSpan) return;
 
-  const inDate = checkin.value ? new Date(checkin.value) : null;
-  const outDate = checkout.value ? new Date(checkout.value) : null;
+  const inDate = checkinPicker ? checkinPicker.selectedDates[0] : null;
+  const outDate = checkoutPicker ? checkoutPicker.selectedDates[0] : null;
   
   if (inDate && outDate && outDate > inDate) {
     const diffTime = outDate - inDate;
     const nights = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     nightsSpan.innerText = nights;
     const total = nights * currentPrice;
+    currentTotal = total;
     totalSpan.innerText = `৳${total.toLocaleString()}`;
     const advance = Math.round(total * 0.3);
+    currentAdvance = advance;
     advanceSpan.innerText = `৳${advance.toLocaleString()}`;
   } else {
     nightsSpan.innerText = '0';
@@ -219,128 +312,132 @@ function updateCalculation() {
   }
 }
 
-checkin.addEventListener('change', () => {
-  validateDates();
-  updateCalculation();
-});
-checkout.addEventListener('change', () => {
-  validateDates();
-  updateCalculation();
-});
-guests.addEventListener('input', updateCalculation);
+if (guests) {
+  guests.addEventListener('input', updateCalculation);
+}
 
 // ========== GOOGLE SHEETS INTEGRATION ==========
 // IMPORTANT: Replace with your deployed Apps Script URL
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx_placeholder/exec'; // <-- PASTE YOUR WEB APP URL HERE
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx_placeholder/exec';
 
 const submitBtn = document.getElementById('submitBooking');
-const formError = document.getElementById('formError');
-const formSuccess = document.getElementById('formSuccess');
-const paymentDiv = document.getElementById('paymentInstruction');
 
 async function submitToSheets(data) {
   try {
     const response = await fetch(APPS_SCRIPT_URL, {
       method: 'POST',
-      mode: 'no-cors', // Required for Apps Script
+      mode: 'no-cors',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
     });
-    return true; // Assume success with no-cors
+    return true;
   } catch (error) {
     console.error('Submission error:', error);
     throw error;
   }
 }
 
-submitBtn.addEventListener('click', async () => {
-  // Clear previous messages
-  formError.innerText = '';
-  formSuccess.innerText = '';
-  paymentDiv.classList.add('hidden');
+if (submitBtn) {
+  submitBtn.addEventListener('click', async () => {
+    if (formError) formError.innerText = '';
 
-  // Validation
-  if (!currentRoom) {
-    formError.innerText = 'Please select a room first.';
-    return;
-  }
-  if (!checkin.value || !checkout.value) {
-    formError.innerText = 'Please select check-in and check-out dates.';
-    return;
-  }
-  if (!validateDates()) return;
+    if (!currentRoom) {
+      if (formError) formError.innerText = 'Please select a room first.';
+      return;
+    }
 
-  const name = document.getElementById('fullName').value.trim();
-  const phone = document.getElementById('phone').value.trim();
-  const email = document.getElementById('email').value.trim();
-  
-  if (!name || !phone || !email) {
-    formError.innerText = 'Name, phone and email are required.';
-    return;
-  }
-
-  const guestCount = parseInt(guests.value) || 1;
-  if (guestCount < 1 || guestCount > 6) {
-    formError.innerText = 'Guests must be between 1 and 6.';
-    return;
-  }
-
-  // Calculate nights and amounts
-  const inDate = new Date(checkin.value);
-  const outDate = new Date(checkout.value);
-  const nights = Math.ceil((outDate - inDate) / (1000 * 60 * 60 * 24));
-  const total = nights * currentPrice;
-  const advance = Math.round(total * 0.3);
-
-  const payload = {
-    timestamp: new Date().toLocaleString('en-US', { timeZone: 'Asia/Dhaka' }),
-    room: currentRoom,
-    pricePerNight: currentPrice,
-    checkin: checkin.value,
-    checkout: checkout.value,
-    nights: nights,
-    guests: guestCount,
-    totalAmount: total,
-    advance30: advance,
-    fullName: name,
-    phone: phone,
-    email: email,
-    specialRequest: document.getElementById('request').value.trim() || ''
-  };
-
-  // Loading state
-  const originalText = submitBtn.innerHTML;
-  submitBtn.innerHTML = '<span class="loading-dots">Submitting</span>';
-  submitBtn.disabled = true;
-
-  try {
-    await submitToSheets(payload);
+    const inDate = checkinPicker ? checkinPicker.selectedDates[0] : null;
+    const outDate = checkoutPicker ? checkoutPicker.selectedDates[0] : null;
     
-    // Success
-    formSuccess.innerText = '✓ Booking confirmed! Check payment instructions below.';
-    paymentDiv.classList.remove('hidden');
-    lucide.createIcons(); // Re-initialize icons in payment div
-    
-    // Reset form (optional)
-    document.getElementById('fullName').value = '';
-    document.getElementById('phone').value = '';
-    document.getElementById('email').value = '';
-    document.getElementById('request').value = '';
-    checkin.value = '';
-    checkout.value = '';
-    guests.value = '2';
-    
-    // Keep room selected for convenience
-    updateCalculation();
-    
-  } catch (error) {
-    formError.innerText = 'Submission failed. Please try again.';
-    console.error(error);
-  } finally {
-    submitBtn.innerHTML = originalText;
-    submitBtn.disabled = false;
-  }
-});
+    if (!inDate || !outDate) {
+      if (formError) formError.innerText = 'Please select check-in and check-out dates.';
+      return;
+    }
+    if (!validateDates()) return;
 
-// Re-initialize icons after any dynamic changes
+    const nameInput = document.getElementById('fullName');
+    const phoneInput = document.getElementById('phone');
+    const emailInput = document.getElementById('email');
+    const requestInput = document.getElementById('request');
+    
+    const name = nameInput ? nameInput.value.trim() : '';
+    const phone = phoneInput ? phoneInput.value.trim() : '';
+    const email = emailInput ? emailInput.value.trim() : '';
+    currentGuestName = name;
+    
+    if (!name || !phone || !email) {
+      if (formError) formError.innerText = 'Name, phone and email are required.';
+      return;
+    }
+
+    const guestCount = guests ? parseInt(guests.value) || 1 : 1;
+    if (guestCount < 1 || guestCount > 6) {
+      if (formError) formError.innerText = 'Guests must be between 1 and 6.';
+      return;
+    }
+
+    const nights = Math.ceil((outDate - inDate) / (1000 * 60 * 60 * 24));
+    const total = nights * currentPrice;
+    const advance = Math.round(total * 0.3);
+    
+    currentTotal = total;
+    currentAdvance = advance;
+
+    const payload = {
+      timestamp: new Date().toLocaleString('en-US', { timeZone: 'Asia/Dhaka' }),
+      room: currentRoom,
+      pricePerNight: currentPrice,
+      checkin: checkinInput ? checkinInput.value : '',
+      checkout: checkoutInput ? checkoutInput.value : '',
+      nights: nights,
+      guests: guestCount,
+      totalAmount: total,
+      advance30: advance,
+      fullName: name,
+      phone: phone,
+      email: email,
+      specialRequest: requestInput ? requestInput.value.trim() : ''
+    };
+
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<span class="loading-dots">Submitting</span>';
+    submitBtn.disabled = true;
+
+    try {
+      await submitToSheets(payload);
+      
+      const successTotal = document.getElementById('successTotal');
+      const successAdvance = document.getElementById('successAdvance');
+      
+      if (successTotal) successTotal.innerText = `৳${total.toLocaleString()}`;
+      if (successAdvance) successAdvance.innerText = `৳${advance.toLocaleString()}`;
+      
+      if (bookingFormView) bookingFormView.classList.add('hidden');
+      if (successView) successView.classList.remove('hidden');
+      lucide.createIcons();
+      
+    } catch (error) {
+      if (formError) formError.innerText = 'Submission failed. Please try again.';
+      console.error(error);
+    } finally {
+      submitBtn.innerHTML = originalText;
+      submitBtn.disabled = false;
+    }
+  });
+}
+
+// ========== WHATSAPP CONFIRMATION ==========
+const whatsappBtn = document.getElementById('whatsappConfirmBtn');
+
+if (whatsappBtn) {
+  whatsappBtn.addEventListener('click', () => {
+    const phoneNumber = '8801819077914';
+    const message = encodeURIComponent(
+      `Hi Mermaid Resort! I just submitted a booking for ${currentGuestName || 'a guest'}. I am sending the 30% advance of ৳${currentAdvance.toLocaleString()} now. Please confirm my reservation.`
+    );
+    window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
+  });
+}
+
+// Re-initialize icons
 lucide.createIcons();
