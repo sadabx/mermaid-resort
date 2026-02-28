@@ -8,6 +8,12 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Flatpickr Calendar -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css" />
   </head>
@@ -110,6 +116,7 @@
             >Contact</a
           >
           <button
+            id="mobileBookBtn"
             class="mt-4 px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-full text-sm font-medium"
           >
             Book Now
@@ -205,12 +212,18 @@
               diving in crystal-clear waters, or simply relaxation on pristine
               beaches, Mermaid Resort is your gateway to paradise.
             </p>
-            <div class="flex items-center gap-2 text-cyan-400">
+            <div
+              class="flex items-center gap-2 text-cyan-400 hover:text-cyan-300 transition-colors"
+            >
               <i data-lucide="map-pin" class="w-5 h-5"></i>
-              <span
-                >Mermaid Rd, Saint Martin's Island, Cox's Bazar 4762,
-                Bangladesh</span
+              <a
+                href="https://maps.app.goo.gl/GHtx5SJNUcHfQC9m9"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="hover:underline"
               >
+                Mermaid Rd, Saint Martin's Island, Cox's Bazar 4762, Bangladesh
+              </a>
             </div>
           </div>
 
@@ -233,7 +246,7 @@
       </div>
     </section>
 
-    <!-- Rooms Section -->
+    <!-- Rooms Section with Gallery -->
     <section id="rooms" class="py-24 px-6 bg-[#0a0a0a]">
       <div class="max-w-7xl mx-auto">
         <div class="text-center mb-16 fade-in-up scroll-reveal">
@@ -244,25 +257,61 @@
         </div>
 
         <div class="grid md:grid-cols-3 gap-8">
-          <!-- Ocean View Suite -->
+          <!-- Ocean View Suite - 10,000 -->
           <div
-            class="room-card group bg-[#111] rounded-2xl overflow-hidden border border-white/5 hover:border-cyan-500/30 transition-all duration-300 fade-in-up scroll-reveal"
+            class="room-card bg-[#111] rounded-2xl overflow-hidden border border-white/5 hover:border-cyan-500/30 transition-all duration-300 fade-in-up scroll-reveal"
             style="transition-delay: 0.1s"
             data-room="Ocean View Suite"
-            data-price="15000"
+            data-price="10000"
           >
             <div class="relative h-64 overflow-hidden">
-              <img
-                src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&q=80"
-                alt="Ocean View Suite"
-                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-              />
+              <div class="room-gallery absolute inset-0">
+                <img
+                  src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&q=80"
+                  class="gallery-img active"
+                  alt="Ocean View Suite"
+                />
+                <img
+                  src="https://images.unsplash.com/photo-1590490360182-c33d57733427?w=800&q=80"
+                  class="gallery-img"
+                  alt="Ocean View Suite Interior"
+                />
+                <img
+                  src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=800&q=80"
+                  class="gallery-img"
+                  alt="Ocean View Suite Balcony"
+                />
+                <img
+                  src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=800&q=80"
+                  class="gallery-img"
+                  alt="Ocean View Suite Bed"
+                />
+                <img
+                  src="https://images.unsplash.com/photo-1584132967334-10e028bd69f7?w=800&q=80"
+                  class="gallery-img"
+                  alt="Ocean View Suite View"
+                />
+              </div>
               <div
                 class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"
               ></div>
-              <div class="absolute bottom-4 left-4">
-                <span class="text-2xl font-bold">৳15,000</span>
-                <span class="text-gray-400 text-sm">/night</span>
+              <div
+                class="absolute bottom-4 left-4 z-10 bg-black/60 px-3 py-1 rounded-full backdrop-blur-sm"
+              >
+                <span class="text-2xl font-bold text-white">৳10,000</span>
+                <span class="text-gray-300 text-sm">/night</span>
+              </div>
+              <div class="absolute bottom-4 right-4 flex gap-2 z-20">
+                <button
+                  class="gallery-prev w-8 h-8 rounded-full bg-black/50 flex items-center justify-center hover:bg-black/70 transition-colors"
+                >
+                  <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                </button>
+                <button
+                  class="gallery-next w-8 h-8 rounded-full bg-black/50 flex items-center justify-center hover:bg-black/70 transition-colors"
+                >
+                  <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                </button>
               </div>
             </div>
             <div class="p-6">
@@ -274,10 +323,6 @@
                 <span
                   class="px-3 py-1 text-xs bg-white/5 rounded-full text-gray-300"
                   >King Bed</span
-                >
-                <span
-                  class="px-3 py-1 text-xs bg-white/5 rounded-full text-gray-300"
-                  >Ocean View</span
                 >
                 <span
                   class="px-3 py-1 text-xs bg-white/5 rounded-full text-gray-300"
@@ -296,25 +341,61 @@
             </div>
           </div>
 
-          <!-- Beachfront Cottage -->
+          <!-- Beachfront Cottage - 7,000 -->
           <div
-            class="room-card group bg-[#111] rounded-2xl overflow-hidden border border-white/5 hover:border-cyan-500/30 transition-all duration-300 fade-in-up scroll-reveal"
+            class="room-card bg-[#111] rounded-2xl overflow-hidden border border-white/5 hover:border-cyan-500/30 transition-all duration-300 fade-in-up scroll-reveal"
             style="transition-delay: 0.2s"
             data-room="Beachfront Cottage"
-            data-price="12000"
+            data-price="7000"
           >
             <div class="relative h-64 overflow-hidden">
-              <img
-                src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&q=80"
-                alt="Beachfront Cottage"
-                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-              />
+              <div class="room-gallery absolute inset-0">
+                <img
+                  src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?w=800&q=80"
+                  class="gallery-img active"
+                  alt="Beachfront Cottage"
+                />
+                <img
+                  src="https://images.unsplash.com/photo-1507652313519-d4e9174996dd?w=800&q=80"
+                  class="gallery-img"
+                  alt="Beachfront Cottage Interior"
+                />
+                <img
+                  src="https://images.unsplash.com/photo-1610647752706-3bb12232b3ab?w=800&q=80"
+                  class="gallery-img"
+                  alt="Beachfront Cottage Deck"
+                />
+                <img
+                  src="https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=800&q=80"
+                  class="gallery-img"
+                  alt="Beachfront Cottage View"
+                />
+                <img
+                  src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=800&q=80"
+                  class="gallery-img"
+                  alt="Beachfront Cottage Bedroom"
+                />
+              </div>
               <div
                 class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"
               ></div>
-              <div class="absolute bottom-4 left-4">
-                <span class="text-2xl font-bold">৳12,000</span>
-                <span class="text-gray-400 text-sm">/night</span>
+              <div
+                class="absolute bottom-4 left-4 z-10 bg-black/60 px-3 py-1 rounded-full backdrop-blur-sm"
+              >
+                <span class="text-2xl font-bold text-white">৳7,000</span>
+                <span class="text-gray-300 text-sm">/night</span>
+              </div>
+              <div class="absolute bottom-4 right-4 flex gap-2 z-20">
+                <button
+                  class="gallery-prev w-8 h-8 rounded-full bg-black/50 flex items-center justify-center hover:bg-black/70 transition-colors"
+                >
+                  <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                </button>
+                <button
+                  class="gallery-next w-8 h-8 rounded-full bg-black/50 flex items-center justify-center hover:bg-black/70 transition-colors"
+                >
+                  <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                </button>
               </div>
             </div>
             <div class="p-6">
@@ -331,14 +412,6 @@
                   class="px-3 py-1 text-xs bg-white/5 rounded-full text-gray-300"
                   >Beach Access</span
                 >
-                <span
-                  class="px-3 py-1 text-xs bg-white/5 rounded-full text-gray-300"
-                  >Private Deck</span
-                >
-                <span
-                  class="px-3 py-1 text-xs bg-white/5 rounded-full text-gray-300"
-                  >Mini Bar</span
-                >
               </div>
               <button
                 class="select-room-btn w-full py-3 bg-cyan-600/20 border border-cyan-500/30 rounded-full text-cyan-300 hover:bg-cyan-600/40 transition-all font-medium"
@@ -348,25 +421,61 @@
             </div>
           </div>
 
-          <!-- Deluxe Room -->
+          <!-- Deluxe Room - 3,000 -->
           <div
-            class="room-card group bg-[#111] rounded-2xl overflow-hidden border border-white/5 hover:border-cyan-500/30 transition-all duration-300 fade-in-up scroll-reveal"
+            class="room-card bg-[#111] rounded-2xl overflow-hidden border border-white/5 hover:border-cyan-500/30 transition-all duration-300 fade-in-up scroll-reveal"
             style="transition-delay: 0.3s"
             data-room="Deluxe Room"
-            data-price="8000"
+            data-price="3000"
           >
             <div class="relative h-64 overflow-hidden">
-              <img
-                src="https://images.unsplash.com/photo-1590490360182-c33d57733427?w=800&q=80"
-                alt="Deluxe Room"
-                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-              />
+              <div class="room-gallery absolute inset-0">
+                <img
+                  src="https://images.unsplash.com/photo-1590490360182-c33d57733427?w=800&q=80"
+                  class="gallery-img active"
+                  alt="Deluxe Room"
+                />
+                <img
+                  src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&q=80"
+                  class="gallery-img"
+                  alt="Deluxe Room View"
+                />
+                <img
+                  src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=800&q=80"
+                  class="gallery-img"
+                  alt="Deluxe Room Bathroom"
+                />
+                <img
+                  src="https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?w=800&q=80"
+                  class="gallery-img"
+                  alt="Deluxe Room Bed"
+                />
+                <img
+                  src="https://images.unsplash.com/photo-1584132915807-fd1f5fbc078f?w=800&q=80"
+                  class="gallery-img"
+                  alt="Deluxe Room Amenities"
+                />
+              </div>
               <div
                 class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"
               ></div>
-              <div class="absolute bottom-4 left-4">
-                <span class="text-2xl font-bold">৳8,000</span>
-                <span class="text-gray-400 text-sm">/night</span>
+              <div
+                class="absolute bottom-4 left-4 z-10 bg-black/60 px-3 py-1 rounded-full backdrop-blur-sm"
+              >
+                <span class="text-2xl font-bold text-white">৳3,000</span>
+                <span class="text-gray-300 text-sm">/night</span>
+              </div>
+              <div class="absolute bottom-4 right-4 flex gap-2 z-20">
+                <button
+                  class="gallery-prev w-8 h-8 rounded-full bg-black/50 flex items-center justify-center hover:bg-black/70 transition-colors"
+                >
+                  <i data-lucide="chevron-left" class="w-4 h-4"></i>
+                </button>
+                <button
+                  class="gallery-next w-8 h-8 rounded-full bg-black/50 flex items-center justify-center hover:bg-black/70 transition-colors"
+                >
+                  <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                </button>
               </div>
             </div>
             <div class="p-6">
@@ -378,10 +487,6 @@
                 <span
                   class="px-3 py-1 text-xs bg-white/5 rounded-full text-gray-300"
                   >Double Bed</span
-                >
-                <span
-                  class="px-3 py-1 text-xs bg-white/5 rounded-full text-gray-300"
-                  >Garden View</span
                 >
                 <span
                   class="px-3 py-1 text-xs bg-white/5 rounded-full text-gray-300"
@@ -413,7 +518,7 @@
           <h2 class="text-4xl md:text-5xl font-bold">World-Class Amenities</h2>
         </div>
 
-        <div class="grid md:grid-cols-3 gap-8">
+        <div class="grid md:grid-cols-4 gap-8">
           <div
             class="group p-8 bg-[#111] rounded-2xl border border-white/5 hover:border-cyan-500/30 transition-all duration-300 text-center fade-in-up scroll-reveal"
             style="transition-delay: 0.1s"
@@ -463,36 +568,10 @@
             <div
               class="w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to-br from-cyan-500/20 to-blue-600/20 flex items-center justify-center group-hover:scale-110 transition-transform"
             >
-              <i data-lucide="music" class="w-8 h-8 text-cyan-400"></i>
-            </div>
-            <h3 class="text-xl font-semibold mb-2">Beach Bar</h3>
-            <p class="text-gray-400">Live music evenings</p>
-          </div>
-
-          <div
-            class="group p-8 bg-[#111] rounded-2xl border border-white/5 hover:border-cyan-500/30 transition-all duration-300 text-center fade-in-up scroll-reveal"
-            style="transition-delay: 0.5s"
-          >
-            <div
-              class="w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to-br from-cyan-500/20 to-blue-600/20 flex items-center justify-center group-hover:scale-110 transition-transform"
-            >
               <i data-lucide="ship" class="w-8 h-8 text-cyan-400"></i>
             </div>
             <h3 class="text-xl font-semibold mb-2">Boat Tours</h3>
             <p class="text-gray-400">Island hopping</p>
-          </div>
-
-          <div
-            class="group p-8 bg-[#111] rounded-2xl border border-white/5 hover:border-cyan-500/30 transition-all duration-300 text-center fade-in-up scroll-reveal"
-            style="transition-delay: 0.6s"
-          >
-            <div
-              class="w-16 h-16 mx-auto mb-6 rounded-full bg-gradient-to-br from-cyan-500/20 to-blue-600/20 flex items-center justify-center group-hover:scale-110 transition-transform"
-            >
-              <i data-lucide="camera" class="w-8 h-8 text-cyan-400"></i>
-            </div>
-            <h3 class="text-xl font-semibold mb-2">Scuba Diving</h3>
-            <p class="text-gray-400">Explore coral reefs</p>
           </div>
         </div>
       </div>
@@ -516,7 +595,7 @@
             class="gallery-slide absolute inset-0 w-full h-full object-cover opacity-100 z-10"
           />
           <img
-            src="https://images.unsplash.com/photo-1519046904884-53103b34b271?w=800&q=80"
+            src=""
             class="gallery-slide absolute inset-0 w-full h-full object-cover opacity-0 z-0"
           />
           <img
@@ -527,14 +606,6 @@
             src="https://images.unsplash.com/photo-1476673160081-cf065607f449?w=800&q=80"
             class="gallery-slide absolute inset-0 w-full h-full object-cover opacity-0 z-0"
           />
-          <img
-            src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800&q=80"
-            class="gallery-slide absolute inset-0 w-full h-full object-cover opacity-0 z-0"
-          />
-          <img
-            src="https://images.unsplash.com/photo-1537956965359-7573183d1f57?w=800&q=80"
-            class="gallery-slide absolute inset-0 w-full h-full object-cover opacity-0 z-0"
-          />
 
           <div
             class="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-3 z-20"
@@ -542,38 +613,30 @@
           >
             <button
               class="gallery-dot w-8 h-2 rounded-full transition-all bg-cyan-400"
-              onclick="goToSlide(0)"
+              onclick="window.goToSlide(0)"
             ></button>
             <button
               class="gallery-dot w-2 h-2 rounded-full transition-all bg-white/30"
-              onclick="goToSlide(1)"
+              onclick="window.goToSlide(1)"
             ></button>
             <button
               class="gallery-dot w-2 h-2 rounded-full transition-all bg-white/30"
-              onclick="goToSlide(2)"
+              onclick="window.goToSlide(2)"
             ></button>
             <button
               class="gallery-dot w-2 h-2 rounded-full transition-all bg-white/30"
-              onclick="goToSlide(3)"
-            ></button>
-            <button
-              class="gallery-dot w-2 h-2 rounded-full transition-all bg-white/30"
-              onclick="goToSlide(4)"
-            ></button>
-            <button
-              class="gallery-dot w-2 h-2 rounded-full transition-all bg-white/30"
-              onclick="goToSlide(5)"
+              onclick="window.goToSlide(3)"
             ></button>
           </div>
 
           <button
-            onclick="prevSlide()"
+            onclick="window.prevSlide()"
             class="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/30 flex items-center justify-center hover:bg-black/50 transition-colors z-20"
           >
             <i data-lucide="chevron-left" class="w-6 h-6"></i>
           </button>
           <button
-            onclick="nextSlide()"
+            onclick="window.nextSlide()"
             class="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/30 flex items-center justify-center hover:bg-black/50 transition-colors z-20"
           >
             <i data-lucide="chevron-right" class="w-6 h-6"></i>
@@ -605,10 +668,15 @@
                 </div>
                 <div>
                   <h4 class="font-semibold mb-1">Address</h4>
-                  <p class="text-gray-400">
+                  <a
+                    href="https://maps.app.goo.gl/GHtx5SJNUcHfQC9m9"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="text-gray-400 hover:text-cyan-400 transition-colors block"
+                  >
                     Mermaid Rd, Saint Martin's Island, Cox's Bazar 4762,
                     Bangladesh
-                  </p>
+                  </a>
                 </div>
               </div>
 
@@ -620,7 +688,11 @@
                 </div>
                 <div>
                   <h4 class="font-semibold mb-1">Phone</h4>
-                  <p class="text-gray-400">+880 1819-077914</p>
+                  <a
+                    href="tel:+8801819077914"
+                    class="text-gray-400 hover:text-cyan-400 transition-colors"
+                    >+880 1819-077914</a
+                  >
                 </div>
               </div>
 
@@ -628,11 +700,15 @@
                 <div
                   class="w-12 h-12 rounded-full bg-cyan-500/20 flex items-center justify-center flex-shrink-0"
                 >
-                  <i data-lucide="clock" class="w-5 h-5 text-cyan-400"></i>
+                  <i data-lucide="mail" class="w-5 h-5 text-cyan-400"></i>
                 </div>
                 <div>
-                  <h4 class="font-semibold mb-1">Check-in / Check-out</h4>
-                  <p class="text-gray-400">12:00 PM / 11:00 AM</p>
+                  <h4 class="font-semibold mb-1">Email</h4>
+                  <a
+                    href="mailto:contact@mermaidresort.com"
+                    class="text-gray-400 hover:text-cyan-400 transition-colors"
+                    >contact@mermaidresort.com</a
+                  >
                 </div>
               </div>
             </div>
@@ -659,15 +735,6 @@
                     placeholder="your@email.com"
                   />
                 </div>
-              </div>
-              <div>
-                <label class="block text-sm text-gray-400 mb-2"
-                  >Check-in Date</label
-                >
-                <input
-                  type="date"
-                  class="w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-500 transition-colors text-gray-400"
-                />
               </div>
               <div>
                 <label class="block text-sm text-gray-400 mb-2">Message</label>
@@ -756,15 +823,37 @@
           </div>
 
           <div>
-            <h4 class="font-semibold mb-4">Contact</h4>
+            <h4 class="font-semibold mb-4">Contact Info</h4>
             <ul class="space-y-3 text-gray-400">
-              <li class="flex items-center gap-2">
-                <i data-lucide="map-pin" class="w-4 h-4 text-cyan-400"></i>
-                <span>Saint Martin's Island</span>
+              <li class="flex items-start gap-2">
+                <i
+                  data-lucide="map-pin"
+                  class="w-4 h-4 text-cyan-400 mt-1 flex-shrink-0"
+                ></i>
+                <a
+                  href="https://maps.app.goo.gl/GHtx5SJNUcHfQC9m9"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="hover:text-cyan-400 transition-colors"
+                >
+                  Mermaid Resort
+                </a>
               </li>
               <li class="flex items-center gap-2">
                 <i data-lucide="phone" class="w-4 h-4 text-cyan-400"></i>
-                <span>+880 1819-077914</span>
+                <a
+                  href="tel:+8801819077914"
+                  class="hover:text-cyan-400 transition-colors"
+                  >+880 1819-077914</a
+                >
+              </li>
+              <li class="flex items-center gap-2">
+                <i data-lucide="mail" class="w-4 h-4 text-cyan-400"></i>
+                <a
+                  href="mailto:contact@mermaidresort.com"
+                  class="hover:text-cyan-400 transition-colors"
+                  >contact@mermaidresort.com</a
+                >
               </li>
             </ul>
           </div>
@@ -797,12 +886,12 @@
         <div
           class="mt-12 pt-8 border-t border-white/5 text-center text-gray-500"
         >
-          <p>© 2024 Mermaid Resort. All rights reserved.</p>
+          <p>© 2026 Mermaid Resort. All rights reserved.</p>
         </div>
       </div>
     </footer>
 
-    <!-- Booking Modal (Pop-up) -->
+    <!-- Booking Modal -->
     <div
       id="bookingModal"
       class="fixed inset-0 z-50 hidden overflow-y-auto"
@@ -813,205 +902,254 @@
       <div
         class="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0"
       >
-        <!-- Background overlay -->
         <div
           class="fixed inset-0 bg-black/80 backdrop-blur-sm transition-opacity"
           aria-hidden="true"
         ></div>
-
-        <!-- Modal panel -->
         <div
           class="inline-block align-bottom bg-[#111] rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl w-full border border-cyan-500/30"
         >
-          <!-- Modal header -->
-          <div
-            class="flex items-center justify-between p-6 border-b border-white/10"
-          >
-            <h3 class="text-2xl font-semibold text-cyan-400" id="modal-title">
-              Complete Your Booking
-            </h3>
-            <button
-              id="closeModalBtn"
-              class="text-gray-400 hover:text-white transition-colors"
+          <!-- Booking Form View -->
+          <div id="bookingFormView">
+            <div
+              class="flex items-center justify-between p-6 border-b border-white/10"
             >
-              <i data-lucide="x" class="w-6 h-6"></i>
-            </button>
+              <h3 class="text-2xl font-semibold text-cyan-400" id="modal-title">
+                Complete Your Booking
+              </h3>
+              <button
+                id="closeModalBtn"
+                class="text-gray-400 hover:text-white transition-colors"
+              >
+                <i data-lucide="x" class="w-6 h-6"></i>
+              </button>
+            </div>
+
+            <div class="p-6">
+              <div
+                class="flex flex-wrap items-center justify-between gap-4 pb-4 mb-4 border-b border-white/10"
+              >
+                <div>
+                  <span class="text-gray-400 text-sm">Selected room</span>
+                  <p
+                    id="selectedRoomDisplay"
+                    class="text-xl font-semibold text-cyan-400"
+                  >
+                    Not selected
+                  </p>
+                </div>
+                <div
+                  id="pricePerNightDisplay"
+                  class="text-lg price-tag px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/30"
+                >
+                  —
+                </div>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <label class="block text-sm text-gray-400 mb-1"
+                    >Check‑in *</label
+                  >
+                  <input
+                    type="text"
+                    id="checkin"
+                    class="input-field w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-500 datepicker"
+                    placeholder="Select date"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm text-gray-400 mb-1"
+                    >Check‑out *</label
+                  >
+                  <input
+                    type="text"
+                    id="checkout"
+                    class="input-field w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-500 datepicker"
+                    placeholder="Select date"
+                  />
+                </div>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <label class="block text-sm text-gray-400 mb-1"
+                    >Guests *</label
+                  >
+                  <input
+                    type="number"
+                    id="guests"
+                    min="1"
+                    max="6"
+                    value="2"
+                    class="input-field w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-500"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm text-gray-400 mb-1"
+                    >Full Name *</label
+                  >
+                  <input
+                    type="text"
+                    id="fullName"
+                    placeholder="e.g. John Doe"
+                    class="input-field w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-500"
+                  />
+                </div>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <label class="block text-sm text-gray-400 mb-1"
+                    >Phone *</label
+                  >
+                  <input
+                    type="tel"
+                    id="phone"
+                    placeholder="01XXXXXXXXX"
+                    class="input-field w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-500"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm text-gray-400 mb-1"
+                    >Email *</label
+                  >
+                  <input
+                    type="email"
+                    id="email"
+                    placeholder="you@example.com"
+                    class="input-field w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-500"
+                  />
+                </div>
+              </div>
+
+              <div class="mb-6">
+                <label class="block text-sm text-gray-400 mb-1"
+                  >Special request</label
+                >
+                <textarea
+                  id="request"
+                  rows="2"
+                  class="input-field w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-500 resize-none"
+                  placeholder="Any preferences... (optional)"
+                ></textarea>
+              </div>
+
+              <div
+                class="bg-[#0a0a0a] p-5 rounded-xl border border-white/10 mb-6 space-y-2"
+              >
+                <div class="flex justify-between">
+                  <span>Nights:</span>
+                  <span id="nightsCalc" class="font-mono">0</span>
+                </div>
+                <div class="flex justify-between">
+                  <span>Total stay:</span>
+                  <span id="totalAmount" class="font-mono text-cyan-300"
+                    >৳0</span
+                  >
+                </div>
+                <div
+                  class="flex justify-between text-cyan-400 font-semibold pt-2 border-t border-white/10"
+                >
+                  <span>Advance (30%):</span>
+                  <span id="advanceAmount" class="font-mono">৳0</span>
+                </div>
+              </div>
+
+              <div
+                id="formError"
+                class="error-msg text-red-400 text-sm mb-3 min-h-[24px]"
+              ></div>
+
+              <button
+                id="submitBooking"
+                class="w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-lg font-medium hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+              >
+                <i data-lucide="send" class="w-5 h-5"></i> Confirm Booking
+              </button>
+            </div>
           </div>
 
-          <!-- Modal body -->
-          <div class="p-6">
-            <!-- Selected Room Display -->
-            <div
-              class="flex flex-wrap items-center justify-between gap-4 pb-4 mb-4 border-b border-white/10"
-            >
-              <div>
-                <span class="text-gray-400 text-sm">Selected room</span>
-                <p
-                  id="selectedRoomDisplay"
-                  class="text-xl font-semibold text-cyan-400"
-                >
-                  Not selected
-                </p>
-              </div>
-              <div
-                id="pricePerNightDisplay"
-                class="text-lg price-tag px-4 py-2 rounded-full bg-cyan-500/10 border border-cyan-500/30"
+          <!-- Success View (initially hidden) -->
+          <div id="successView" class="hidden p-8 text-center">
+            <div class="flex justify-end">
+              <button
+                id="closeSuccessBtn"
+                class="text-gray-400 hover:text-white transition-colors"
               >
-                —
-              </div>
-            </div>
-
-            <!-- Dates and Guests -->
-            <div class="grid md:grid-cols-2 gap-6 mb-6">
-              <div>
-                <label class="block text-sm text-gray-400 mb-1"
-                  >Check‑in *</label
-                >
-                <input
-                  type="date"
-                  id="checkin"
-                  class="input-field w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-500"
-                />
-              </div>
-              <div>
-                <label class="block text-sm text-gray-400 mb-1"
-                  >Check‑out *</label
-                >
-                <input
-                  type="date"
-                  id="checkout"
-                  class="input-field w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-500"
-                />
-              </div>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-6 mb-6">
-              <div>
-                <label class="block text-sm text-gray-400 mb-1">Guests *</label>
-                <input
-                  type="number"
-                  id="guests"
-                  min="1"
-                  max="6"
-                  value="2"
-                  class="input-field w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-500"
-                />
-              </div>
-              <div>
-                <label class="block text-sm text-gray-400 mb-1"
-                  >Full Name *</label
-                >
-                <input
-                  type="text"
-                  id="fullName"
-                  placeholder="e.g. John Doe"
-                  class="input-field w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-500"
-                />
-              </div>
-            </div>
-
-            <div class="grid md:grid-cols-2 gap-6 mb-6">
-              <div>
-                <label class="block text-sm text-gray-400 mb-1">Phone *</label>
-                <input
-                  type="tel"
-                  id="phone"
-                  placeholder="01XXXXXXXXX"
-                  class="input-field w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-500"
-                />
-              </div>
-              <div>
-                <label class="block text-sm text-gray-400 mb-1">Email *</label>
-                <input
-                  type="email"
-                  id="email"
-                  placeholder="you@example.com"
-                  class="input-field w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-500"
-                />
-              </div>
+                <i data-lucide="x" class="w-6 h-6"></i>
+              </button>
             </div>
 
             <div class="mb-6">
-              <label class="block text-sm text-gray-400 mb-1"
-                >Special request</label
-              >
-              <textarea
-                id="request"
-                rows="2"
-                class="input-field w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-500 resize-none"
-                placeholder="Any preferences... (optional)"
-              ></textarea>
-            </div>
-
-            <!-- Price Summary -->
-            <div
-              class="bg-[#0a0a0a] p-5 rounded-xl border border-white/10 mb-6 space-y-2"
-            >
-              <div class="flex justify-between">
-                <span>Nights:</span>
-                <span id="nightsCalc" class="font-mono">0</span>
-              </div>
-              <div class="flex justify-between">
-                <span>Total stay:</span>
-                <span id="totalAmount" class="font-mono text-cyan-300">৳0</span>
-              </div>
               <div
-                class="flex justify-between text-cyan-400 font-semibold pt-2 border-t border-white/10"
+                class="w-20 h-20 mx-auto bg-green-500/20 rounded-full flex items-center justify-center"
               >
-                <span>Advance (30%):</span>
-                <span id="advanceAmount" class="font-mono">৳0</span>
+                <i
+                  data-lucide="check-circle"
+                  class="w-10 h-10 text-green-400"
+                ></i>
               </div>
             </div>
 
-            <!-- Status Messages -->
-            <div
-              id="formError"
-              class="error-msg text-red-400 text-sm mb-3 min-h-[24px]"
-            ></div>
-            <div
-              id="formSuccess"
-              class="success-msg text-green-400 text-sm mb-3"
-            ></div>
+            <h3 class="text-3xl font-bold text-white mb-2">
+              Booking Recorded!
+            </h3>
+            <p class="text-gray-400 mb-6">
+              Your reservation has been successfully submitted.
+            </p>
 
-            <!-- Payment Instructions (hidden until success) -->
             <div
-              id="paymentInstruction"
-              class="mb-5 p-4 bg-cyan-950/40 border border-cyan-800 rounded-xl hidden"
+              class="bg-[#0a0a0a] p-6 rounded-xl border border-white/10 mb-6"
             >
-              <p class="font-medium text-cyan-300 mb-2 flex items-center gap-2">
-                <i data-lucide="check-circle" class="w-5 h-5"></i> Booking
-                recorded! Please send 30% advance to:
-              </p>
-              <p class="text-gray-300">
-                bKash:
-                <span class="font-mono bg-black/30 px-2 py-1 rounded"
-                  >01819-077914</span
-                ><br />
-                Nagad:
-                <span class="font-mono bg-black/30 px-2 py-1 rounded"
-                  >01819-077914</span
+              <div
+                class="flex justify-between mb-3 pb-3 border-b border-white/10"
+              >
+                <span class="text-gray-400">Total Amount:</span>
+                <span id="successTotal" class="text-xl font-bold text-white"
+                  >৳0</span
                 >
-              </p>
-              <p class="text-gray-400 text-sm mt-2 flex items-center gap-2">
-                <i data-lucide="message-circle" class="w-4 h-4"></i> Send
-                payment screenshot to WhatsApp
-                <span class="font-mono">01819-077914</span>
-              </p>
+              </div>
+              <div class="flex justify-between mb-4">
+                <span class="text-gray-400">30% Advance Required:</span>
+                <span
+                  id="successAdvance"
+                  class="text-xl font-bold text-cyan-400"
+                  >৳0</span
+                >
+              </div>
+
+              <div
+                class="mt-4 p-4 bg-cyan-950/40 border border-cyan-800 rounded-lg"
+              >
+                <p class="text-sm text-gray-300 mb-2">
+                  Send advance payment to:
+                </p>
+                <p class="text-white font-mono mb-1">bKash: 01819-077914</p>
+                <p class="text-white font-mono mb-3">Nagad: 01819-077914</p>
+                <p class="text-xs text-gray-400">
+                  After sending payment, click the button below to notify us on
+                  WhatsApp.
+                </p>
+              </div>
             </div>
 
-            <!-- Submit Button -->
             <button
-              id="submitBooking"
-              class="w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-lg font-medium hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+              id="whatsappConfirmBtn"
+              class="w-full py-4 bg-green-600 hover:bg-green-700 rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
             >
-              <i data-lucide="send" class="w-5 h-5"></i> Confirm Booking
+              <i data-lucide="message-circle" class="w-5 h-5"></i>
+              Confirm Payment on WhatsApp
             </button>
+
+            <p class="text-xs text-gray-500 mt-4">
+              Your booking is saved. We'll confirm once payment is received.
+            </p>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Main JavaScript -->
     <script src="script.js"></script>
   </body>
 </html>
