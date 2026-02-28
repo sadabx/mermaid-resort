@@ -4,21 +4,16 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Mermaid Resort - Saint Martin's Island</title>
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <!-- Flatpickr Calendar -->
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
     />
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <!-- Custom CSS -->
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body class="min-h-screen bg-[#0a0a0a] text-white overflow-x-hidden">
-    <!-- Navigation -->
     <nav
       id="navbar"
       class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent py-6"
@@ -79,10 +74,9 @@
         </button>
       </div>
 
-      <!-- Mobile Menu -->
       <div
         id="mobile-menu"
-        class="hidden md:hidden absolute top-full left-0 right-0 bg-[#0a0a0a]/98 backdrop-blur-lg border-t border-gray-800"
+        class="hidden md:hidden absolute top-full left-0 right-0 bg-[#0a0a0a] border-t border-white/10 shadow-2xl"
       >
         <div class="flex flex-col p-6 gap-4">
           <a
@@ -125,7 +119,6 @@
       </div>
     </nav>
 
-    <!-- Hero Section -->
     <section
       id="home"
       class="relative h-screen flex items-center justify-center overflow-hidden"
@@ -190,7 +183,6 @@
       </div>
     </section>
 
-    <!-- About Section -->
     <section id="about" class="py-24 px-6 bg-[#0d0d0d]">
       <div class="max-w-7xl mx-auto">
         <div class="grid md:grid-cols-2 gap-16 items-center">
@@ -246,7 +238,6 @@
       </div>
     </section>
 
-    <!-- Rooms Section with Gallery -->
     <section id="rooms" class="py-24 px-6 bg-[#0a0a0a]">
       <div class="max-w-7xl mx-auto">
         <div class="text-center mb-16 fade-in-up scroll-reveal">
@@ -257,7 +248,6 @@
         </div>
 
         <div class="grid md:grid-cols-3 gap-8">
-          <!-- Ocean View Suite - 10,000 -->
           <div
             class="room-card bg-[#111] rounded-2xl overflow-hidden border border-white/5 hover:border-cyan-500/30 transition-all duration-300 fade-in-up scroll-reveal"
             style="transition-delay: 0.1s"
@@ -275,21 +265,6 @@
                   src="https://images.unsplash.com/photo-1590490360182-c33d57733427?w=800&q=80"
                   class="gallery-img"
                   alt="Ocean View Suite Interior"
-                />
-                <img
-                  src="https://images.unsplash.com/photo-1578683010236-d716f9a3f461?w=800&q=80"
-                  class="gallery-img"
-                  alt="Ocean View Suite Balcony"
-                />
-                <img
-                  src="https://images.unsplash.com/photo-1566665797739-1674de7a421a?w=800&q=80"
-                  class="gallery-img"
-                  alt="Ocean View Suite Bed"
-                />
-                <img
-                  src="https://images.unsplash.com/photo-1584132967334-10e028bd69f7?w=800&q=80"
-                  class="gallery-img"
-                  alt="Ocean View Suite View"
                 />
               </div>
               <div
@@ -341,7 +316,6 @@
             </div>
           </div>
 
-          <!-- Beachfront Cottage - 7,000 -->
           <div
             class="room-card bg-[#111] rounded-2xl overflow-hidden border border-white/5 hover:border-cyan-500/30 transition-all duration-300 fade-in-up scroll-reveal"
             style="transition-delay: 0.2s"
@@ -359,21 +333,6 @@
                   src="https://images.unsplash.com/photo-1507652313519-d4e9174996dd?w=800&q=80"
                   class="gallery-img"
                   alt="Beachfront Cottage Interior"
-                />
-                <img
-                  src="https://images.unsplash.com/photo-1610647752706-3bb12232b3ab?w=800&q=80"
-                  class="gallery-img"
-                  alt="Beachfront Cottage Deck"
-                />
-                <img
-                  src="https://images.unsplash.com/photo-1596394516093-501ba68a0ba6?w=800&q=80"
-                  class="gallery-img"
-                  alt="Beachfront Cottage View"
-                />
-                <img
-                  src="https://images.unsplash.com/photo-1618773928121-c32242e63f39?w=800&q=80"
-                  class="gallery-img"
-                  alt="Beachfront Cottage Bedroom"
                 />
               </div>
               <div
@@ -421,7 +380,6 @@
             </div>
           </div>
 
-          <!-- Deluxe Room - 3,000 -->
           <div
             class="room-card bg-[#111] rounded-2xl overflow-hidden border border-white/5 hover:border-cyan-500/30 transition-all duration-300 fade-in-up scroll-reveal"
             style="transition-delay: 0.3s"
@@ -439,21 +397,6 @@
                   src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b?w=800&q=80"
                   class="gallery-img"
                   alt="Deluxe Room View"
-                />
-                <img
-                  src="https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=800&q=80"
-                  class="gallery-img"
-                  alt="Deluxe Room Bathroom"
-                />
-                <img
-                  src="https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?w=800&q=80"
-                  class="gallery-img"
-                  alt="Deluxe Room Bed"
-                />
-                <img
-                  src="https://images.unsplash.com/photo-1584132915807-fd1f5fbc078f?w=800&q=80"
-                  class="gallery-img"
-                  alt="Deluxe Room Amenities"
                 />
               </div>
               <div
@@ -508,7 +451,6 @@
       </div>
     </section>
 
-    <!-- Amenities Section -->
     <section id="amenities" class="py-24 px-6 bg-[#0d0d0d]">
       <div class="max-w-7xl mx-auto">
         <div class="text-center mb-16 fade-in-up scroll-reveal">
@@ -517,7 +459,6 @@
           </p>
           <h2 class="text-4xl md:text-5xl font-bold">World-Class Amenities</h2>
         </div>
-
         <div class="grid md:grid-cols-4 gap-8">
           <div
             class="group p-8 bg-[#111] rounded-2xl border border-white/5 hover:border-cyan-500/30 transition-all duration-300 text-center fade-in-up scroll-reveal"
@@ -531,7 +472,6 @@
             <h3 class="text-xl font-semibold mb-2">Beach Access</h3>
             <p class="text-gray-400">Private beach area</p>
           </div>
-
           <div
             class="group p-8 bg-[#111] rounded-2xl border border-white/5 hover:border-cyan-500/30 transition-all duration-300 text-center fade-in-up scroll-reveal"
             style="transition-delay: 0.2s"
@@ -547,7 +487,6 @@
             <h3 class="text-xl font-semibold mb-2">Restaurant</h3>
             <p class="text-gray-400">Fresh seafood & local cuisine</p>
           </div>
-
           <div
             class="group p-8 bg-[#111] rounded-2xl border border-white/5 hover:border-cyan-500/30 transition-all duration-300 text-center fade-in-up scroll-reveal"
             style="transition-delay: 0.3s"
@@ -560,7 +499,6 @@
             <h3 class="text-xl font-semibold mb-2">Café</h3>
             <p class="text-gray-400">Coffee & snacks</p>
           </div>
-
           <div
             class="group p-8 bg-[#111] rounded-2xl border border-white/5 hover:border-cyan-500/30 transition-all duration-300 text-center fade-in-up scroll-reveal"
             style="transition-delay: 0.4s"
@@ -577,7 +515,6 @@
       </div>
     </section>
 
-    <!-- Gallery Section -->
     <section id="gallery" class="py-24 px-6 bg-[#0a0a0a]">
       <div class="max-w-7xl mx-auto">
         <div class="text-center mb-16 fade-in-up scroll-reveal">
@@ -593,10 +530,6 @@
           <img
             src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&q=80"
             class="gallery-slide absolute inset-0 w-full h-full object-cover opacity-100 z-10"
-          />
-          <img
-            src=""
-            class="gallery-slide absolute inset-0 w-full h-full object-cover opacity-0 z-0"
           />
           <img
             src="https://images.unsplash.com/photo-1510414842594-a61c69b5ae57?w=800&q=80"
@@ -623,10 +556,6 @@
               class="gallery-dot w-2 h-2 rounded-full transition-all bg-white/30"
               onclick="window.goToSlide(2)"
             ></button>
-            <button
-              class="gallery-dot w-2 h-2 rounded-full transition-all bg-white/30"
-              onclick="window.goToSlide(3)"
-            ></button>
           </div>
 
           <button
@@ -645,7 +574,6 @@
       </div>
     </section>
 
-    <!-- Contact Section -->
     <section id="contact" class="py-24 px-6 bg-[#0d0d0d]">
       <div class="max-w-7xl mx-auto">
         <div class="grid md:grid-cols-2 gap-16">
@@ -705,9 +633,9 @@
                 <div>
                   <h4 class="font-semibold mb-1">Email</h4>
                   <a
-                    href="mailto:contact@mermaidresort.com"
+                    href="mailto:info@mermaidresortsaintmartin.com"
                     class="text-gray-400 hover:text-cyan-400 transition-colors"
-                    >contact@mermaidresort.com</a
+                    >info@mermaidresortsaintmartin.com</a
                   >
                 </div>
               </div>
@@ -718,37 +646,55 @@
             class="bg-[#111] rounded-2xl p-8 border border-white/5 fade-in-up scroll-reveal"
           >
             <form class="space-y-6" id="contactForm">
+              <input
+                type="hidden"
+                name="access_key"
+                value="6a124176-a118-4e0b-9a60-10cd4722acca"
+              />
+
               <div class="grid md:grid-cols-2 gap-6">
                 <div>
                   <label class="block text-sm text-gray-400 mb-2">Name</label>
                   <input
                     type="text"
+                    name="name"
                     class="w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-500 transition-colors"
                     placeholder="Your name"
+                    required
                   />
                 </div>
                 <div>
                   <label class="block text-sm text-gray-400 mb-2">Email</label>
                   <input
                     type="email"
+                    name="email"
                     class="w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-500 transition-colors"
                     placeholder="your@email.com"
+                    required
                   />
                 </div>
               </div>
               <div>
                 <label class="block text-sm text-gray-400 mb-2">Message</label>
                 <textarea
+                  name="message"
                   rows="4"
                   class="w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-500 transition-colors resize-none"
                   placeholder="Tell us about your stay..."
+                  required
                 ></textarea>
               </div>
+
+              <div
+                id="contactResult"
+                class="hidden text-sm text-center font-medium"
+              ></div>
+
               <button
-                type="button"
-                class="w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-lg font-medium hover:opacity-90 transition-opacity"
+                type="submit"
+                class="w-full py-4 bg-gradient-to-r from-cyan-500 to-blue-600 rounded-lg font-medium hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
               >
-                Send Inquiry
+                <i data-lucide="send" class="w-5 h-5"></i> Send Inquiry
               </button>
             </form>
           </div>
@@ -756,142 +702,194 @@
       </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="py-16 px-6 bg-[#050505] border-t border-white/5">
-      <div class="max-w-7xl mx-auto">
-        <div class="grid md:grid-cols-4 gap-12">
-          <div>
-            <div class="flex items-center gap-2 mb-6">
-              <div
-                class="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-400 to-blue-600 flex items-center justify-center"
-              >
-                <i data-lucide="palmtree" class="w-5 h-5 text-white"></i>
-              </div>
-              <span class="text-xl font-semibold">Mermaid Resort</span>
-            </div>
-            <p class="text-gray-400">
-              Your gateway to paradise on Saint Martin's Island, Bangladesh.
-            </p>
-          </div>
+    <footer class="py-20 px-6 bg-[#050505] border-t border-white/5 relative">
+      <div class="max-w-6xl mx-auto flex flex-col items-center">
+        <div class="text-center mb-16">
+          <h2
+            class="text-3xl font-bold tracking-[0.1em] text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500 mb-4 uppercase"
+          >
+            Mermaid Resort
+          </h2>
+          <p class="text-gray-400 max-w-2xl mx-auto text-sm leading-relaxed">
+            Pushing the boundaries of hospitality on Saint Martin's Island
+            through serene design, exclusive comfort, and unforgettable
+            beachfront experiences.
+          </p>
+        </div>
 
+        <div
+          class="grid grid-cols-2 md:grid-cols-4 gap-12 w-full mb-16 text-left md:text-left"
+        >
           <div>
-            <h4 class="font-semibold mb-4">Quick Links</h4>
-            <ul class="space-y-2">
+            <h4 class="text-white font-semibold mb-6 text-lg">Quick Links</h4>
+            <ul class="space-y-4 text-sm text-gray-400">
               <li>
-                <a
-                  href="#home"
-                  class="text-gray-400 hover:text-cyan-400 transition-colors"
+                <a href="#home" class="hover:text-cyan-400 transition-colors"
                   >Home</a
                 >
               </li>
               <li>
-                <a
-                  href="#about"
-                  class="text-gray-400 hover:text-cyan-400 transition-colors"
-                  >About</a
+                <a href="#about" class="hover:text-cyan-400 transition-colors"
+                  >About Us</a
                 >
               </li>
               <li>
-                <a
-                  href="#rooms"
-                  class="text-gray-400 hover:text-cyan-400 transition-colors"
-                  >Rooms</a
+                <a href="#rooms" class="hover:text-cyan-400 transition-colors"
+                  >Rooms & Suites</a
                 >
               </li>
               <li>
                 <a
                   href="#amenities"
-                  class="text-gray-400 hover:text-cyan-400 transition-colors"
+                  class="hover:text-cyan-400 transition-colors"
                   >Amenities</a
-                >
-              </li>
-              <li>
-                <a
-                  href="#gallery"
-                  class="text-gray-400 hover:text-cyan-400 transition-colors"
-                  >Gallery</a
-                >
-              </li>
-              <li>
-                <a
-                  href="#contact"
-                  class="text-gray-400 hover:text-cyan-400 transition-colors"
-                  >Contact</a
                 >
               </li>
             </ul>
           </div>
 
           <div>
-            <h4 class="font-semibold mb-4">Contact Info</h4>
-            <ul class="space-y-3 text-gray-400">
-              <li class="flex items-start gap-2">
-                <i
-                  data-lucide="map-pin"
-                  class="w-4 h-4 text-cyan-400 mt-1 flex-shrink-0"
-                ></i>
+            <h4 class="text-white font-semibold mb-6 text-lg">Experiences</h4>
+            <ul class="space-y-4 text-sm text-gray-400">
+              <li>
+                <a href="#gallery" class="hover:text-cyan-400 transition-colors"
+                  >Photo Gallery</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#amenities"
+                  class="hover:text-cyan-400 transition-colors"
+                  >Dining</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#amenities"
+                  class="hover:text-cyan-400 transition-colors"
+                  >Boat Tours</a
+                >
+              </li>
+              <li>
+                <a
+                  href="#amenities"
+                  class="hover:text-cyan-400 transition-colors"
+                  >Scuba Diving</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <div>
+            <h4 class="text-white font-semibold mb-6 text-lg">Contact</h4>
+            <ul class="space-y-4 text-sm text-gray-400">
+              <li>
                 <a
                   href="https://maps.app.goo.gl/GHtx5SJNUcHfQC9m9"
                   target="_blank"
-                  rel="noopener noreferrer"
                   class="hover:text-cyan-400 transition-colors"
+                  >Mermaid Beach Resort</a
                 >
-                  Mermaid Resort
-                </a>
               </li>
-              <li class="flex items-center gap-2">
-                <i data-lucide="phone" class="w-4 h-4 text-cyan-400"></i>
+              <li>
                 <a
                   href="tel:+8801819077914"
                   class="hover:text-cyan-400 transition-colors"
                   >+880 1819-077914</a
                 >
               </li>
-              <li class="flex items-center gap-2">
-                <i data-lucide="mail" class="w-4 h-4 text-cyan-400"></i>
+              <li>
                 <a
-                  href="mailto:contact@mermaidresort.com"
+                  href="mailto:info@mermaidresortstmartin.com"
                   class="hover:text-cyan-400 transition-colors"
-                  >contact@mermaidresort.com</a
+                  >Email Us</a
+                >
+              </li>
+              <li>
+                <a href="#contact" class="hover:text-cyan-400 transition-colors"
+                  >Support</a
                 >
               </li>
             </ul>
           </div>
 
           <div>
-            <h4 class="font-semibold mb-4">Follow Us</h4>
-            <div class="flex gap-4">
-              <a
-                href="#"
-                class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-cyan-500/20 transition-colors"
-              >
-                <span class="text-sm capitalize">f</span>
-              </a>
-              <a
-                href="#"
-                class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-cyan-500/20 transition-colors"
-              >
-                <span class="text-sm capitalize">i</span>
-              </a>
-              <a
-                href="#"
-                class="w-10 h-10 rounded-full bg-white/5 flex items-center justify-center hover:bg-cyan-500/20 transition-colors"
-              >
-                <span class="text-sm capitalize">t</span>
-              </a>
-            </div>
+            <h4 class="text-white font-semibold mb-6 text-lg">Legal</h4>
+            <ul class="space-y-4 text-sm text-gray-400">
+              <li>
+                <a href="#" class="hover:text-cyan-400 transition-colors"
+                  >Privacy Policy</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-cyan-400 transition-colors"
+                  >Terms of Service</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-cyan-400 transition-colors"
+                  >Cookie Policy</a
+                >
+              </li>
+              <li>
+                <a href="#" class="hover:text-cyan-400 transition-colors"
+                  >Cancellation</a
+                >
+              </li>
+            </ul>
           </div>
         </div>
 
-        <div
-          class="mt-12 pt-8 border-t border-white/5 text-center text-gray-500"
-        >
-          <p>© 2026 Mermaid Resort. All rights reserved.</p>
+        <div class="flex gap-6 mb-12">
+          <a
+            href="#"
+            class="text-gray-400 hover:text-cyan-400 transition-all hover:-translate-y-1"
+            ><i data-lucide="twitter" class="w-5 h-5"></i
+          ></a>
+          <a
+            href="#"
+            class="text-gray-400 hover:text-cyan-400 transition-all hover:-translate-y-1"
+            ><i data-lucide="instagram" class="w-5 h-5"></i
+          ></a>
+          <a
+            href="#"
+            class="text-gray-400 hover:text-cyan-400 transition-all hover:-translate-y-1"
+            ><i data-lucide="facebook" class="w-5 h-5"></i
+          ></a>
+        </div>
+
+        <div class="w-full border-t border-white/5 pt-8 text-center">
+          <p class="text-gray-500 text-sm">
+            © 2026 Mermaid Resort. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>
 
-    <!-- Booking Modal -->
+    <div class="fixed bottom-8 right-8 flex flex-col items-center gap-4 z-50">
+      <button
+        id="backToTopBtn"
+        class="w-12 h-12 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 flex items-center justify-center text-white hover:opacity-90 transition-all duration-300 shadow-lg shadow-cyan-500/20 opacity-0 invisible translate-y-4"
+      >
+        <i data-lucide="arrow-up" class="w-5 h-5"></i>
+      </button>
+
+      <a
+        href="https://wa.me/8801819077914?text=Hello%20Mermaid%20Resort!%20I%20would%20like%20to%20know%20more%20about%20your%20rooms."
+        target="_blank"
+        rel="noopener noreferrer"
+        class="relative w-14 h-14 rounded-full bg-[#25D366] flex items-center justify-center text-white hover:scale-110 hover:shadow-green-500/50 transition-all duration-300 shadow-lg shadow-green-500/30 group"
+      >
+        <span
+          class="absolute right-[calc(100%+16px)] top-1/2 -translate-y-1/2 bg-black/80 text-white text-xs px-3 py-1.5 rounded-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 whitespace-nowrap backdrop-blur-sm border border-white/10 pointer-events-none"
+        >
+          Chat with us
+        </span>
+
+        <i data-lucide="message-circle" class="w-7 h-7 fill-white"></i>
+      </a>
+    </div>
+
     <div
       id="bookingModal"
       class="fixed inset-0 z-50 hidden overflow-y-auto"
@@ -909,7 +907,6 @@
         <div
           class="inline-block align-bottom bg-[#111] rounded-2xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl w-full border border-cyan-500/30"
         >
-          <!-- Booking Form View -->
           <div id="bookingFormView">
             <div
               class="flex items-center justify-between p-6 border-b border-white/10"
@@ -1023,18 +1020,6 @@
                 </div>
               </div>
 
-              <div class="mb-6">
-                <label class="block text-sm text-gray-400 mb-1"
-                  >Special request</label
-                >
-                <textarea
-                  id="request"
-                  rows="2"
-                  class="input-field w-full bg-[#0a0a0a] border border-white/10 rounded-lg px-4 py-3 focus:outline-none focus:border-cyan-500 resize-none"
-                  placeholder="Any preferences... (optional)"
-                ></textarea>
-              </div>
-
               <div
                 class="bg-[#0a0a0a] p-5 rounded-xl border border-white/10 mb-6 space-y-2"
               >
@@ -1070,7 +1055,6 @@
             </div>
           </div>
 
-          <!-- Success View (initially hidden) -->
           <div id="successView" class="hidden p-8 text-center">
             <div class="flex justify-end">
               <button
@@ -1080,7 +1064,6 @@
                 <i data-lucide="x" class="w-6 h-6"></i>
               </button>
             </div>
-
             <div class="mb-6">
               <div
                 class="w-20 h-20 mx-auto bg-green-500/20 rounded-full flex items-center justify-center"
@@ -1091,7 +1074,6 @@
                 ></i>
               </div>
             </div>
-
             <h3 class="text-3xl font-bold text-white mb-2">
               Booking Recorded!
             </h3>
@@ -1138,10 +1120,9 @@
               id="whatsappConfirmBtn"
               class="w-full py-4 bg-green-600 hover:bg-green-700 rounded-lg font-medium transition-colors flex items-center justify-center gap-2"
             >
-              <i data-lucide="message-circle" class="w-5 h-5"></i>
-              Confirm Payment on WhatsApp
+              <i data-lucide="message-circle" class="w-5 h-5"></i> Confirm
+              Payment on WhatsApp
             </button>
-
             <p class="text-xs text-gray-500 mt-4">
               Your booking is saved. We'll confirm once payment is received.
             </p>
@@ -1149,7 +1130,6 @@
         </div>
       </div>
     </div>
-
     <script src="script.js"></script>
   </body>
 </html>
