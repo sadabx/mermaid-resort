@@ -4,7 +4,7 @@ const roomsData = [
     name: "Premium Double Bed",
     price: 8000,
     description: "Our finest family suite, offering premium comfort, high-end amenities, and ample space for groups.",
-    features: ["Seaview", "2 Large Beds", "AC", "Max: 4 Guests"],
+    features: ["Seaview", "2 Queen Beds", "AC", "Max: 4 Guests"],
     images: [
       "https://i.postimg.cc/NjwMVSfL/photo_2026_02_28_19_49_48.jpg",
       "https://i.postimg.cc/9QjMSKF0/photo_2026_02_28_19_48_17.jpg",
@@ -47,7 +47,7 @@ const roomsData = [
     name: "1st Floor Seaview Couple",
     price: 4000,
     description: "Wake up to the sound of the waves. A beautiful first-floor room offering lovely sea views for couples.",
-    features: ["Sea View", "1 Large Bed", "Balcony", "Max: 2 Guests"],
+    features: ["Sea View", "1 Large Bed", "Max: 2 Guests"],
     images: [
       "https://i.postimg.cc/RV7p1J3S/photo_2026_02_28_19_53_50.jpg",
       "https://i.postimg.cc/bNxV0SGv/photo_2026_02_28_19_53_44.jpg",
@@ -58,7 +58,7 @@ const roomsData = [
     name: "1st Floor Double",
     price: 4000,
     description: "Comfortable first-floor accommodation with extra bedding space, perfect for friend groups or families.",
-    features: ["Non-Seaview", "Garden View", "2 Large Beds", "Max: 4 Guests"],
+    features: ["Non-Seaview", "2 Large Beds", "Max: 4 Guests"],
     images: [
       "https://i.postimg.cc/3wvtRyQ6/photo_2026_02_28_19_53_03.jpg"
     ]
