@@ -4,7 +4,7 @@ const roomsData = [
     name: "Premium Double Bed",
     price: 8000,
     description: "Our finest family suite, offering premium comfort, high-end amenities, and ample space for groups.",
-    features: ["Seaview", "2 Queen Beds", "AC", "Max: 4 Guests"],
+    features: ["Seaview", "2 Large Beds", "AC", "Max: 4 Guests"],
     images: [
       "https://i.postimg.cc/NjwMVSfL/photo_2026_02_28_19_49_48.jpg",
       "https://i.postimg.cc/9QjMSKF0/photo_2026_02_28_19_48_17.jpg",
