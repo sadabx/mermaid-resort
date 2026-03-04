@@ -22,10 +22,10 @@ const roomsData = [
     ]
   },
   {
-    name: "Premium Sea View Couple",
+    name: "Premium Seaview Couple",
     price: 6000,
     description: "Enjoy luxury and romance with uninterrupted, breathtaking views of the ocean from your premium suite.",
-    features: ["Sea View", "1 King Bed", "AC", "Max: 2 Guests"],
+    features: ["Seaview", "1 King Bed", "AC", "Max: 2 Guests"],
     images: [
       "https://i.postimg.cc/8PyGdYf1/photo_2026_02_28_19_43_26.jpg",
       "https://i.postimg.cc/02tvG4Kv/photo_2026_02_28_19_44_12.jpg",
@@ -36,7 +36,7 @@ const roomsData = [
     name: "1st Floor Seaview Double",
     price: 4500,
     description: "The best of both worlds for families—stunning elevated ocean views combined with spacious bedding for four.",
-    features: ["Sea View", "2 Large Beds", "Max: 4 Guests"],
+    features: ["Seaview", "2 Large Beds", "Max: 4 Guests"],
     images: [
       "https://i.postimg.cc/mrfrvqLm/photo_2026_02_28_19_54_40.jpg",
       "https://i.postimg.cc/yN4NM51v/photo_2026_02_28_19_54_33.jpg",
@@ -47,7 +47,7 @@ const roomsData = [
     name: "1st Floor Seaview Couple",
     price: 4000,
     description: "Wake up to the sound of the waves. A beautiful first-floor room offering lovely sea views for couples.",
-    features: ["Sea View", "1 Large Bed", "Max: 2 Guests"],
+    features: ["Seaview", "1 King Bed", "Max: 2 Guests"],
     images: [
       "https://i.postimg.cc/RV7p1J3S/photo_2026_02_28_19_53_50.jpg",
       "https://i.postimg.cc/bNxV0SGv/photo_2026_02_28_19_53_44.jpg",
@@ -67,7 +67,7 @@ const roomsData = [
     name: "1st Floor Couple",
     price: 3500,
     description: "A cozy and budget-friendly room on the first floor, ideal for couples or small families wanting a peaceful stay.",
-    features: ["Non-Seaview", "1 Large Bed", "Max: 3 Guests"],
+    features: ["Non-Seaview", "1 King Bed", "Max: 3 Guests"],
     images: [
       "https://i.postimg.cc/Hxt4cXZS/photo_2026_02_28_19_51_49.jpg",
       "https://i.postimg.cc/4d1b7VLB/photo_2026_02_28_19_51_55.jpg"
