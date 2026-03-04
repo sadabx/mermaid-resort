@@ -126,29 +126,31 @@ const roomsContainer = document.getElementById('rooms-container');
 
 if (roomsContainer && typeof roomsData !== 'undefined') {
   // Generate HTML for all rooms dynamically
+  // Generate HTML for all rooms dynamically (Sharp Dark UI)
   roomsContainer.innerHTML = roomsData.map((room, index) => `
-    <div class="room-card bg-[#111] rounded-2xl overflow-hidden border border-white/5 hover:border-cyan-500/30 transition-all duration-300 fade-in-up scroll-reveal" style="transition-delay: 0.${index + 1}s" data-room="${room.name}" data-price="${room.price}">
-      <div class="relative h-64 overflow-hidden">
+    <div class="room-card group relative fade-in-up scroll-reveal cursor-pointer" style="transition-delay: 0.${index + 1}s" data-room="${room.name}" data-price="${room.price}">
+      
+      <div class="relative h-80 overflow-hidden bg-[#111] border border-[#222]">
         <div class="room-gallery absolute inset-0">
-          ${room.images.map((img, i) => `<img src="${img}" class="gallery-img ${i === 0 ? 'active' : ''}" alt="${room.name}" />`).join('')}
+          ${room.images.map((img, i) => `<img src="${img}" class="gallery-img ${i === 0 ? 'active' : ''} absolute inset-0 w-full h-full object-cover opacity-0" alt="${room.name}" />`).join('')}
         </div>
-        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-        <div class="absolute bottom-4 left-4 z-10 bg-black/60 px-3 py-1 rounded-full backdrop-blur-sm">
-          <span class="text-2xl font-bold text-white">৳${room.price.toLocaleString()}</span>
-          <span class="text-gray-300 text-sm">/night</span>
-        </div>
-        <div class="absolute bottom-4 right-4 flex gap-2 z-20">
-          <button class="gallery-prev w-8 h-8 rounded-full bg-black/50 flex items-center justify-center hover:bg-black/70 transition-colors"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
-          <button class="gallery-next w-8 h-8 rounded-full bg-black/50 flex items-center justify-center hover:bg-black/70 transition-colors"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
+        
+        <button class="select-room-btn absolute bottom-0 left-0 w-full py-4 bg-red-600 text-white font-bold uppercase tracking-widest text-sm translate-y-full group-hover:translate-y-0 transition-transform duration-300 z-20">
+          Select Room
+        </button>
+
+        <div class="absolute inset-y-0 w-full flex justify-between items-center px-2 opacity-0 group-hover:opacity-100 transition-opacity z-20 pointer-events-none">
+          <button class="gallery-prev w-8 h-8 bg-black/70 text-white flex items-center justify-center hover:bg-red-600 transition-colors pointer-events-auto"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
+          <button class="gallery-next w-8 h-8 bg-black/70 text-white flex items-center justify-center hover:bg-red-600 transition-colors pointer-events-auto"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
         </div>
       </div>
-      <div class="p-6">
-        <h3 class="text-xl font-semibold mb-2">${room.name}</h3>
-        <p class="text-gray-400 mb-4">${room.description}</p>
-        <div class="flex flex-wrap gap-2 mb-4">
-          ${room.features.map(f => `<span class="px-3 py-1 text-xs bg-white/5 rounded-full text-gray-300">${f}</span>`).join('')}
+
+      <div class="pt-5 text-center">
+        <h3 class="text-lg font-medium text-gray-200 mb-1 tracking-wide">${room.name}</h3>
+        <p class="text-red-500 font-semibold tracking-widest">৳${room.price.toLocaleString()}</p>
+        <div class="flex justify-center flex-wrap gap-2 mt-3 opacity-60 text-xs text-gray-400 uppercase tracking-wider">
+          ${room.features.slice(0, 3).join(' <span class="text-gray-700">•</span> ')}
         </div>
-        <button class="select-room-btn w-full py-3 bg-cyan-600/20 border border-cyan-500/30 rounded-full text-cyan-300 hover:bg-cyan-600/40 transition-all font-medium">Select Room</button>
       </div>
     </div>
   `).join('');
