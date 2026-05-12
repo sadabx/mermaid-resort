@@ -1,10 +1,16 @@
 # Mermaid Resort
 
-**Live:** [mermaid-resort](https://mermaid-resort.netlify.app/)
+**Live:** [Mermaid Resort](https://mermaid-resort.netlify.app/)
 
-## Structure
+## 📁 Project Structure
 
-The project is built with clean, modular code:
-* `index.html` - Main landing page structure.
-* `styles.css` - Custom styling and layout.
-* `script.js` - Interactive elements and animations.
+```
+mermaid-resort/
+├── assets/                 # Shared assets
+├── index.html              # Static HTML
+├── restaurant.html         # Restaurant page
+├── rooms.js                # Room data (legacy)
+├── script.js               # JavaScript utilities
+├── styles.css              # Global styles
+└── README.md               # This file
+```

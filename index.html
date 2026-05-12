@@ -1,63 +1,90 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en" class="scroll-smooth">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
+
     <title>Mermaid Beach Resort - Saint Martin's Island</title>
     <meta name="title" content="Mermaid Beach Resort - Saint Martin's Island" />
-    <meta name="description" content="Book your stay at Mermaid Beach Resort, Saint Martin's Island. Experience luxury suites, oceanfront views, and premium island hospitality in Bangladesh." />
-    <meta name="keywords" content="Mermaid Resort, Saint Martin Island, Bangladesh Resort, Beachfront Hotel, Saint Martin Booking, Coral Island Hotel, Cox's Bazar,Affordable room price" />
-    
+    <meta
+      name="description"
+      content="Book your stay at Mermaid Beach Resort, Saint Martin's Island. Experience luxury suites, oceanfront views, and premium island hospitality in Bangladesh."
+    />
+    <meta
+      name="keywords"
+      content="Mermaid Resort, Saint Martin Island, Bangladesh Resort, Beachfront Hotel, Saint Martin Booking, Coral Island Hotel, Cox's Bazar,Affordable room price"
+    />
+
     <link rel="canonical" href="https://mermaid.trionine.xyz/" />
 
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://mermaid.trionine.xyz/" />
-    <meta property="og:title" content="Mermaid Beach Resort - Saint Martin's Island" />
-    <meta property="og:description" content="Book your stay at Mermaid Beach Resort. Experience luxury suites, oceanfront views, and premium island hospitality." />
-    <meta property="og:image" content="https://i.postimg.cc/wv9h2j7z/mermaid-resort.jpg" />
+    <meta
+      property="og:title"
+      content="Mermaid Beach Resort - Saint Martin's Island"
+    />
+    <meta
+      property="og:description"
+      content="Book your stay at Mermaid Beach Resort. Experience luxury suites, oceanfront views, and premium island hospitality."
+    />
+    <meta property="og:image" content="assets/mermaid-resort.jpg" />
 
     <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "Resort",
-      "name": "Mermaid Beach Resort",
-      "image": "https://i.postimg.cc/wv9h2j7z/mermaid-resort.jpg",
-      "@id": "",
-      "url": "https://mermaid.trionine.xyz",
-      "telephone": "+8801819077914",
-      "email": "mermaid.com.bd@gmail.com",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Mermaid Rd",
-        "addressLocality": "Saint Martin's Island",
-        "addressRegion": "Cox's Bazar",
-        "postalCode": "4762",
-        "addressCountry": "BD"
-      },
-      "priceRange": "৳3500 - ৳8000"
-    }
+      {
+        "@context": "https://schema.org",
+        "@type": "Resort",
+        "name": "Mermaid Beach Resort",
+        "image": "assets/mermaid-resort.jpg",
+        "@id": "",
+        "url": "https://mermaid.trionine.xyz",
+        "telephone": "+8801819077914",
+        "email": "mermaid.com.bd@gmail.com",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Mermaid Rd",
+          "addressLocality": "Saint Martin's Island",
+          "addressRegion": "Cox's Bazar",
+          "postalCode": "4762",
+          "addressCountry": "BD"
+        },
+        "priceRange": "৳3500 - ৳8000",
+        "sameAs": [
+          "https://www.facebook.com/saintmrtin",
+          "https://maps.app.goo.gl/DWN7BiUi3a7Eds8c7",
+          "https://www.google.com/travel/hotels/s/tRm7Ym7j8Yy91ihb6"
+        ]
+      }
     </script>
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link rel="icon" type="image/ico" href="images/favicon.ico" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
+    <link rel="icon" type="image/ico" href="assets/favicon.ico" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <link rel="stylesheet" href="styles.css" />
   </head>
+
   <body class="min-h-screen bg-[#0a0a0a] text-gray-200 overflow-x-hidden">
+    <div id="pagePreloader" aria-hidden="true">
+      <div class="preloader-inner">
+        <div class="preloader-spinner"></div>
+        <p class="preloader-text">Loading Resort</p>
+      </div>
+    </div>
     <nav
       id="navbar"
       class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-transparent py-6 border-b border-transparent"
     >
       <div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
         <div class="flex items-center gap-3">
-          <div
-            class="w-10 h-10 bg-red-600 flex items-center justify-center rounded-sm"
-          >
-            <i data-lucide="palmtree" class="w-5 h-5 text-white"></i>
-          </div>
+          <img
+            src="assets/mermaid.png"
+            alt="Mermaid Resort Logo"
+            class="h-10 w-auto object-contain"
+          />
           <span class="text-xl font-bold tracking-widest text-white uppercase"
             >Mermaid Resort</span
           >
@@ -79,6 +106,7 @@
             class="text-gray-400 hover:text-red-500 font-medium transition-colors text-sm uppercase tracking-wider"
             >Rooms</a
           >
+
           <a
             href="#amenities"
             class="text-gray-400 hover:text-red-500 font-medium transition-colors text-sm uppercase tracking-wider"
@@ -102,7 +130,12 @@
           </button>
         </div>
 
-        <button id="mobile-menu-btn" class="md:hidden text-white">
+        <button
+          id="mobile-menu-btn"
+          class="md:hidden text-white"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+        >
           <i data-lucide="menu" id="menu-icon"></i>
         </button>
       </div>
@@ -114,32 +147,33 @@
         <div class="flex flex-col p-6 gap-4">
           <a
             href="#home"
-            class="mobile-link text-gray-300 hover:text-red-500 py-2 border-b border-[#222] uppercase tracking-wider text-sm"
+            class="mobile-link text-gray-300 hover:text-red-500 py-3 border-b border-[#222] uppercase tracking-wider text-sm"
             >Home</a
           >
           <a
             href="#about"
-            class="mobile-link text-gray-300 hover:text-red-500 py-2 border-b border-[#222] uppercase tracking-wider text-sm"
+            class="mobile-link text-gray-300 hover:text-red-500 py-3 border-b border-[#222] uppercase tracking-wider text-sm"
             >About</a
           >
           <a
             href="#rooms"
-            class="mobile-link text-gray-300 hover:text-red-500 py-2 border-b border-[#222] uppercase tracking-wider text-sm"
+            class="mobile-link text-gray-300 hover:text-red-500 py-3 border-b border-[#222] uppercase tracking-wider text-sm"
             >Rooms</a
           >
+
           <a
             href="#amenities"
-            class="mobile-link text-gray-300 hover:text-red-500 py-2 border-b border-[#222] uppercase tracking-wider text-sm"
+            class="mobile-link text-gray-300 hover:text-red-500 py-3 border-b border-[#222] uppercase tracking-wider text-sm"
             >Amenities</a
           >
           <a
             href="#gallery"
-            class="mobile-link text-gray-300 hover:text-red-500 py-2 border-b border-[#222] uppercase tracking-wider text-sm"
+            class="mobile-link text-gray-300 hover:text-red-500 py-3 border-b border-[#222] uppercase tracking-wider text-sm"
             >Gallery</a
           >
           <a
             href="#contact"
-            class="mobile-link text-gray-300 hover:text-red-500 py-2 uppercase tracking-wider text-sm"
+            class="mobile-link text-gray-300 hover:text-red-500 py-3 uppercase tracking-wider text-sm"
             >Contact</a
           >
           <button
@@ -158,9 +192,11 @@
     >
       <div class="absolute inset-0">
         <img
-          src="https://i.postimg.cc/wv9h2j7z/mermaid-resort.jpg"
+          src="assets/mermaid-resort.jpg"
           alt="Saint Martin's Island"
           class="w-full h-full object-cover opacity-60 grayscale-[30%]"
+          loading="eager"
+          decoding="async"
         />
         <div
           class="absolute inset-0 bg-gradient-to-b from-[#0a0a0a]/80 via-[#0a0a0a]/50 to-[#0a0a0a]"
@@ -229,7 +265,7 @@
               <i data-lucide="map-pin" class="w-4 h-4 text-red-500"></i>
             </div>
             <a
-              href="https://maps.app.goo.gl/GHtx5SJNUcHfQC9m9"
+              href="https://maps.app.goo.gl/DWN7BiUi3a7Eds8c7"
               target="_blank"
               class="text-gray-300 font-medium text-sm hover:text-red-500 transition-colors uppercase tracking-widest"
             >
@@ -239,9 +275,11 @@
         </div>
         <div class="relative fade-in-right scroll-reveal">
           <img
-            src="https://i.postimg.cc/7LgwnxTs/1.jpg"
+            src="assets/1.jpg"
             class="rounded-sm border border-[#222] w-full h-[500px] object-cover grayscale-[20%]"
             alt="Resort View"
+            loading="lazy"
+            decoding="async"
           />
         </div>
       </div>
@@ -260,14 +298,14 @@
             Luxury Suites
           </h2>
         </div>
-        <div id="rooms-container" class="grid md:grid-cols-4 gap-6"></div>
+        <div
+          id="rooms-container"
+          class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6"
+        ></div>
       </div>
     </section>
 
-    <section
-      id="amenities"
-      class="py-24 px-6 bg-[#0f0f0f] border-y border-[#1a1a1a]"
-    >
+    <section id="amenities" class="py-24 px-6 bg-[#0a0a0a]">
       <div class="max-w-7xl mx-auto">
         <div class="text-center mb-16 fade-in-up scroll-reveal">
           <span
@@ -297,23 +335,30 @@
               Private Area
             </p>
           </div>
-          <div
-            class="p-8 bg-[#111] border border-[#222] rounded-sm text-center hover:border-red-500 transition-colors fade-in-up scroll-reveal"
+          <a
+            href="restaurant.html"
+            class="amenity-card p-8 bg-[#111] border border-[#222] rounded-sm text-center hover:border-red-500 transition-all fade-in-up scroll-reveal block group cursor-pointer"
             style="transition-delay: 0.1s"
+            data-href="restaurant.html"
           >
             <i
               data-lucide="utensils-crossed"
-              class="w-8 h-8 text-red-500 mx-auto mb-4"
+              class="w-8 h-8 text-red-500 mx-auto mb-4 group-hover:scale-110 transition-transform"
             ></i>
             <h3
-              class="text-md font-bold text-white uppercase tracking-wider mb-2"
+              class="text-md font-bold text-white uppercase tracking-wider mb-2 group-hover:text-red-400 transition-colors"
             >
               Restaurant
             </h3>
             <p class="text-gray-500 text-xs uppercase tracking-widest">
               Local Cuisine
             </p>
-          </div>
+            <span
+              class="mt-3 inline-flex items-center gap-1 text-red-500 text-[10px] uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity"
+            >
+              View Menu <i data-lucide="arrow-right" class="w-3 h-3"></i>
+            </span>
+          </a>
           <div
             class="p-8 bg-[#111] border border-[#222] rounded-sm text-center hover:border-red-500 transition-colors fade-in-up scroll-reveal"
             style="transition-delay: 0.2s"
@@ -368,9 +413,11 @@
             class="md:col-span-2 md:row-span-2 relative group overflow-hidden border border-[#222] bg-[#111] cursor-pointer"
           >
             <img
-              src="https://i.postimg.cc/3JkxsQGQ/imagey_E_(7).jpg"
+              src="assets/imagey_E_(7).jpg"
               class="w-full h-full object-cover grayscale-[40%] opacity-80 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
               alt="Mermaid Resort View"
+              loading="lazy"
+              decoding="async"
             />
             <div
               class="absolute inset-0 bg-red-600/0 group-hover:bg-red-600/10 transition-colors duration-500 z-10 pointer-events-none"
@@ -380,9 +427,11 @@
             class="relative group overflow-hidden border border-[#222] bg-[#111] cursor-pointer"
           >
             <img
-              src="https://i.postimg.cc/T1FM4BJg/imageye.jpg"
+              src="assets/imageye.jpg"
               class="w-full h-full object-cover grayscale-[40%] opacity-80 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
               alt="Resort Architecture"
+              loading="lazy"
+              decoding="async"
             />
             <div
               class="absolute inset-0 bg-red-600/0 group-hover:bg-red-600/10 transition-colors duration-500 z-10 pointer-events-none"
@@ -392,9 +441,11 @@
             class="relative group overflow-hidden border border-[#222] bg-[#111] cursor-pointer"
           >
             <img
-              src="https://i.postimg.cc/CLRx3pqP/imagey_E_(4).jpg"
+              src="assets/imagey_E_(4).jpg"
               class="w-full h-full object-cover grayscale-[40%] opacity-80 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700"
               alt="Ocean View"
+              loading="lazy"
+              decoding="async"
             />
             <div
               class="absolute inset-0 bg-red-600/0 group-hover:bg-red-600/10 transition-colors duration-500 z-10 pointer-events-none"
@@ -423,11 +474,46 @@
                 <p class="text-xs text-gray-500 uppercase tracking-widest mb-1">
                   Phone
                 </p>
-                <p class="text-white font-medium">+880 1819-077914</p>
+                <a
+                  href="tel:+8801819077914"
+                  class="text-white font-medium hover:text-red-500 transition-colors inline-block"
+                >
+                  +880 1819-077914
+                </a>
               </div>
             </div>
             <div class="flex items-center gap-6">
-              <i data-lucide="facebook" class="w-6 h-6 text-red-500"></i>
+              <i data-lucide="map" class="w-6 h-6 text-red-500"></i>
+              <div>
+                <p class="text-xs text-gray-500 uppercase tracking-widest mb-1">
+                  Google Hotels
+                </p>
+                <a
+                  href="https://www.google.com/travel/hotels/s/tRm7Ym7j8Yy91ihb6"
+                  target="_blank"
+                  class="text-white font-medium hover:text-red-500 transition-colors inline-block"
+                >
+                  View Listings & Reviews
+                </a>
+              </div>
+            </div>
+            <div class="flex items-center gap-6">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="w-6 h-6 text-red-500"
+              >
+                <path
+                  d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"
+                ></path>
+              </svg>
               <div>
                 <p class="text-xs text-gray-500 uppercase tracking-widest mb-1">
                   Facebook
@@ -447,7 +533,12 @@
                 <p class="text-xs text-gray-500 uppercase tracking-widest mb-1">
                   Email
                 </p>
-                <p class="text-white font-medium">mermaid.com.bd@gmail.com</p>
+                <a
+                  href="mailto:mermaid.com.bd@gmail.com"
+                  class="text-white font-medium hover:text-red-500 transition-colors inline-block"
+                >
+                  mermaid.com.bd@gmail.com
+                </a>
               </div>
             </div>
           </div>
@@ -580,27 +671,43 @@
               </button>
             </div>
             <div class="p-8">
-              <div
-                class="flex flex-wrap items-center justify-between gap-4 p-4 mb-6 bg-[#111] border border-[#222] rounded-sm"
-              >
-                <div>
-                  <span
-                    class="text-red-500 text-xs font-bold uppercase tracking-widest"
-                    >Selected</span
-                  >
-                  <p
-                    id="selectedRoomDisplay"
-                    class="text-lg font-medium text-white"
-                  >
-                    Room
-                  </p>
-                </div>
-                <div
-                  id="pricePerNightDisplay"
-                  class="text-md font-bold text-red-500"
+              <div class="mb-6">
+                <label
+                  class="block text-xs font-bold text-gray-400 mb-2 uppercase tracking-widest"
+                  >Select Room</label
                 >
-                  —
+                <!-- Trigger card -->
+                <div
+                  id="roomPickerTrigger"
+                  class="flex items-center justify-between p-4 bg-[#111] border border-[#222] rounded-sm cursor-pointer hover:border-red-500 transition-colors group"
+                >
+                  <div>
+                    <p
+                      id="roomPickerLabel"
+                      class="text-sm text-gray-400 tracking-wide"
+                    >
+                      — Choose a room —
+                    </p>
+                    <p
+                      id="roomPickerPrice"
+                      class="text-red-500 font-bold text-sm mt-0.5 hidden"
+                    ></p>
+                  </div>
+                  <i
+                    data-lucide="chevron-down"
+                    id="roomPickerChevron"
+                    class="w-4 h-4 text-red-500 transition-transform duration-200"
+                  ></i>
                 </div>
+                <!-- Dropdown panel -->
+                <div
+                  id="roomPickerDropdown"
+                  class="hidden mt-1 border border-[#333] rounded-sm bg-[#0f0f0f] shadow-2xl overflow-hidden max-h-60 overflow-y-auto"
+                ></div>
+                <!-- Hidden real select for JS compatibility -->
+                <select id="roomSelector" class="sr-only" aria-hidden="true">
+                  <option value="" disabled selected></option>
+                </select>
               </div>
               <div class="grid md:grid-cols-2 gap-5 mb-5">
                 <div>
@@ -647,7 +754,7 @@
                   ><input
                     type="text"
                     id="fullName"
-                    placeholder="John Doe"
+                    placeholder="your name"
                     class="input-field"
                   />
                 </div>
@@ -674,6 +781,53 @@
                     placeholder="you@email.com"
                     class="input-field"
                   />
+                </div>
+              </div>
+              <div class="grid md:grid-cols-2 gap-5 mb-6">
+                <div>
+                  <label
+                    class="block text-xs font-bold text-gray-400 mb-2 uppercase tracking-widest"
+                    >Upload NID / Passport</label
+                  >
+                  <div class="relative">
+                    <input
+                      type="file"
+                      id="idPhoto"
+                      accept="image/*,application/pdf"
+                      class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                    />
+                    <div
+                      class="input-field flex items-center justify-between text-gray-400"
+                    >
+                      <span id="fileNameDisplay" class="truncate"
+                        >Select Photo or PDF...</span
+                      >
+                      <i data-lucide="upload" class="w-4 h-4"></i>
+                    </div>
+                  </div>
+                </div>
+                <div>
+                  <label
+                    class="block text-xs font-bold text-gray-400 mb-2 uppercase tracking-widest"
+                    >Customer Photo</label
+                  >
+                  <div class="relative">
+                    <input
+                      type="file"
+                      id="customerPhoto"
+                      accept="image/*"
+                      capture="user"
+                      class="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                    />
+                    <div
+                      class="input-field flex items-center justify-between text-gray-400"
+                    >
+                      <span id="customerPhotoNameDisplay" class="truncate"
+                        >Take or Upload Photo...</span
+                      >
+                      <i data-lucide="camera" class="w-4 h-4"></i>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div

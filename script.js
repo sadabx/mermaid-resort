@@ -1,6 +1,13 @@
 // Initialize Lucide Icons
 lucide.createIcons();
 
+window.addEventListener('load', () => {
+  const preloader = document.getElementById('pagePreloader');
+  if (!preloader) return;
+  preloader.classList.add('is-hidden');
+  setTimeout(() => preloader.remove(), 400);
+});
+
 let currentRoom = '';
 let currentPrice = 0;
 let currentGuestName = '';
@@ -86,8 +93,10 @@ if (roomsContainer && typeof roomsData !== 'undefined') {
           Select Room
         </button>
         <div class="absolute inset-y-0 w-full flex justify-between items-center px-2 opacity-0 group-hover:opacity-100 transition-opacity z-20 pointer-events-none">
+          ${room.images.length > 1 ? `
           <button class="gallery-prev w-8 h-8 bg-black/70 text-white flex items-center justify-center hover:bg-red-600 transition-colors pointer-events-auto"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
           <button class="gallery-next w-8 h-8 bg-black/70 text-white flex items-center justify-center hover:bg-red-600 transition-colors pointer-events-auto"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
+          ` : ''}
         </div>
       </div>
       <div class="pt-5 text-center">
@@ -103,44 +112,48 @@ if (roomsContainer && typeof roomsData !== 'undefined') {
   document.querySelectorAll('#rooms-container .scroll-reveal').forEach(el => revealObserver.observe(el));
   lucide.createIcons();
 
+  // ---- Build custom room picker dropdown ----
+  const roomPickerDropdown = document.getElementById('roomPickerDropdown');
+  if (roomPickerDropdown) {
+    roomsData.forEach(room => {
+      const item = document.createElement('div');
+      item.className = 'room-picker-item flex items-center justify-between px-4 py-3 cursor-pointer hover:bg-[#1a1a1a] border-b border-[#1e1e1e] last:border-0 transition-colors';
+      item.dataset.room = room.name;
+      item.dataset.price = room.price;
+      item.innerHTML = `
+        <div>
+          <p class="text-sm font-medium text-white">${room.name}</p>
+          <p class="text-[11px] text-gray-500 uppercase tracking-wider mt-0.5">${room.features.join(' · ')}</p>
+        </div>
+        <span class="text-red-500 font-bold text-sm ml-4 shrink-0">৳${room.price.toLocaleString()}</span>
+      `;
+      item.addEventListener('click', () => selectRoomInPicker(room.name, room.price));
+      roomPickerDropdown.appendChild(item);
+    });
+  }
+
+  // ---- Gallery navigation ----
   document.querySelectorAll('.room-card').forEach(card => {
     const gallery = card.querySelector('.room-gallery');
     if (!gallery) return;
-    
     const prevBtn = card.querySelector('.gallery-prev');
     const nextBtn = card.querySelector('.gallery-next');
     const images = gallery.querySelectorAll('.gallery-img');
     let currentIndex = 0;
-
     function showImage(index) {
       images.forEach(img => img.classList.remove('active'));
       images[index].classList.add('active');
     }
-
     if (prevBtn) prevBtn.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); currentIndex = (currentIndex - 1 + images.length) % images.length; showImage(currentIndex); });
     if (nextBtn) nextBtn.addEventListener('click', (e) => { e.preventDefault(); e.stopPropagation(); currentIndex = (currentIndex + 1) % images.length; showImage(currentIndex); });
   });
 
+  // ---- "Select Room" card button — pre-selects picker ----
   document.querySelectorAll('.select-room-btn').forEach(btn => {
     btn.addEventListener('click', (e) => {
       e.preventDefault();
       const card = btn.closest('.room-card');
-      currentRoom = card.dataset.room;
-      currentPrice = parseInt(card.dataset.price);
-      
-      const selectedRoomDisplay = document.getElementById('selectedRoomDisplay');
-      const pricePerNightDisplay = document.getElementById('pricePerNightDisplay');
-      
-      if (selectedRoomDisplay) selectedRoomDisplay.innerText = currentRoom;
-      if (pricePerNightDisplay) pricePerNightDisplay.innerText = `৳${currentPrice.toLocaleString()}/night`;
-      
-      if (bookingFormView) bookingFormView.classList.remove('hidden');
-      if (successView) successView.classList.add('hidden');
-      
-      modal.classList.remove('hidden');
-      document.body.style.overflow = 'hidden';
-      lucide.createIcons();
-      updateCalculation();
+      openBookingModal(card.dataset.room, parseInt(card.dataset.price));
     });
   });
 }
@@ -153,16 +166,108 @@ const bookingFormView = document.getElementById('bookingFormView');
 const successView = document.getElementById('successView');
 const navBookBtn = document.getElementById('navBookBtn');
 const heroBookBtn = document.getElementById('heroBookBtn');
-const roomsSection = document.getElementById('rooms');
 
-function scrollToRooms() {
-  roomsSection.scrollIntoView({ behavior: 'smooth' });
-  if (isMenuOpen) toggleMenu();
+// ---- Custom room picker helpers ----
+function setRoomPickerUI(roomName, price) {
+  const label = document.getElementById('roomPickerLabel');
+  const priceEl = document.getElementById('roomPickerPrice');
+  const trigger = document.getElementById('roomPickerTrigger');
+  if (roomName) {
+    if (label) { label.innerText = roomName; label.classList.remove('text-gray-400'); label.classList.add('text-white', 'font-medium'); }
+    if (priceEl) { priceEl.innerText = `৳${price.toLocaleString()} / night`; priceEl.classList.remove('hidden'); }
+    if (trigger) trigger.classList.add('border-red-600');
+  } else {
+    if (label) { label.innerText = '— Choose a room —'; label.classList.add('text-gray-400'); label.classList.remove('text-white', 'font-medium'); }
+    if (priceEl) { priceEl.classList.add('hidden'); priceEl.innerText = ''; }
+    if (trigger) trigger.classList.remove('border-red-600');
+  }
 }
 
-if (navBookBtn) navBookBtn.addEventListener('click', scrollToRooms);
-if (heroBookBtn) heroBookBtn.addEventListener('click', scrollToRooms);
-if (mobileBookBtn) mobileBookBtn.addEventListener('click', scrollToRooms);
+function selectRoomInPicker(roomName, price) {
+  currentRoom = roomName;
+  currentPrice = price;
+  setRoomPickerUI(roomName, price);
+  closeRoomPicker();
+  updateCalculation();
+  // Fetch availability
+  if (checkinInput) { checkinInput.disabled = true; checkinInput.placeholder = 'Loading dates...'; }
+  if (checkoutInput) { checkoutInput.disabled = true; checkoutInput.placeholder = 'Loading dates...'; }
+  fetchBookedDates(currentRoom).then(() => {
+    if (checkinPicker) checkinPicker.set('disable', bookedDates);
+    if (checkoutPicker) checkoutPicker.set('disable', bookedDates);
+    if (checkinInput) { checkinInput.disabled = false; checkinInput.placeholder = 'Select date'; }
+    if (checkoutInput) { checkoutInput.disabled = false; checkoutInput.placeholder = 'Select date'; }
+  });
+}
+
+function openRoomPicker() {
+  const dropdown = document.getElementById('roomPickerDropdown');
+  const chevron = document.getElementById('roomPickerChevron');
+  if (dropdown) dropdown.classList.remove('hidden');
+  if (chevron) chevron.classList.add('rotate-180');
+}
+
+function closeRoomPicker() {
+  const dropdown = document.getElementById('roomPickerDropdown');
+  const chevron = document.getElementById('roomPickerChevron');
+  if (dropdown) dropdown.classList.add('hidden');
+  if (chevron) chevron.classList.remove('rotate-180');
+}
+
+// Toggle picker on trigger click
+const roomPickerTrigger = document.getElementById('roomPickerTrigger');
+if (roomPickerTrigger) {
+  roomPickerTrigger.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const dropdown = document.getElementById('roomPickerDropdown');
+    const isOpen = !dropdown.classList.contains('hidden');
+    isOpen ? closeRoomPicker() : openRoomPicker();
+  });
+}
+// Close picker when clicking outside
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('#roomPickerTrigger') && !e.target.closest('#roomPickerDropdown')) closeRoomPicker();
+});
+
+// ---- Core function: open booking modal, optionally pre-selecting a room ----
+function openBookingModal(preselectedRoom = null, preselectedPrice = null) {
+  if (isMenuOpen) toggleMenu();
+  closeRoomPicker();
+
+  if (preselectedRoom && preselectedPrice) {
+    currentRoom = preselectedRoom;
+    currentPrice = preselectedPrice;
+    setRoomPickerUI(preselectedRoom, preselectedPrice);
+    // Load availability for the pre-selected room
+    if (checkinInput) { checkinInput.disabled = true; checkinInput.placeholder = 'Loading dates...'; }
+    if (checkoutInput) { checkoutInput.disabled = true; checkoutInput.placeholder = 'Loading dates...'; }
+    fetchBookedDates(currentRoom).then(() => {
+      if (checkinPicker) checkinPicker.set('disable', bookedDates);
+      if (checkoutPicker) checkoutPicker.set('disable', bookedDates);
+      if (checkinInput) { checkinInput.disabled = false; checkinInput.placeholder = 'Select date'; }
+      if (checkoutInput) { checkoutInput.disabled = false; checkoutInput.placeholder = 'Select date'; }
+    });
+  } else {
+    // Called from Book Now — reset to blank
+    currentRoom = '';
+    currentPrice = 0;
+    setRoomPickerUI(null, 0);
+    bookedDates = [];
+    if (checkinPicker) checkinPicker.set('disable', []);
+    if (checkoutPicker) checkoutPicker.set('disable', []);
+  }
+
+  if (bookingFormView) bookingFormView.classList.remove('hidden');
+  if (successView) successView.classList.add('hidden');
+  modal.classList.remove('hidden');
+  document.body.style.overflow = 'hidden';
+  lucide.createIcons();
+  updateCalculation();
+}
+
+if (navBookBtn) navBookBtn.addEventListener('click', () => openBookingModal());
+if (heroBookBtn) heroBookBtn.addEventListener('click', () => openBookingModal());
+if (mobileBookBtn) mobileBookBtn.addEventListener('click', () => openBookingModal());
 
 function closeModal() {
   modal.classList.add('hidden');
@@ -173,7 +278,9 @@ function closeModal() {
 
 if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
 if (closeSuccessBtn) closeSuccessBtn.addEventListener('click', closeModal);
-modal.addEventListener('click', (e) => { if (e.target === modal) closeModal(); });
+modal.addEventListener('click', (e) => { 
+  if (e.target === modal || e.target.closest('.bg-black\\/90') || e.target.classList.contains('min-h-screen')) closeModal(); 
+});
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.classList.contains('hidden')) closeModal(); });
 
 // ========== FLATPICKR DATE PICKER ==========
@@ -189,6 +296,8 @@ if (checkinInput) {
       validateDates(); updateCalculation();
     }
   });
+  checkinInput.addEventListener('input', () => { validateDates(); updateCalculation(); });
+  checkinInput.addEventListener('change', () => { validateDates(); updateCalculation(); });
 }
 
 if (checkoutInput) {
@@ -196,6 +305,8 @@ if (checkoutInput) {
     minDate: 'today', dateFormat: 'Y-m-d',
     onChange: function() { validateDates(); updateCalculation(); }
   });
+  checkoutInput.addEventListener('input', () => { validateDates(); updateCalculation(); });
+  checkoutInput.addEventListener('change', () => { validateDates(); updateCalculation(); });
 }
 
 // ========== DATE VALIDATION & CALCULATION ==========
@@ -239,6 +350,77 @@ if (guests) guests.addEventListener('input', updateCalculation);
 
 // ========== GOOGLE SHEETS SUBMISSION ==========
 const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw5wG-WQXyhkHPJgFWot3wuM2vi1fkg2XGaPXC8NPMsR3hhO3crs5ZRLp5xvdw2QbBTGg/exec';
+
+let bookedDates = [];
+async function fetchBookedDates(room) {
+  try {
+    const r = await fetch(APPS_SCRIPT_URL + '?action=getBookedDates&room=' + encodeURIComponent(room));
+    const d = await r.json();
+    if (d.dates) bookedDates = d.dates;
+    else bookedDates = [];
+  } catch (err) {
+    bookedDates = [];
+  }
+}
+
+const idPhotoInput = document.getElementById('idPhoto');
+const fileNameDisplay = document.getElementById('fileNameDisplay');
+let currentPhotoBase64 = '';
+let currentPhotoMimeType = '';
+let currentPhotoName = '';
+
+if (idPhotoInput) {
+  idPhotoInput.addEventListener('change', function() {
+    if (this.files && this.files[0]) {
+      const file = this.files[0];
+      fileNameDisplay.innerText = file.name;
+      currentPhotoName = file.name;
+      currentPhotoMimeType = file.type;
+      
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        const base64Data = e.target.result.split(',')[1];
+        currentPhotoBase64 = base64Data;
+      };
+      reader.readAsDataURL(file);
+    } else {
+      fileNameDisplay.innerText = 'Select Photo or PDF...';
+      currentPhotoBase64 = '';
+      currentPhotoMimeType = '';
+      currentPhotoName = '';
+    }
+  });
+}
+
+// ========== CUSTOMER PHOTO (SELFIE) UPLOAD ==========
+const customerPhotoInput = document.getElementById('customerPhoto');
+const customerPhotoNameDisplay = document.getElementById('customerPhotoNameDisplay');
+let currentCustomerPhotoBase64 = '';
+let currentCustomerPhotoMimeType = '';
+let currentCustomerPhotoName = '';
+
+if (customerPhotoInput) {
+  customerPhotoInput.addEventListener('change', function() {
+    if (this.files && this.files[0]) {
+      const file = this.files[0];
+      customerPhotoNameDisplay.innerText = file.name;
+      currentCustomerPhotoName = file.name;
+      currentCustomerPhotoMimeType = file.type;
+      
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        currentCustomerPhotoBase64 = e.target.result.split(',')[1];
+      };
+      reader.readAsDataURL(file);
+    } else {
+      customerPhotoNameDisplay.innerText = 'Take or Upload Photo...';
+      currentCustomerPhotoBase64 = '';
+      currentCustomerPhotoMimeType = '';
+      currentCustomerPhotoName = '';
+    }
+  });
+}
+
 const submitBtn = document.getElementById('submitBooking');
 
 if (submitBtn) {
@@ -277,7 +459,10 @@ if (submitBtn) {
       timestamp: new Date().toLocaleString('en-US', { timeZone: 'Asia/Dhaka' }),
       room: currentRoom, pricePerNight: currentPrice, checkin: checkinInput.value, checkout: checkoutInput.value,
       nights: nights, guests: guestCount, totalAmount: total, advance30: advance,
-      fullName: name, phone: phone, email: email, ipAddress: userIP
+      fullName: name, phone: phone, email: email, idCard: 'N/A', 
+      idPhotoBase64: currentPhotoBase64, idPhotoMimeType: currentPhotoMimeType, idPhotoName: currentPhotoName,
+      customerPhotoBase64: currentCustomerPhotoBase64, customerPhotoMimeType: currentCustomerPhotoMimeType, customerPhotoName: currentCustomerPhotoName,
+      ipAddress: userIP
     };
 
     const originalText = submitBtn.innerHTML;
