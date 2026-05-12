@@ -1,0 +1,76 @@
+/* styles.css - Dark & Crimson Edge Theme */
+
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;600;700&display=swap');
+
+body {
+  font-family: 'Jost', sans-serif;
+}
+
+/* =========================================
+   1. CUSTOM SCROLL ANIMATIONS
+   ========================================= */
+.fade-in-up { opacity: 0; transform: translateY(30px); transition: 0.6s ease-out; }
+.fade-in-left { opacity: 0; transform: translateX(-30px); transition: 0.6s ease-out; }
+.fade-in-right { opacity: 0; transform: translateX(30px); transition: 0.6s ease-out; }
+.is-visible { opacity: 1; transform: translate(0); }
+
+/* =========================================
+   2. HERO & GALLERY
+   ========================================= */
+.gallery-slide { transition: opacity 0.5s ease-in-out; }
+@keyframes bounce-small { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(10px); } }
+.animate-bounce-small { animation: bounce-small 2s infinite; }
+
+/* =========================================
+   3. IMAGE GALLERY EFFECTS (Minimalist)
+   ========================================= */
+.gallery-img { transition: opacity 0.4s ease, transform 0.6s ease; }
+.gallery-img.active { opacity: 1; z-index: 1; }
+.room-card:hover .gallery-img.active { transform: scale(1.03); }
+
+/* =========================================
+   4. FORM INPUTS
+   ========================================= */
+.input-field {
+  background: #111;
+  border: 1px solid #222;
+  padding: 0.875rem 1rem;
+  color: white;
+  width: 100%;
+  transition: all 0.2s;
+  border-radius: 2px;
+}
+.input-field:focus {
+  outline: none;
+  border-color: #dc2626; /* Crimson Red */
+  box-shadow: 0 0 0 1px #dc2626;
+}
+.input-field::placeholder { color: #555; }
+
+.loading-dots:after {
+  content: '...';
+  animation: dots 1.5s steps(4, end) infinite;
+  display: inline-block; width: 24px; text-align: left;
+}
+@keyframes dots { 0%, 20% { content: ''; } 40% { content: '.'; } 60% { content: '..'; } 80%, 100% { content: '...'; } }
+
+/* =========================================
+   5. FLATPICKR DARK/RED THEME
+   ========================================= */
+.flatpickr-calendar {
+  background: #0a0a0a !important;
+  border: 1px solid #222 !important;
+  border-radius: 0 !important;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.8) !important;
+  font-family: inherit !important;
+}
+.flatpickr-months { background: #111 !important; border-bottom: 1px solid #222; padding-top: 8px !important;}
+.flatpickr-month, .flatpickr-current-month input.cur-year { color: #fff !important; }
+.flatpickr-current-month .flatpickr-monthDropdown-months { background: #111 !important; color: #fff !important; }
+.flatpickr-weekday { color: #888 !important; font-weight: 600 !important; }
+.flatpickr-day { color: #ccc !important; }
+.flatpickr-day:hover, .flatpickr-day:focus { background: #222 !important; border-color: #333 !important; color: #fff !important; }
+.flatpickr-day.selected { background: #dc2626 !important; border-color: #dc2626 !important; color: #ffffff !important; font-weight: bold; }
+.flatpickr-day.today { border-color: #dc2626 !important; font-weight: bold; color: #fff !important; }
+.flatpickr-prev-month, .flatpickr-next-month { fill: #888 !important; }
+.flatpickr-prev-month:hover, .flatpickr-next-month:hover { fill: #dc2626 !important; }
