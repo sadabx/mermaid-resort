@@ -502,22 +502,30 @@ app.get(
         return res.status(404).json({ error: "Attachment not found" });
       }
 
-      // Set response headers
-      res.setHeader("Content-Type", mimeType || "application/octet-stream");
+      // Serverless/Netlify-compatible response headers
+      const finalMimeType = mimeType || "application/octet-stream";
+      res.setHeader("Content-Type", finalMimeType);
+      res.setHeader("Content-Length", fileData.length);
+      res.setHeader("Cache-Control", "no-store");
 
+      const safeFilename =
+        filename || (type === "idPhoto" ? "id_document" : "photo");
       if (req.query.download === "true") {
         res.setHeader(
           "Content-Disposition",
-          `attachment; filename="${encodeURIComponent(filename || "download")}"`,
+          `attachment; filename*=UTF-8''${encodeURIComponent(safeFilename)}`,
         );
       } else {
         res.setHeader(
           "Content-Disposition",
-          `inline; filename="${encodeURIComponent(filename || "file")}"`,
+          `inline; filename*=UTF-8''${encodeURIComponent(safeFilename)}`,
         );
       }
 
-      return res.send(fileData);
+      // Ensure buffer and send
+      return res.send(
+        Buffer.isBuffer(fileData) ? fileData : Buffer.from(fileData),
+      );
     } catch (err) {
       console.error("Error in fetching attachment:", err.message);
       return res.status(500).json({ error: "Internal server error" });
