@@ -352,13 +352,13 @@ function updateCalculation() {
 
 if (guests) guests.addEventListener('input', updateCalculation);
 
-// ========== GOOGLE SHEETS SUBMISSION ==========
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw5wG-WQXyhkHPJgFWot3wuM2vi1fkg2XGaPXC8NPMsR3hhO3crs5ZRLp5xvdw2QbBTGg/exec';
+// ========== NEON DB / EXPRESS SERVER SUBMISSION ==========
+const API_URL = '/api';
 
 let bookedDates = [];
 async function fetchBookedDates(room) {
   try {
-    const r = await fetch(APPS_SCRIPT_URL + '?action=getBookedDates&room=' + encodeURIComponent(room));
+    const r = await fetch(API_URL + '/booked-dates?room=' + encodeURIComponent(room));
     const d = await r.json();
     if (d.dates) bookedDates = d.dates;
     else bookedDates = [];
@@ -369,29 +369,17 @@ async function fetchBookedDates(room) {
 
 const idPhotoInput = document.getElementById('idPhoto');
 const fileNameDisplay = document.getElementById('fileNameDisplay');
-let currentPhotoBase64 = '';
-let currentPhotoMimeType = '';
-let currentPhotoName = '';
+let currentPhotoFile = null;
 
 if (idPhotoInput) {
   idPhotoInput.addEventListener('change', function() {
     if (this.files && this.files[0]) {
       const file = this.files[0];
       fileNameDisplay.innerText = file.name;
-      currentPhotoName = file.name;
-      currentPhotoMimeType = file.type;
-      
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const base64Data = e.target.result.split(',')[1];
-        currentPhotoBase64 = base64Data;
-      };
-      reader.readAsDataURL(file);
+      currentPhotoFile = file;
     } else {
       fileNameDisplay.innerText = 'Select Photo or PDF...';
-      currentPhotoBase64 = '';
-      currentPhotoMimeType = '';
-      currentPhotoName = '';
+      currentPhotoFile = null;
     }
   });
 }
@@ -399,28 +387,17 @@ if (idPhotoInput) {
 // ========== CUSTOMER PHOTO (SELFIE) UPLOAD ==========
 const customerPhotoInput = document.getElementById('customerPhoto');
 const customerPhotoNameDisplay = document.getElementById('customerPhotoNameDisplay');
-let currentCustomerPhotoBase64 = '';
-let currentCustomerPhotoMimeType = '';
-let currentCustomerPhotoName = '';
+let currentCustomerPhotoFile = null;
 
 if (customerPhotoInput) {
   customerPhotoInput.addEventListener('change', function() {
     if (this.files && this.files[0]) {
       const file = this.files[0];
       customerPhotoNameDisplay.innerText = file.name;
-      currentCustomerPhotoName = file.name;
-      currentCustomerPhotoMimeType = file.type;
-      
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        currentCustomerPhotoBase64 = e.target.result.split(',')[1];
-      };
-      reader.readAsDataURL(file);
+      currentCustomerPhotoFile = file;
     } else {
       customerPhotoNameDisplay.innerText = 'Take or Upload Photo...';
-      currentCustomerPhotoBase64 = '';
-      currentCustomerPhotoMimeType = '';
-      currentCustomerPhotoName = '';
+      currentCustomerPhotoFile = null;
     }
   });
 }
@@ -459,22 +436,37 @@ if (submitBtn) {
     let userIP = "Unknown";
     try { const r = await fetch('https://api.ipify.org?format=json'); const d = await r.json(); userIP = d.ip; } catch (err) {}
 
-    const payload = {
-      timestamp: new Date().toLocaleString('en-US', { timeZone: 'Asia/Dhaka' }),
-      room: currentRoom, pricePerNight: currentPrice, checkin: checkinInput.value, checkout: checkoutInput.value,
-      nights: nights, guests: guestCount, totalAmount: total, advance30: advance,
-      fullName: name, phone: phone, email: email, idCard: 'N/A', 
-      idPhotoBase64: currentPhotoBase64, idPhotoMimeType: currentPhotoMimeType, idPhotoName: currentPhotoName,
-      customerPhotoBase64: currentCustomerPhotoBase64, customerPhotoMimeType: currentCustomerPhotoMimeType, customerPhotoName: currentCustomerPhotoName,
-      ipAddress: userIP
-    };
+    const formData = new FormData();
+    formData.append('room', currentRoom);
+    formData.append('pricePerNight', currentPrice);
+    formData.append('checkin', checkinInput.value);
+    formData.append('checkout', checkoutInput.value);
+    formData.append('nights', nights);
+    formData.append('guests', guestCount);
+    formData.append('totalAmount', total);
+    formData.append('advance30', advance);
+    formData.append('fullName', name);
+    formData.append('phone', phone);
+    formData.append('email', email);
+    formData.append('idCard', 'N/A');
+    if (currentPhotoFile) {
+      formData.append('idPhoto', currentPhotoFile);
+    }
+    if (currentCustomerPhotoFile) {
+      formData.append('customerPhoto', currentCustomerPhotoFile);
+    }
+    formData.append('ipAddress', userIP);
 
     const originalText = submitBtn.innerHTML;
     submitBtn.innerHTML = '<span class="loading-dots">Submitting</span>';
     submitBtn.disabled = true;
 
     try {
-      await fetch(APPS_SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
+      const response = await fetch('/api/bookings', {
+        method: 'POST',
+        body: formData
+      });
+      if (!response.ok) throw new Error('Submission failed');
       
       const successTotal = document.getElementById('successTotal');
       const successAdvance = document.getElementById('successAdvance');

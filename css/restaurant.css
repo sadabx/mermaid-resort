@@ -119,6 +119,25 @@
 
 .menu-item.beverage-item .menu-item-price {
   font-size: 1.125rem;
+  white-space: nowrap;
+  margin-left: 1rem;
+}
+
+.menu-item-badge {
+  display: inline-block;
+  margin-top: 0.75rem;
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+  padding: 0.2rem 0.6rem;
+  border-radius: 2px;
+}
+
+.menu-grid-4 {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
 }
 
 .restaurant-cta {
@@ -147,11 +166,47 @@
   margin-left: auto;
 }
 
+.restaurant-footer {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+  text-align: center;
+}
+
+.restaurant-footer .footer-title {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.restaurant-footer .footer-copy {
+  color: var(--text-gray-600);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  margin-bottom: 0.5rem;
+}
+
+.restaurant-footer .footer-dev {
+  color: var(--text-gray-600);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+}
+
+.restaurant-footer .footer-dev a {
+  color: var(--primary-color);
+  transition: var(--transition-fast);
+}
+
+.restaurant-footer .footer-dev a:hover {
+  color: var(--text-white);
+}
+
 /* =========================================
    MEDIA QUERIES (RESPONSIVENESS)
    ========================================= */
 @media (max-width: 768px) {
-  .menu-grid {
+  .menu-grid,
+  .menu-grid-4 {
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
@@ -160,8 +215,14 @@
     padding-top: 7rem;
     padding-bottom: 3rem;
   }
-  
+
   .restaurant-header h1 {
     font-size: 2.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .menu-grid-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }

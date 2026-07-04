@@ -26,10 +26,16 @@
     />
     <link rel="apple-touch-icon" href="/assets/favicon/apple-touch-icon.png" />
     <link rel="manifest" href="/assets/favicon/site.webmanifest" />
-    <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+    <link
+      rel="sitemap"
+      type="application/xml"
+      title="Sitemap"
+      href="/sitemap.xml"
+    />
     <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" href="css/restaurant.css" />
   </head>
+
   <body>
     <div id="pagePreloader" aria-hidden="true">
       <div class="preloader-inner">
@@ -41,15 +47,16 @@
     <!-- Navbar -->
     <nav class="navbar is-scrolled">
       <div class="navbar-container">
-        <a href="index.html" class="navbar-brand">
-          <div class="location-icon" style="background-color: var(--primary-color); border: 0;">
+        <a href="/" class="navbar-brand">
+          <div
+            class="location-icon"
+            style="background-color: var(--primary-color); border: 0"
+          >
             <i data-lucide="palmtree" class="text-white"></i>
           </div>
           <span class="navbar-title">Mermaid Resort</span>
         </a>
-        <a href="index.html" class="btn btn-secondary">
-          Back to Resort
-        </a>
+        <a href="/" class="btn btn-secondary"> Back to Resort </a>
       </div>
     </nav>
 
@@ -66,14 +73,14 @@
         <span class="hero-subtitle">Taste the Ocean</span>
         <h1 class="hero-title">Restaurant Menu</h1>
         <p class="hero-desc">
-          Authentic Island Flavors & Fresh Seafood BBQ
+          Authentic Island Flavors &amp; Fresh Seafood BBQ
         </p>
       </div>
     </header>
 
     <!-- Menu Section -->
     <main class="menu-section">
-      <!-- Category 1 -->
+      <!-- Category 1: Fresh Seafood BBQ -->
       <div class="menu-category fade-in-up scroll-reveal">
         <div class="menu-category-header">
           <i data-lucide="flame"></i>
@@ -93,7 +100,7 @@
           <div class="menu-item">
             <div class="menu-item-header">
               <h3 class="menu-item-title">St. Martin Lobster BBQ</h3>
-              <span class="menu-item-price">৳2500</span>
+              <span class="menu-item-price">৳2,500</span>
             </div>
             <p class="menu-item-desc">
               Premium large lobster grilled with garlic butter and a hint of
@@ -103,7 +110,7 @@
           <div class="menu-item">
             <div class="menu-item-header">
               <h3 class="menu-item-title">Tiger Prawn Skewers</h3>
-              <span class="menu-item-price">৳1200</span>
+              <span class="menu-item-price">৳1,200</span>
             </div>
             <p class="menu-item-desc">
               Four jumbo tiger prawns marinated in our signature tangy coastal
@@ -120,10 +127,31 @@
               salad.
             </p>
           </div>
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <h3 class="menu-item-title">Squid Rings</h3>
+              <span class="menu-item-price">৳650</span>
+            </div>
+            <p class="menu-item-desc">
+              Tender squid rings lightly battered and fried golden, served with
+              garlic aioli dipping sauce.
+            </p>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <h3 class="menu-item-title">Mixed Seafood Platter</h3>
+              <span class="menu-item-price">৳3,200</span>
+            </div>
+            <p class="menu-item-desc">
+              Chef's selection of lobster, prawns, fish, and squid grilled
+              together. Perfect for two.
+            </p>
+            <span class="menu-item-badge">Chef's Pick</span>
+          </div>
         </div>
       </div>
 
-      <!-- Category 2 -->
+      <!-- Category 2: Local Specialties -->
       <div class="menu-category fade-in-up scroll-reveal">
         <div class="menu-category-header">
           <i data-lucide="utensils"></i>
@@ -149,16 +177,84 @@
               Local mud crabs slow-cooked in a rich, fiery coconut gravy.
             </p>
           </div>
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <h3 class="menu-item-title">Hilsa Fish Curry</h3>
+              <span class="menu-item-price">৳950</span>
+            </div>
+            <p class="menu-item-desc">
+              Traditional Bangladeshi hilsa cooked in a mustard and turmeric
+              gravy with green chilies.
+            </p>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <h3 class="menu-item-title">Steamed Rice &amp; Dal</h3>
+              <span class="menu-item-price">৳200</span>
+            </div>
+            <p class="menu-item-desc">
+              Simple and hearty — plain steamed rice served with lentil dal and
+              seasonal vegetables.
+            </p>
+          </div>
         </div>
       </div>
 
-      <!-- Category 3 -->
+      <!-- Category 3: Snacks & Starters -->
+      <div class="menu-category fade-in-up scroll-reveal">
+        <div class="menu-category-header">
+          <i data-lucide="salad"></i>
+          <h2 class="menu-category-title">Snacks &amp; Starters</h2>
+        </div>
+        <div class="menu-grid">
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <h3 class="menu-item-title">Fish Cutlet</h3>
+              <span class="menu-item-price">৳300</span>
+            </div>
+            <p class="menu-item-desc">
+              Spiced fish patties, lightly pan-fried. Served with mint chutney.
+            </p>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <h3 class="menu-item-title">Prawn Pakora</h3>
+              <span class="menu-item-price">৳450</span>
+            </div>
+            <p class="menu-item-desc">
+              Crunchy battered prawns with island herbs, served piping hot.
+            </p>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <h3 class="menu-item-title">Coconut Prawn Salad</h3>
+              <span class="menu-item-price">৳520</span>
+            </div>
+            <p class="menu-item-desc">
+              Chilled prawn salad tossed with fresh coconut slivers, lime juice,
+              and coriander.
+            </p>
+          </div>
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <h3 class="menu-item-title">Island Vegetable Soup</h3>
+              <span class="menu-item-price">৳220</span>
+            </div>
+            <p class="menu-item-desc">
+              A light, aromatic broth with seasonal local vegetables and a hint
+              of ginger.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Category 4: Beverages -->
       <div class="menu-category fade-in-up scroll-reveal">
         <div class="menu-category-header">
           <i data-lucide="coffee"></i>
           <h2 class="menu-category-title">Beverages</h2>
         </div>
-        <div class="menu-grid">
+        <div class="menu-grid menu-grid-4">
           <div class="menu-item beverage-item">
             <h3 class="menu-item-title">Fresh Green Coconut (Daab)</h3>
             <span class="menu-item-price">৳150</span>
@@ -174,6 +270,22 @@
           <div class="menu-item beverage-item">
             <h3 class="menu-item-title">Premium Coffee</h3>
             <span class="menu-item-price">৳250</span>
+          </div>
+          <div class="menu-item beverage-item">
+            <h3 class="menu-item-title">Mango Lassi</h3>
+            <span class="menu-item-price">৳220</span>
+          </div>
+          <div class="menu-item beverage-item">
+            <h3 class="menu-item-title">Island Iced Tea</h3>
+            <span class="menu-item-price">৳160</span>
+          </div>
+          <div class="menu-item beverage-item">
+            <h3 class="menu-item-title">Sugarcane Juice</h3>
+            <span class="menu-item-price">৳130</span>
+          </div>
+          <div class="menu-item beverage-item">
+            <h3 class="menu-item-title">Still / Sparkling Water</h3>
+            <span class="menu-item-price">৳80</span>
           </div>
         </div>
       </div>
@@ -197,7 +309,7 @@
     </main>
 
     <!-- Footer -->
-    <footer class="footer">
+    <footer class="footer restaurant-footer">
       <h2 class="footer-title">Mermaid Resort</h2>
       <p class="footer-copy">© 2026 Mermaid Resort. All rights reserved.</p>
       <p class="footer-dev">

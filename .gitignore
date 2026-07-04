@@ -1,2 +1,3 @@
 graphify-out/
-organize_assets.sh
+backend/node_modules/
+.env
