@@ -352,13 +352,13 @@ function updateCalculation() {
 
 if (guests) guests.addEventListener('input', updateCalculation);
 
-// ========== GOOGLE SHEETS SUBMISSION ==========
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw5wG-WQXyhkHPJgFWot3wuM2vi1fkg2XGaPXC8NPMsR3hhO3crs5ZRLp5xvdw2QbBTGg/exec';
+// ========== NEON DB / EXPRESS SERVER SUBMISSION ==========
+const API_URL = '/api';
 
 let bookedDates = [];
 async function fetchBookedDates(room) {
   try {
-    const r = await fetch(APPS_SCRIPT_URL + '?action=getBookedDates&room=' + encodeURIComponent(room));
+    const r = await fetch(API_URL + '/booked-dates?room=' + encodeURIComponent(room));
     const d = await r.json();
     if (d.dates) bookedDates = d.dates;
     else bookedDates = [];
@@ -474,7 +474,12 @@ if (submitBtn) {
     submitBtn.disabled = true;
 
     try {
-      await fetch(APPS_SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
+      const response = await fetch('/api/bookings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+      if (!response.ok) throw new Error('Submission failed');
       
       const successTotal = document.getElementById('successTotal');
       const successAdvance = document.getElementById('successAdvance');
