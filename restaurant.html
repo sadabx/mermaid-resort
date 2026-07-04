@@ -10,7 +10,6 @@
       content="Explore our authentic seafood and local delicacies at Mermaid Beach Resort's Restaurant, Saint Martin's Island."
     />
 
-    <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="icon" type="image/ico" href="/assets/favicon/favicon.ico" />
     <link
@@ -28,133 +27,95 @@
     <link rel="apple-touch-icon" href="/assets/favicon/apple-touch-icon.png" />
     <link rel="manifest" href="/assets/favicon/site.webmanifest" />
     <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/restaurant.css" />
   </head>
-  <body class="min-h-screen bg-[#0a0a0a] text-gray-200 overflow-x-hidden">
+  <body>
     <div id="pagePreloader" aria-hidden="true">
       <div class="preloader-inner">
         <div class="preloader-spinner"></div>
         <p class="preloader-text">Loading Menu</p>
       </div>
     </div>
+
     <!-- Navbar -->
-    <nav
-      class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-[#0a0a0a]/98 backdrop-blur-md py-4 border-b border-[#222]"
-    >
-      <div class="max-w-7xl mx-auto px-6 flex items-center justify-between">
-        <a href="index.html" class="flex items-center gap-3">
-          <div
-            class="w-10 h-10 bg-red-600 flex items-center justify-center rounded-sm"
-          >
-            <i data-lucide="palmtree" class="w-5 h-5 text-white"></i>
+    <nav class="navbar is-scrolled">
+      <div class="navbar-container">
+        <a href="index.html" class="navbar-brand">
+          <div class="location-icon" style="background-color: var(--primary-color); border: 0;">
+            <i data-lucide="palmtree" class="text-white"></i>
           </div>
-          <span
-            class="text-xl font-bold tracking-widest text-white uppercase hidden sm:block"
-            >Mermaid Resort</span
-          >
+          <span class="navbar-title">Mermaid Resort</span>
         </a>
-        <a
-          href="index.html"
-          class="px-6 py-2 bg-[#111] text-white border border-[#333] rounded-sm text-sm font-bold uppercase tracking-wider hover:border-red-500 transition-colors"
-        >
+        <a href="index.html" class="btn btn-secondary">
           Back to Resort
         </a>
       </div>
     </nav>
 
     <!-- Header -->
-    <header
-      class="pt-32 pb-16 px-6 text-center border-b border-[#1a1a1a] relative overflow-hidden"
-    >
-      <div class="absolute inset-0 z-0">
+    <header class="restaurant-header">
+      <div class="hero-bg">
         <img
           src="assets/gallery/resort-architecture.jpg"
-          class="w-full h-full object-cover opacity-20 grayscale-[50%]"
           alt="Restaurant Background"
         />
-        <div
-          class="absolute inset-0 bg-gradient-to-b from-[#0a0a0a]/80 to-[#0a0a0a]"
-        ></div>
       </div>
-      <div class="relative z-10 max-w-3xl mx-auto reveal-on-load fade-in-up">
-        <span
-          class="text-red-500 tracking-[0.4em] font-semibold uppercase text-xs mb-6 block"
-          >Taste the Ocean</span
-        >
-        <h1
-          class="text-5xl md:text-6xl font-bold mb-6 text-white uppercase tracking-tight"
-        >
-          Restaurant Menu
-        </h1>
-        <p class="text-lg text-gray-400 font-light tracking-wide">
+      <div class="hero-overlay"></div>
+      <div class="hero-content reveal-on-load">
+        <span class="hero-subtitle">Taste the Ocean</span>
+        <h1 class="hero-title">Restaurant Menu</h1>
+        <p class="hero-desc">
           Authentic Island Flavors & Fresh Seafood BBQ
         </p>
       </div>
     </header>
 
     <!-- Menu Section -->
-    <main class="py-24 px-6 max-w-5xl mx-auto">
+    <main class="menu-section">
       <!-- Category 1 -->
-      <div class="mb-20 fade-in-up scroll-reveal">
-        <div class="flex items-center gap-4 mb-10 pb-4 border-b border-[#222]">
-          <i data-lucide="flame" class="w-8 h-8 text-red-500"></i>
-          <h2 class="text-3xl font-bold text-white uppercase tracking-wider">
-            Fresh Seafood BBQ
-          </h2>
+      <div class="menu-category fade-in-up scroll-reveal">
+        <div class="menu-category-header">
+          <i data-lucide="flame"></i>
+          <h2 class="menu-category-title">Fresh Seafood BBQ</h2>
         </div>
-        <div class="grid md:grid-cols-2 gap-8">
-          <div
-            class="group bg-[#111] border border-[#222] p-6 rounded-sm hover:border-red-500 transition-colors"
-          >
-            <div class="flex justify-between items-start mb-2">
-              <h3 class="text-xl font-bold text-white tracking-wide">
-                Grilled Coral Fish
-              </h3>
-              <span class="text-red-500 font-mono font-bold">৳850</span>
+        <div class="menu-grid">
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <h3 class="menu-item-title">Grilled Coral Fish</h3>
+              <span class="menu-item-price">৳850</span>
             </div>
-            <p class="text-gray-500 text-sm font-light">
+            <p class="menu-item-desc">
               Freshly caught local coral fish, marinated with island spices and
               perfectly grilled over open fire.
             </p>
           </div>
-          <div
-            class="group bg-[#111] border border-[#222] p-6 rounded-sm hover:border-red-500 transition-colors"
-          >
-            <div class="flex justify-between items-start mb-2">
-              <h3 class="text-xl font-bold text-white tracking-wide">
-                St. Martin Lobster BBQ
-              </h3>
-              <span class="text-red-500 font-mono font-bold">৳2500</span>
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <h3 class="menu-item-title">St. Martin Lobster BBQ</h3>
+              <span class="menu-item-price">৳2500</span>
             </div>
-            <p class="text-gray-500 text-sm font-light">
+            <p class="menu-item-desc">
               Premium large lobster grilled with garlic butter and a hint of
               local chili.
             </p>
           </div>
-          <div
-            class="group bg-[#111] border border-[#222] p-6 rounded-sm hover:border-red-500 transition-colors"
-          >
-            <div class="flex justify-between items-start mb-2">
-              <h3 class="text-xl font-bold text-white tracking-wide">
-                Tiger Prawn Skewers
-              </h3>
-              <span class="text-red-500 font-mono font-bold">৳1200</span>
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <h3 class="menu-item-title">Tiger Prawn Skewers</h3>
+              <span class="menu-item-price">৳1200</span>
             </div>
-            <p class="text-gray-500 text-sm font-light">
+            <p class="menu-item-desc">
               Four jumbo tiger prawns marinated in our signature tangy coastal
               sauce.
             </p>
           </div>
-          <div
-            class="group bg-[#111] border border-[#222] p-6 rounded-sm hover:border-red-500 transition-colors"
-          >
-            <div class="flex justify-between items-start mb-2">
-              <h3 class="text-xl font-bold text-white tracking-wide">
-                Fried Pomfret (Rupchanda)
-              </h3>
-              <span class="text-red-500 font-mono font-bold">৳750</span>
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <h3 class="menu-item-title">Fried Pomfret (Rupchanda)</h3>
+              <span class="menu-item-price">৳750</span>
             </div>
-            <p class="text-gray-500 text-sm font-light">
+            <p class="menu-item-desc">
               Crispy fried whole pomfret fish served with a side of spicy onion
               salad.
             </p>
@@ -163,38 +124,28 @@
       </div>
 
       <!-- Category 2 -->
-      <div class="mb-20 fade-in-up scroll-reveal">
-        <div class="flex items-center gap-4 mb-10 pb-4 border-b border-[#222]">
-          <i data-lucide="utensils" class="w-8 h-8 text-red-500"></i>
-          <h2 class="text-3xl font-bold text-white uppercase tracking-wider">
-            Local Specialties
-          </h2>
+      <div class="menu-category fade-in-up scroll-reveal">
+        <div class="menu-category-header">
+          <i data-lucide="utensils"></i>
+          <h2 class="menu-category-title">Local Specialties</h2>
         </div>
-        <div class="grid md:grid-cols-2 gap-8">
-          <div
-            class="group bg-[#111] border border-[#222] p-6 rounded-sm hover:border-red-500 transition-colors"
-          >
-            <div class="flex justify-between items-start mb-2">
-              <h3 class="text-xl font-bold text-white tracking-wide">
-                Island Coconut Rice
-              </h3>
-              <span class="text-red-500 font-mono font-bold">৳350</span>
+        <div class="menu-grid">
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <h3 class="menu-item-title">Island Coconut Rice</h3>
+              <span class="menu-item-price">৳350</span>
             </div>
-            <p class="text-gray-500 text-sm font-light">
+            <p class="menu-item-desc">
               Aromatic rice cooked with fresh coconut milk harvested right from
               the island.
             </p>
           </div>
-          <div
-            class="group bg-[#111] border border-[#222] p-6 rounded-sm hover:border-red-500 transition-colors"
-          >
-            <div class="flex justify-between items-start mb-2">
-              <h3 class="text-xl font-bold text-white tracking-wide">
-                Spicy Crab Curry
-              </h3>
-              <span class="text-red-500 font-mono font-bold">৳900</span>
+          <div class="menu-item">
+            <div class="menu-item-header">
+              <h3 class="menu-item-title">Spicy Crab Curry</h3>
+              <span class="menu-item-price">৳900</span>
             </div>
-            <p class="text-gray-500 text-sm font-light">
+            <p class="menu-item-desc">
               Local mud crabs slow-cooked in a rich, fiery coconut gravy.
             </p>
           </div>
@@ -202,58 +153,42 @@
       </div>
 
       <!-- Category 3 -->
-      <div class="fade-in-up scroll-reveal">
-        <div class="flex items-center gap-4 mb-10 pb-4 border-b border-[#222]">
-          <i data-lucide="coffee" class="w-8 h-8 text-red-500"></i>
-          <h2 class="text-3xl font-bold text-white uppercase tracking-wider">
-            Beverages
-          </h2>
+      <div class="menu-category fade-in-up scroll-reveal">
+        <div class="menu-category-header">
+          <i data-lucide="coffee"></i>
+          <h2 class="menu-category-title">Beverages</h2>
         </div>
-        <div class="grid md:grid-cols-2 gap-8">
-          <div
-            class="flex justify-between items-center bg-[#111] border border-[#222] p-6 rounded-sm hover:border-red-500 transition-colors"
-          >
-            <h3 class="text-lg font-medium text-white">
-              Fresh Green Coconut (Daab)
-            </h3>
-            <span class="text-red-500 font-mono font-bold">৳150</span>
+        <div class="menu-grid">
+          <div class="menu-item beverage-item">
+            <h3 class="menu-item-title">Fresh Green Coconut (Daab)</h3>
+            <span class="menu-item-price">৳150</span>
           </div>
-          <div
-            class="flex justify-between items-center bg-[#111] border border-[#222] p-6 rounded-sm hover:border-red-500 transition-colors"
-          >
-            <h3 class="text-lg font-medium text-white">Watermelon Juice</h3>
-            <span class="text-red-500 font-mono font-bold">৳200</span>
+          <div class="menu-item beverage-item">
+            <h3 class="menu-item-title">Watermelon Juice</h3>
+            <span class="menu-item-price">৳200</span>
           </div>
-          <div
-            class="flex justify-between items-center bg-[#111] border border-[#222] p-6 rounded-sm hover:border-red-500 transition-colors"
-          >
-            <h3 class="text-lg font-medium text-white">Mint Lemonade</h3>
-            <span class="text-red-500 font-mono font-bold">৳180</span>
+          <div class="menu-item beverage-item">
+            <h3 class="menu-item-title">Mint Lemonade</h3>
+            <span class="menu-item-price">৳180</span>
           </div>
-          <div
-            class="flex justify-between items-center bg-[#111] border border-[#222] p-6 rounded-sm hover:border-red-500 transition-colors"
-          >
-            <h3 class="text-lg font-medium text-white">Premium Coffee</h3>
-            <span class="text-red-500 font-mono font-bold">৳250</span>
+          <div class="menu-item beverage-item">
+            <h3 class="menu-item-title">Premium Coffee</h3>
+            <span class="menu-item-price">৳250</span>
           </div>
         </div>
       </div>
 
       <!-- CTA -->
-      <div
-        class="mt-24 text-center p-12 bg-[#111] border border-[#222] rounded-sm fade-in-up scroll-reveal"
-      >
-        <h2 class="text-2xl font-bold text-white uppercase tracking-wider mb-4">
-          Ready to Order?
-        </h2>
-        <p class="text-gray-400 mb-8 max-w-lg mx-auto">
+      <div class="restaurant-cta fade-in-up scroll-reveal">
+        <h2 class="restaurant-cta-title">Ready to Order?</h2>
+        <p class="restaurant-cta-desc">
           Please inform our restaurant staff or contact the front desk to place
           your order. Room service is available for all suites.
         </p>
         <a
           href="https://wa.me/8801819077914"
           target="_blank"
-          class="inline-flex items-center gap-2 px-8 py-4 bg-[#25D366] text-white rounded-sm font-bold uppercase tracking-widest hover:bg-[#1ebe5d] transition-colors"
+          class="btn btn-whatsapp"
         >
           <i data-lucide="message-circle" class="w-5 h-5"></i> Order via
           WhatsApp
@@ -262,16 +197,10 @@
     </main>
 
     <!-- Footer -->
-    <footer
-      class="py-12 px-6 bg-[#0f0f0f] border-t border-[#1a1a1a] text-center mt-20"
-    >
-      <h2 class="text-2xl font-bold text-white mb-6 tracking-[0.2em] uppercase">
-        Mermaid Resort
-      </h2>
-      <p class="text-gray-600 text-xs uppercase tracking-widest mb-2">
-        © 2026 Mermaid Resort. All rights reserved.
-      </p>
-      <p class="text-gray-600 text-[10px] uppercase tracking-widest">
+    <footer class="footer">
+      <h2 class="footer-title">Mermaid Resort</h2>
+      <p class="footer-copy">© 2026 Mermaid Resort. All rights reserved.</p>
+      <p class="footer-dev">
         Developed by
         <a
           href="https://trionine.xyz"
@@ -282,33 +211,6 @@
       </p>
     </footer>
 
-    <script>
-      lucide.createIcons();
-      window.addEventListener("load", () => {
-        const preloader = document.getElementById("pagePreloader");
-        if (!preloader) return;
-        preloader.classList.add("is-hidden");
-        setTimeout(() => preloader.remove(), 400);
-      });
-      const revealObserver = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("is-visible");
-              revealObserver.unobserve(entry.target);
-            }
-          });
-        },
-        { threshold: 0.1, rootMargin: "0px 0px -50px 0px" },
-      );
-      document
-        .querySelectorAll(".scroll-reveal")
-        .forEach((el) => revealObserver.observe(el));
-      setTimeout(() => {
-        document
-          .querySelectorAll(".reveal-on-load")
-          .forEach((el) => el.classList.add("is-visible"));
-      }, 100);
-    </script>
+    <script src="js/restaurant.js"></script>
   </body>
 </html>

@@ -1,0 +1,167 @@
+/* css/restaurant.css - Restaurant Menu Component Styles */
+
+/* =========================================
+   RESTAURANT SPECIFIC STYLES
+   ========================================= */
+.restaurant-header {
+  padding-top: 8rem;
+  padding-bottom: 4rem;
+  text-align: center;
+  border-bottom: 1px solid #1a1a1a;
+  position: relative;
+  overflow: hidden;
+}
+
+.restaurant-header .hero-bg img {
+  opacity: 0.2;
+  filter: grayscale(50%);
+}
+
+.restaurant-header .hero-overlay {
+  background: linear-gradient(to bottom, rgba(10, 10, 10, 0.8) 0%, var(--bg-dark) 100%);
+}
+
+.menu-section {
+  padding-top: 6rem;
+  padding-bottom: 6rem;
+  max-width: 64rem; /* max-w-5xl */
+  margin: 0 auto;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.menu-category {
+  margin-bottom: 5rem;
+}
+
+.menu-category:last-child {
+  margin-bottom: 0;
+}
+
+.menu-category-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.menu-category-header i, .menu-category-header svg {
+  width: 2rem;
+  height: 2rem;
+  color: var(--primary-color);
+}
+
+.menu-category-title {
+  font-size: 1.875rem;
+  font-weight: 700;
+  color: var(--text-white);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 2rem;
+}
+
+.menu-item {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  padding: 1.5rem;
+  border-radius: 2px;
+  transition: var(--transition-normal);
+}
+
+.menu-item:hover {
+  border-color: var(--primary-color);
+}
+
+.menu-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.5rem;
+}
+
+.menu-item-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-white);
+  letter-spacing: 0.05em;
+}
+
+.menu-item-price {
+  color: var(--primary-color);
+  font-family: monospace;
+  font-weight: 700;
+  font-size: 1.25rem;
+}
+
+.menu-item-desc {
+  color: var(--text-gray-500);
+  font-size: 0.875rem;
+  font-weight: 300;
+}
+
+.menu-item.beverage-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.menu-item.beverage-item .menu-item-title {
+  font-size: 1.125rem;
+  font-weight: 500;
+}
+
+.menu-item.beverage-item .menu-item-price {
+  font-size: 1.125rem;
+}
+
+.restaurant-cta {
+  margin-top: 6rem;
+  text-align: center;
+  padding: 3rem;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 2px;
+}
+
+.restaurant-cta-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text-white);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 1rem;
+}
+
+.restaurant-cta-desc {
+  color: var(--text-gray-400);
+  margin-bottom: 2rem;
+  max-width: 32rem;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+/* =========================================
+   MEDIA QUERIES (RESPONSIVENESS)
+   ========================================= */
+@media (max-width: 768px) {
+  .menu-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .restaurant-header {
+    padding-top: 7rem;
+    padding-bottom: 3rem;
+  }
+  
+  .restaurant-header h1 {
+    font-size: 2.5rem;
+  }
+}

@@ -1,8 +1,8 @@
 # Mermaid Resort
 
-**Live:** [Mermaid Resort](https://mermaid-resort.netlify.app/)
+**Live:** [Mermaid Resort](https://mermaid.trionine.xyz)
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 mermaid-resort/
@@ -12,10 +12,16 @@ mermaid-resort/
 │   ├── gallery/            # General resort and ocean gallery images
 │   ├── general/            # Backgrounds and hero images
 │   └── rooms/              # Organized folders for room-specific photos
+├── css/                    # Modular styles
+│   ├── flatpickr-dark.css  # Flatpickr datepicker dark overrides
+│   ├── main.css            # Base layouts, variables, and global components
+│   ├── resort.css          # Resort page styles and booking modal
+│   └── restaurant.css      # Restaurant page and menu layout
 ├── index.html              # Static HTML
 ├── restaurant.html         # Restaurant page
-├── rooms.js                # Room data (legacy)
-├── script.js               # JavaScript utilities
-├── styles.css              # Global styles
+├── js/                     # JavaScript modules
+│   ├── restaurant.js       # Restaurant page interactivity
+│   ├── rooms.js            # Room data (legacy)
+│   └── script.js           # Main resort page logic & booking flow
 └── README.md               # This file
 ```
