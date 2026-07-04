@@ -16,7 +16,7 @@ app.use(express.urlencoded({ limit: "50mb", extended: true }));
 // Multer setup for memory storage of binary uploads
 const upload = multer({
   storage: multer.memoryStorage(),
-  limits: { fileSize: 10 * 1024 * 1024 } // 10MB limit per file
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit per file
 });
 
 // Setup Neon / Postgres connection pool
@@ -25,14 +25,16 @@ let useMockDb = false;
 let mockBookings = [];
 
 if (!process.env.DATABASE_URL) {
-  console.warn("WARNING: DATABASE_URL is not set in environment variables. Falling back to in-memory mock database.");
+  console.warn(
+    "WARNING: DATABASE_URL is not set in environment variables. Falling back to in-memory mock database.",
+  );
   useMockDb = true;
 } else {
   pool = new Pool({
     connectionString: process.env.DATABASE_URL,
     ssl: {
-      rejectUnauthorized: false
-    }
+      rejectUnauthorized: false,
+    },
   });
 
   // Test connection & auto-initialize table
@@ -67,12 +69,19 @@ if (!process.env.DATABASE_URL) {
         );
       `);
       // Migrate legacy DB columns if present from base64 tests
-      await client.query("ALTER TABLE bookings ADD COLUMN IF NOT EXISTS id_photo_data BYTEA;");
-      await client.query("ALTER TABLE bookings ADD COLUMN IF NOT EXISTS customer_photo_data BYTEA;");
+      await client.query(
+        "ALTER TABLE bookings ADD COLUMN IF NOT EXISTS id_photo_data BYTEA;",
+      );
+      await client.query(
+        "ALTER TABLE bookings ADD COLUMN IF NOT EXISTS customer_photo_data BYTEA;",
+      );
       console.log("Database 'bookings' table initialized.");
       client.release();
     } catch (err) {
-      console.error("Database connection or initialization failed. Falling back to mock database. Error:", err.message);
+      console.error(
+        "Database connection or initialization failed. Falling back to mock database. Error:",
+        err.message,
+      );
       useMockDb = true;
     }
   };
@@ -93,8 +102,8 @@ function getDatesInRange(startDateStr, endDateStr) {
   const current = new Date(start);
   while (current < end) {
     const yyyy = current.getFullYear();
-    const mm = String(current.getMonth() + 1).padStart(2, '0');
-    const dd = String(current.getDate()).padStart(2, '0');
+    const mm = String(current.getMonth() + 1).padStart(2, "0");
+    const dd = String(current.getDate()).padStart(2, "0");
     dates.push(`${yyyy}-${mm}-${dd}`);
     current.setDate(current.getDate() + 1);
   }
@@ -115,20 +124,20 @@ app.get("/api/booked-dates", async (req, res) => {
   try {
     let bookings = [];
     if (useMockDb) {
-      bookings = mockBookings.filter(b => b.room === room);
+      bookings = mockBookings.filter((b) => b.room === room);
     } else {
       const result = await pool.query(
         "SELECT TO_CHAR(checkin, 'YYYY-MM-DD') as checkin_str, TO_CHAR(checkout, 'YYYY-MM-DD') as checkout_str FROM bookings WHERE room = $1",
-        [room]
+        [room],
       );
-      bookings = result.rows.map(row => ({
+      bookings = result.rows.map((row) => ({
         checkin: row.checkin_str,
-        checkout: row.checkout_str
+        checkout: row.checkout_str,
       }));
     }
 
     const disabledDates = [];
-    bookings.forEach(b => {
+    bookings.forEach((b) => {
       const dates = getDatesInRange(b.checkin, b.checkout);
       disabledDates.push(...dates);
     });
@@ -147,16 +156,34 @@ app.post(
   "/api/bookings",
   upload.fields([
     { name: "idPhoto", maxCount: 1 },
-    { name: "customerPhoto", maxCount: 1 }
+    { name: "customerPhoto", maxCount: 1 },
   ]),
   async (req, res) => {
     try {
       const isJson = req.is("json");
-      console.log(`Received booking request. Format: ${isJson ? "JSON" : "Multipart"}`);
+      console.log(
+        `Received booking request. Format: ${isJson ? "JSON" : "Multipart"}`,
+      );
 
-      let room, pricePerNight, checkin, checkout, nights, guests, totalAmount, advance30, fullName, phone, email, idCard, ipAddress;
-      let idPhotoData = null, idPhotoName = "", idPhotoMime = "";
-      let customerPhotoData = null, customerPhotoName = "", customerPhotoMime = "";
+      let room,
+        pricePerNight,
+        checkin,
+        checkout,
+        nights,
+        guests,
+        totalAmount,
+        advance30,
+        fullName,
+        phone,
+        email,
+        idCard,
+        ipAddress;
+      let idPhotoData = null,
+        idPhotoName = "",
+        idPhotoMime = "";
+      let customerPhotoData = null,
+        customerPhotoName = "",
+        customerPhotoMime = "";
 
       if (isJson) {
         // Extract fields from JSON payload
@@ -179,17 +206,20 @@ app.post(
           idPhotoName: idName,
           customerPhotoBase64,
           customerPhotoMimeType: custMime,
-          customerPhotoName: custName
+          customerPhotoName: custName,
         } = req.body);
 
         // Convert base64 fields back to binary buffer for BYTEA storage
         if (req.body.idPhotoBase64) {
-          idPhotoData = Buffer.from(req.body.idPhotoBase64, 'base64');
+          idPhotoData = Buffer.from(req.body.idPhotoBase64, "base64");
           idPhotoName = idName || "nid.jpg";
           idPhotoMime = idPhotoMimeType || "image/jpeg";
         }
         if (req.body.customerPhotoBase64) {
-          customerPhotoData = Buffer.from(req.body.customerPhotoBase64, 'base64');
+          customerPhotoData = Buffer.from(
+            req.body.customerPhotoBase64,
+            "base64",
+          );
           customerPhotoName = custName || "customer.jpg";
           customerPhotoMime = custMime || "image/jpeg";
         }
@@ -208,19 +238,25 @@ app.post(
           phone,
           email,
           idCard,
-          ipAddress
+          ipAddress,
         } = req.body);
 
         // Extract files from multer
-        const idPhotoFile = req.files && req.files.idPhoto ? req.files.idPhoto[0] : null;
-        const customerPhotoFile = req.files && req.files.customerPhoto ? req.files.customerPhoto[0] : null;
+        const idPhotoFile =
+          req.files && req.files.idPhoto ? req.files.idPhoto[0] : null;
+        const customerPhotoFile =
+          req.files && req.files.customerPhoto
+            ? req.files.customerPhoto[0]
+            : null;
 
         idPhotoData = idPhotoFile ? idPhotoFile.buffer : null;
         idPhotoName = idPhotoFile ? idPhotoFile.originalname : "";
         idPhotoMime = idPhotoFile ? idPhotoFile.mimetype : "";
 
         customerPhotoData = customerPhotoFile ? customerPhotoFile.buffer : null;
-        customerPhotoName = customerPhotoFile ? customerPhotoFile.originalname : "";
+        customerPhotoName = customerPhotoFile
+          ? customerPhotoFile.originalname
+          : "";
         customerPhotoMime = customerPhotoFile ? customerPhotoFile.mimetype : "";
       }
 
@@ -250,10 +286,12 @@ app.post(
           customer_photo_data: customerPhotoData,
           customer_photo_name: customerPhotoName,
           customer_photo_mime_type: customerPhotoMime,
-          ip_address: ipAddress || "Unknown"
+          ip_address: ipAddress || "Unknown",
         };
         mockBookings.push(newBooking);
-        console.log(`Mock DB saved new booking: ID ${newBooking.id} for ${fullName}`);
+        console.log(
+          `Mock DB saved new booking: ID ${newBooking.id} for ${fullName}`,
+        );
         return res.json({ success: true, bookingId: newBooking.id });
       } else {
         const queryText = `
@@ -268,33 +306,51 @@ app.post(
           ) RETURNING id;
         `;
         const values = [
-          room, parseInt(pricePerNight) || 0, checkin, checkout, parseInt(nights) || 1, parseInt(guests) || 1,
-          parseInt(totalAmount) || 0, parseInt(advance30) || 0, fullName, phone, email, idCard || "N/A",
-          idPhotoData, idPhotoMime, idPhotoName,
-          customerPhotoData, customerPhotoMime, customerPhotoName,
-          ipAddress || "Unknown"
+          room,
+          parseInt(pricePerNight) || 0,
+          checkin,
+          checkout,
+          parseInt(nights) || 1,
+          parseInt(guests) || 1,
+          parseInt(totalAmount) || 0,
+          parseInt(advance30) || 0,
+          fullName,
+          phone,
+          email,
+          idCard || "N/A",
+          idPhotoData,
+          idPhotoMime,
+          idPhotoName,
+          customerPhotoData,
+          customerPhotoMime,
+          customerPhotoName,
+          ipAddress || "Unknown",
         ];
 
         const result = await pool.query(queryText, values);
-        console.log(`Neon DB saved new booking: ID ${result.rows[0].id} for ${fullName}`);
+        console.log(
+          `Neon DB saved new booking: ID ${result.rows[0].id} for ${fullName}`,
+        );
         return res.json({ success: true, bookingId: result.rows[0].id });
       }
     } catch (err) {
       console.error("Error in /api/bookings:", err.message);
       return res.status(500).json({ error: "Internal server error" });
     }
-  }
+  },
 );
 
 // Admin Authorization Middleware (supports header token & query param token)
 const authorizeAdmin = (req, res, next) => {
   const authHeader = req.headers.authorization;
   const queryToken = req.query.token;
-  const adminPass = process.env.ADMIN_PASSWORD || "admin123";
+  const adminPass = process.env.ADMIN_PASSWORD;
 
   let token = null;
   if (authHeader) {
-    token = authHeader.startsWith("Bearer ") ? authHeader.substring(7) : authHeader;
+    token = authHeader.startsWith("Bearer ")
+      ? authHeader.substring(7)
+      : authHeader;
   } else if (queryToken) {
     token = queryToken;
   }
@@ -313,12 +369,14 @@ const authorizeAdmin = (req, res, next) => {
 // API: Admin Login
 app.post("/api/admin/login", (req, res) => {
   const { password } = req.body;
-  const adminPass = process.env.ADMIN_PASSWORD || "admin123";
+  const adminPass = process.env.ADMIN_PASSWORD;
 
   if (password === adminPass) {
     return res.json({ success: true, token: adminPass });
   } else {
-    return res.status(401).json({ success: false, error: "Incorrect password" });
+    return res
+      .status(401)
+      .json({ success: false, error: "Incorrect password" });
   }
 });
 
@@ -327,7 +385,9 @@ app.get("/api/admin/bookings", authorizeAdmin, async (req, res) => {
   try {
     if (useMockDb) {
       // Exclude attachment buffers from the mock db list response
-      const cleanMock = mockBookings.map(({ id_photo_data, customer_photo_data, ...rest }) => rest);
+      const cleanMock = mockBookings.map(
+        ({ id_photo_data, customer_photo_data, ...rest }) => rest,
+      );
       const sorted = cleanMock.sort((a, b) => b.id - a.id);
       return res.json(sorted);
     } else {
@@ -364,82 +424,106 @@ app.get("/api/admin/bookings", authorizeAdmin, async (req, res) => {
 });
 
 // API: Get booking file attachment stream (Admin only) - Decodes legacy Base64 text if binary data column is empty
-app.get("/api/admin/bookings/attachments/:id/:type", authorizeAdmin, async (req, res) => {
-  const bookingId = parseInt(req.params.id);
-  const type = req.params.type; // 'idPhoto' or 'customerPhoto'
+app.get(
+  "/api/admin/bookings/attachments/:id/:type",
+  authorizeAdmin,
+  async (req, res) => {
+    const bookingId = parseInt(req.params.id);
+    const type = req.params.type; // 'idPhoto' or 'customerPhoto'
 
-  if (isNaN(bookingId) || (type !== "idPhoto" && type !== "customerPhoto")) {
-    return res.status(400).json({ error: "Invalid parameters" });
-  }
+    if (isNaN(bookingId) || (type !== "idPhoto" && type !== "customerPhoto")) {
+      return res.status(400).json({ error: "Invalid parameters" });
+    }
 
-  try {
-    let booking = null;
-    if (useMockDb) {
-      booking = mockBookings.find(b => b.id === bookingId);
-    } else {
-      const colPrefix = type === "idPhoto" ? "id_photo" : "customer_photo";
-      const result = await pool.query(
-        `SELECT 
+    try {
+      let booking = null;
+      if (useMockDb) {
+        booking = mockBookings.find((b) => b.id === bookingId);
+      } else {
+        const colPrefix = type === "idPhoto" ? "id_photo" : "customer_photo";
+        const result = await pool.query(
+          `SELECT 
            ${colPrefix}_data as file_data, 
            ${colPrefix}_base64 as file_base64,
            ${colPrefix}_mime_type as mime_type, 
            ${colPrefix}_name as filename 
          FROM bookings WHERE id = $1`,
-        [bookingId]
-      );
-      if (result.rows.length > 0) {
-        booking = result.rows[0];
-      }
-    }
-
-    if (!booking) {
-      return res.status(404).json({ error: "Booking not found" });
-    }
-
-    let fileData = null;
-    let mimeType = "";
-    let filename = "";
-
-    if (useMockDb) {
-      fileData = type === "idPhoto" ? booking.id_photo_data : booking.customer_photo_data;
-      if (!fileData) {
-        const legacyBase64Text = type === "idPhoto" ? booking.id_photo_base64 : booking.customer_photo_base64;
-        if (legacyBase64Text) {
-          fileData = Buffer.from(legacyBase64Text, 'base64');
+          [bookingId],
+        );
+        if (result.rows.length > 0) {
+          booking = result.rows[0];
         }
       }
-      mimeType = type === "idPhoto" ? booking.id_photo_mime_type : booking.customer_photo_mime_type;
-      filename = type === "idPhoto" ? booking.id_photo_name : booking.customer_photo_name;
-    } else {
-      fileData = booking.file_data;
-      // Fallback: If binary BYTEA is empty but legacy Base64 text is present, decode it on the fly
-      if (!fileData && booking.file_base64) {
-        console.log(`Streaming legacy base64 file decoded to binary for ID ${bookingId} (${type})`);
-        fileData = Buffer.from(booking.file_base64, 'base64');
+
+      if (!booking) {
+        return res.status(404).json({ error: "Booking not found" });
       }
-      mimeType = booking.mime_type;
-      filename = booking.filename;
+
+      let fileData = null;
+      let mimeType = "";
+      let filename = "";
+
+      if (useMockDb) {
+        fileData =
+          type === "idPhoto"
+            ? booking.id_photo_data
+            : booking.customer_photo_data;
+        if (!fileData) {
+          const legacyBase64Text =
+            type === "idPhoto"
+              ? booking.id_photo_base64
+              : booking.customer_photo_base64;
+          if (legacyBase64Text) {
+            fileData = Buffer.from(legacyBase64Text, "base64");
+          }
+        }
+        mimeType =
+          type === "idPhoto"
+            ? booking.id_photo_mime_type
+            : booking.customer_photo_mime_type;
+        filename =
+          type === "idPhoto"
+            ? booking.id_photo_name
+            : booking.customer_photo_name;
+      } else {
+        fileData = booking.file_data;
+        // Fallback: If binary BYTEA is empty but legacy Base64 text is present, decode it on the fly
+        if (!fileData && booking.file_base64) {
+          console.log(
+            `Streaming legacy base64 file decoded to binary for ID ${bookingId} (${type})`,
+          );
+          fileData = Buffer.from(booking.file_base64, "base64");
+        }
+        mimeType = booking.mime_type;
+        filename = booking.filename;
+      }
+
+      if (!fileData) {
+        return res.status(404).json({ error: "Attachment not found" });
+      }
+
+      // Set response headers
+      res.setHeader("Content-Type", mimeType || "application/octet-stream");
+
+      if (req.query.download === "true") {
+        res.setHeader(
+          "Content-Disposition",
+          `attachment; filename="${encodeURIComponent(filename || "download")}"`,
+        );
+      } else {
+        res.setHeader(
+          "Content-Disposition",
+          `inline; filename="${encodeURIComponent(filename || "file")}"`,
+        );
+      }
+
+      return res.send(fileData);
+    } catch (err) {
+      console.error("Error in fetching attachment:", err.message);
+      return res.status(500).json({ error: "Internal server error" });
     }
-
-    if (!fileData) {
-      return res.status(404).json({ error: "Attachment not found" });
-    }
-
-    // Set response headers
-    res.setHeader("Content-Type", mimeType || "application/octet-stream");
-
-    if (req.query.download === "true") {
-      res.setHeader("Content-Disposition", `attachment; filename="${encodeURIComponent(filename || 'download')}"`);
-    } else {
-      res.setHeader("Content-Disposition", `inline; filename="${encodeURIComponent(filename || 'file')}"`);
-    }
-
-    return res.send(fileData);
-  } catch (err) {
-    console.error("Error in fetching attachment:", err.message);
-    return res.status(500).json({ error: "Internal server error" });
-  }
-});
+  },
+);
 
 // API: Delete a booking (Admin only)
 app.delete("/api/admin/bookings/:id", authorizeAdmin, async (req, res) => {
@@ -451,14 +535,17 @@ app.delete("/api/admin/bookings/:id", authorizeAdmin, async (req, res) => {
   try {
     if (useMockDb) {
       const initialLength = mockBookings.length;
-      mockBookings = mockBookings.filter(b => b.id !== bookingId);
+      mockBookings = mockBookings.filter((b) => b.id !== bookingId);
       if (mockBookings.length === initialLength) {
         return res.status(404).json({ error: "Booking not found" });
       }
       console.log(`Mock DB deleted booking: ID ${bookingId}`);
       return res.json({ success: true });
     } else {
-      const result = await pool.query("DELETE FROM bookings WHERE id = $1 RETURNING id", [bookingId]);
+      const result = await pool.query(
+        "DELETE FROM bookings WHERE id = $1 RETURNING id",
+        [bookingId],
+      );
       if (result.rowCount === 0) {
         return res.status(404).json({ error: "Booking not found" });
       }
