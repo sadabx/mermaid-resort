@@ -269,6 +269,46 @@ body {
 }
 
 /* =========================================
+   FORM ELEMENTS & INPUTS
+   ========================================= */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.form-label {
+  font-family: "Jost", sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-gray-400);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+}
+
+.input-field {
+  background: var(--bg-alt);
+  border: 1px solid var(--border-color);
+  padding: 0.75rem 1rem;
+  color: var(--text-white);
+  width: 100%;
+  border-radius: 0.375rem;
+  font-family: inherit;
+  font-size: 0.95rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 1px var(--primary-color);
+}
+
+.input-field::placeholder {
+  color: var(--text-gray-600);
+}
+
+/* =========================================
    SEARCH & FILTERS
    ========================================= */
 .filters-card {
@@ -680,8 +720,99 @@ body {
 }
 
 /* =========================================
-   DELETE MODAL & MISC
+   MODAL DIALOGS
    ========================================= */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: none;
+  overflow-y: auto;
+}
+
+.modal.is-open {
+  display: block;
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(4px);
+  transition: opacity 0.3s ease;
+}
+
+.modal-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 1rem;
+  text-align: center;
+}
+
+.modal-container {
+  display: inline-block;
+  vertical-align: middle;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  text-align: left;
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  max-width: 42rem;
+  width: 100%;
+  transform: scale(0.95);
+  transition: transform 0.3s ease;
+  z-index: 210;
+}
+
+.modal.is-open .modal-container {
+  transform: scale(1);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  background-color: var(--bg-alt);
+}
+
+.modal-title {
+  font-family: "Jost", sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-white);
+  letter-spacing: 0.1em;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: var(--text-gray-500);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.modal-close:hover {
+  color: var(--primary-color);
+}
+
+.modal-close i,
+.modal-close svg {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.modal-body {
+  padding: 2rem;
+}
+
 .modal-container.modal-sm {
   max-width: 440px;
 }

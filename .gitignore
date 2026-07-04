@@ -1,2 +1,4 @@
 graphify-out/
 organize_assets.sh
+node_modules/
+.env

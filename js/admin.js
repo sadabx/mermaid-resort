@@ -397,21 +397,38 @@ document.addEventListener("DOMContentLoaded", () => {
         <div class="detail-photos">
     `;
 
+    const token = getAuthToken();
+
     // Render ID Photo
+    const hasIdPhoto = !!booking.id_photo_name;
+    const idPhotoUrl = `/api/admin/bookings/attachments/${booking.id}/idPhoto?token=${encodeURIComponent(token)}`;
+    const idPhotoDownloadUrl = `${idPhotoUrl}&download=true`;
+    const isIdPdf = booking.id_photo_mime_type === 'application/pdf';
+
     bodyHtml += `
       <div class="photo-preview-box">
         <div class="photo-preview-header">
           <span class="photo-title">NID / Passport (${escapeHtml(booking.id_photo_name || "No ID Card Uploaded")})</span>
-          ${booking.id_photo_base64 ? `
-            <button class="btn-download-photo" onclick="downloadAttachment('${booking.id_photo_base64}', '${booking.id_photo_name || 'nid.jpg'}', '${booking.id_photo_mime_type || 'image/jpeg'}')">
+          ${hasIdPhoto ? `
+            <a class="btn-download-photo" href="${idPhotoDownloadUrl}" target="_blank" download="${escapeHtml(booking.id_photo_name)}">
               <i data-lucide="download"></i> Download
-            </button>
+            </a>
           ` : ""}
         </div>
         <div class="photo-img-wrapper">
-          ${booking.id_photo_base64 ? `
-            <img src="data:${booking.id_photo_mime_type || 'image/jpeg'};base64,${booking.id_photo_base64}" alt="NID/Passport Photo" />
-          ` : `
+          ${hasIdPhoto ? (
+            isIdPdf ? `
+              <div class="photo-placeholder">
+                <i data-lucide="file-text"></i>
+                <span style="margin: 0.5rem 0;">PDF Document: ${escapeHtml(booking.id_photo_name)}</span>
+                <a href="${idPhotoUrl}" target="_blank" class="btn btn-secondary btn-sm" style="display:inline-flex; align-items:center; gap:0.5rem; width:auto; text-decoration:none;">
+                  <i data-lucide="external-link"></i> Open PDF
+                </a>
+              </div>
+            ` : `
+              <img src="${idPhotoUrl}" alt="NID/Passport Photo" />
+            `
+          ) : `
             <div class="photo-placeholder">
               <i data-lucide="file-text"></i>
               <span>No NID or Passport copy uploaded.</span>
@@ -422,19 +439,23 @@ document.addEventListener("DOMContentLoaded", () => {
     `;
 
     // Render Customer Photo
+    const hasCustomerPhoto = !!booking.customer_photo_name;
+    const customerPhotoUrl = `/api/admin/bookings/attachments/${booking.id}/customerPhoto?token=${encodeURIComponent(token)}`;
+    const customerPhotoDownloadUrl = `${customerPhotoUrl}&download=true`;
+
     bodyHtml += `
       <div class="photo-preview-box">
         <div class="photo-preview-header">
           <span class="photo-title">Customer Photo (${escapeHtml(booking.customer_photo_name || "No Customer Photo Uploaded")})</span>
-          ${booking.customer_photo_base64 ? `
-            <button class="btn-download-photo" onclick="downloadAttachment('${booking.customer_photo_base64}', '${booking.customer_photo_name || 'customer.jpg'}', '${booking.customer_photo_mime_type || 'image/jpeg'}')">
+          ${hasCustomerPhoto ? `
+            <a class="btn-download-photo" href="${customerPhotoDownloadUrl}" target="_blank" download="${escapeHtml(booking.customer_photo_name)}">
               <i data-lucide="download"></i> Download
-            </button>
+            </a>
           ` : ""}
         </div>
         <div class="photo-img-wrapper">
-          ${booking.customer_photo_base64 ? `
-            <img src="data:${booking.customer_photo_mime_type || 'image/jpeg'};base64,${booking.customer_photo_base64}" alt="Customer Selfie Photo" />
+          ${hasCustomerPhoto ? `
+            <img src="${customerPhotoUrl}" alt="Customer Selfie Photo" />
           ` : `
             <div class="photo-placeholder">
               <i data-lucide="camera"></i>
@@ -529,26 +550,4 @@ document.addEventListener("DOMContentLoaded", () => {
   checkAuth();
 });
 
-// Attachment downloader triggerable globally from inline onclick
-window.downloadAttachment = function(base64Data, fileName, mimeType) {
-  try {
-    const byteCharacters = atob(base64Data);
-    const byteNumbers = new Array(byteCharacters.length);
-    for (let i = 0; i < byteCharacters.length; i++) {
-      byteNumbers[i] = byteCharacters.charCodeAt(i);
-    }
-    const byteArray = new Uint8Array(byteNumbers);
-    const blob = new Blob([byteArray], { type: mimeType });
-    
-    const link = document.createElement("a");
-    link.href = URL.createObjectURL(blob);
-    link.download = fileName;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(link.href);
-  } catch (err) {
-    console.error("Failed to download file attachment", err);
-    alert("Could not process file download.");
-  }
-};
+
