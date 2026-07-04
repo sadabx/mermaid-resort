@@ -1,6 +1,7 @@
 [build]
   publish = "."
   functions = "backend/netlify/functions"
+  command = "npm install --prefix backend"
 
 # Route API endpoints to the Netlify serverless function
 [[redirects]]
@@ -9,7 +10,6 @@
   status = 200
   force = true
 
-# Friendly URL rewrites for pages
 [[redirects]]
   from = "/admin"
   to = "/admin.html"
