@@ -6,6 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const loginContainer = document.getElementById("login-container");
   const dashboardContainer = document.getElementById("dashboard-container");
   const loginForm = document.getElementById("loginForm");
+  const adminUsernameInput = document.getElementById("adminUsername");
   const adminPasswordInput = document.getElementById("adminPassword");
   const togglePasswordBtn = document.getElementById("togglePasswordBtn");
   const loginError = document.getElementById("loginError");
@@ -106,8 +107,9 @@ document.addEventListener("DOMContentLoaded", () => {
       e.preventDefault();
       if (loginError) loginError.innerText = "";
       
+      const username = adminUsernameInput ? adminUsernameInput.value.trim() : "";
       const password = adminPasswordInput.value;
-      if (!password) return;
+      if (!username || !password) return;
 
       const originalText = loginSubmitBtn.innerHTML;
       loginSubmitBtn.innerHTML = '<span class="loading-dots">Authenticating</span>';
@@ -117,7 +119,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const response = await fetch("/api/admin/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ password })
+          body: JSON.stringify({ username, password })
         });
 
         const data = await response.json();

@@ -80,7 +80,7 @@ const roomsContainer = document.getElementById('rooms-container');
 
 if (roomsContainer && typeof roomsData !== 'undefined') {
   roomsContainer.innerHTML = roomsData.map((room, index) => `
-    <div class="room-card fade-in-up scroll-reveal" style="transition-delay: 0.${index + 1}s" data-room="${room.name}" data-price="${room.price}">
+    <div class="room-card fade-in-up scroll-reveal" style="transition-delay: ${(index % 3) * 0.05}s" data-room="${room.name}" data-price="${room.price}">
       <div class="room-card-media">
         <div class="room-gallery">
           ${room.images.map((img, i) => `<img src="${img}" class="gallery-img ${i === 0 ? 'active' : ''}" alt="${room.name}" />`).join('')}
@@ -375,6 +375,14 @@ if (idPhotoInput) {
   idPhotoInput.addEventListener('change', function() {
     if (this.files && this.files[0]) {
       const file = this.files[0];
+      if (file.size > 5 * 1024 * 1024) {
+        if (formError) formError.innerText = 'NID/Passport file size exceeds 5MB limit. Please upload a smaller file.';
+        this.value = '';
+        fileNameDisplay.innerText = 'Select Photo or PDF...';
+        currentPhotoFile = null;
+        return;
+      }
+      if (formError) formError.innerText = '';
       fileNameDisplay.innerText = file.name;
       currentPhotoFile = file;
     } else {
@@ -393,6 +401,14 @@ if (customerPhotoInput) {
   customerPhotoInput.addEventListener('change', function() {
     if (this.files && this.files[0]) {
       const file = this.files[0];
+      if (file.size > 5 * 1024 * 1024) {
+        if (formError) formError.innerText = 'Customer Photo file size exceeds 5MB limit. Please upload a smaller file.';
+        this.value = '';
+        customerPhotoNameDisplay.innerText = 'Take or Upload Photo...';
+        currentCustomerPhotoFile = null;
+        return;
+      }
+      if (formError) formError.innerText = '';
       customerPhotoNameDisplay.innerText = file.name;
       currentCustomerPhotoFile = file;
     } else {

@@ -13,16 +13,17 @@ app.use(cors());
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ limit: "50mb", extended: true }));
 
-// Multer setup for memory storage of binary uploads
+// Multer setup for memory storage of binary uploads with 5MB file limit
 const upload = multer({
   storage: multer.memoryStorage(),
-  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB limit per file
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit per file
 });
 
 // Setup Neon / Postgres connection pool
 let pool;
 let useMockDb = false;
 let mockBookings = [];
+let mockLoginAttempts = {};
 
 if (!process.env.DATABASE_URL) {
   console.warn(
@@ -68,6 +69,13 @@ if (!process.env.DATABASE_URL) {
           ip_address VARCHAR(50)
         );
       `);
+      await client.query(`
+        CREATE TABLE IF NOT EXISTS login_attempts (
+          ip_address VARCHAR(45) PRIMARY KEY,
+          attempts INT DEFAULT 0,
+          last_attempt_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        );
+      `);
       // Migrate legacy DB columns if present from base64 tests
       await client.query(
         "ALTER TABLE bookings ADD COLUMN IF NOT EXISTS id_photo_data BYTEA;",
@@ -75,7 +83,7 @@ if (!process.env.DATABASE_URL) {
       await client.query(
         "ALTER TABLE bookings ADD COLUMN IF NOT EXISTS customer_photo_data BYTEA;",
       );
-      console.log("Database 'bookings' table initialized.");
+      console.log("Database tables initialized.");
       client.release();
     } catch (err) {
       console.error(
@@ -366,17 +374,102 @@ const authorizeAdmin = (req, res, next) => {
   next();
 };
 
-// API: Admin Login
-app.post("/api/admin/login", (req, res) => {
-  const { password } = req.body;
+// API: Admin Login (with database-backed brute-force lockout protection)
+app.post("/api/admin/login", async (req, res) => {
+  const { username, password } = req.body;
+  const adminUsername = process.env.ADMIN_USERNAME;
   const adminPass = process.env.ADMIN_PASSWORD;
 
-  if (password === adminPass) {
-    return res.json({ success: true, token: adminPass });
-  } else {
-    return res
-      .status(401)
-      .json({ success: false, error: "Incorrect password" });
+  if (!adminUsername || !adminPass) {
+    console.error("Critical Security Alert: ADMIN_USERNAME or ADMIN_PASSWORD is not set in environment variables.");
+    return res.status(500).json({ success: false, error: "Internal server authentication configuration error." });
+  }
+
+  // Identify client IP address
+  const ip = req.headers["x-nf-client-connection-ip"] ||
+    req.headers["x-forwarded-for"] ||
+    req.socket.remoteAddress ||
+    "unknown-ip";
+
+  const windowMs = 15 * 60 * 1000; // 15 minutes lockout window
+  const maxAttempts = 5;
+
+  try {
+    let attemptsCount = 0;
+    let lastAttempt = null;
+
+    if (useMockDb) {
+      const record = mockLoginAttempts[ip];
+      if (record) {
+        attemptsCount = record.attempts;
+        lastAttempt = record.lastAttemptAt;
+      }
+    } else {
+      const result = await pool.query(
+        "SELECT attempts, last_attempt_at FROM login_attempts WHERE ip_address = $1",
+        [ip]
+      );
+      if (result.rows.length > 0) {
+        attemptsCount = result.rows[0].attempts;
+        lastAttempt = result.rows[0].last_attempt_at;
+      }
+    }
+
+    // Check if IP is currently locked out
+    if (attemptsCount >= maxAttempts && lastAttempt) {
+      const timeSinceLast = Date.now() - new Date(lastAttempt).getTime();
+      if (timeSinceLast < windowMs) {
+        const minutesLeft = Math.ceil((windowMs - timeSinceLast) / 60000);
+        return res.status(429).json({
+          success: false,
+          error: `Too many failed login attempts. Please try again in ${minutesLeft} minute(s).`
+        });
+      } else {
+        // Lockout expired, reset attempts count for validation
+        attemptsCount = 0;
+      }
+    }
+
+    const isCorrect = (username === adminUsername) && (password === adminPass);
+
+    if (isCorrect) {
+      // Clear logged attempts on successful login
+      if (useMockDb) {
+        delete mockLoginAttempts[ip];
+      } else {
+        await pool.query("DELETE FROM login_attempts WHERE ip_address = $1", [ip]);
+      }
+      return res.json({ success: true, token: adminPass });
+    } else {
+      // Increment failed attempt count
+      attemptsCount += 1;
+      const now = new Date();
+
+      if (useMockDb) {
+        mockLoginAttempts[ip] = {
+          attempts: attemptsCount,
+          lastAttemptAt: now
+        };
+      } else {
+        await pool.query(
+          `INSERT INTO login_attempts (ip_address, attempts, last_attempt_at)
+           VALUES ($1, $2, $3)
+           ON CONFLICT (ip_address)
+           DO UPDATE SET attempts = $2, last_attempt_at = $3`,
+          [ip, attemptsCount, now]
+        );
+      }
+
+      const remaining = maxAttempts - attemptsCount;
+      const errorMsg = remaining > 0
+        ? `Incorrect username or password. ${remaining} attempt(s) remaining before temporary lockout.`
+        : "Incorrect username or password. Too many failed attempts: your IP is locked out for 15 minutes.";
+
+      return res.status(401).json({ success: false, error: errorMsg });
+    }
+  } catch (err) {
+    console.error("Error in /api/admin/login:", err.message);
+    return res.status(500).json({ error: "Internal server error" });
   }
 });
 
@@ -568,10 +661,22 @@ app.delete("/api/admin/bookings/:id", authorizeAdmin, async (req, res) => {
 
 // Fallback HTML page routing for SPA friendliness
 app.get("/admin", (req, res) => {
-  res.sendFile(path.join(__dirname, "admin.html"));
+  res.sendFile(path.join(__dirname, "../admin.html"));
 });
 app.get("/restaurant", (req, res) => {
-  res.sendFile(path.join(__dirname, "restaurant.html"));
+  res.sendFile(path.join(__dirname, "../restaurant.html"));
+});
+
+// Global error handler (handles Multer file size limits)
+app.use((err, req, res, next) => {
+  if (err instanceof multer.MulterError) {
+    if (err.code === "LIMIT_FILE_SIZE") {
+      return res.status(400).json({ error: "File exceeds 5MB limit. Please upload a smaller file." });
+    }
+    return res.status(400).json({ error: err.message });
+  }
+  console.error("Unhandled error:", err);
+  return res.status(500).json({ error: "Internal server error" });
 });
 
 // Export app for serverless compatibility, run server locally if launched directly
