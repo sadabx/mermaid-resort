@@ -163,6 +163,7 @@ const bookingFormView = document.getElementById('bookingFormView');
 const successView = document.getElementById('successView');
 const navBookBtn = document.getElementById('navBookBtn');
 const heroBookBtn = document.getElementById('heroBookBtn');
+// mobileBookBtn is already declared globally above
 
 // ---- Custom room picker helpers ----
 function setRoomPickerUI(roomName, price) {

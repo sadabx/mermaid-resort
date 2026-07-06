@@ -589,5 +589,3 @@ document.addEventListener("DOMContentLoaded", () => {
   // Init Auth Verification
   checkAuth();
 });
-
-

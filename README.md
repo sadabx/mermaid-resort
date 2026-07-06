@@ -1,58 +1,97 @@
-# Mermaid Resort
+# 🌊 Mermaid Resort
 
 Live site: [Mermaid Resort](https://mermaid.trionine.xyz)
 
-## Overview
+Mermaid Resort is a premium resort booking and island restaurant portal with an Express/Node.js backend, integrated PostgreSQL (Neon DB) storage, and bKash Tokenized Checkout (Sandbox) automated payment verification.
 
-Mermaid Resort is a static resort and restaurant website with a separate admin UI and a Node.js backend under `backend/` for API and Netlify function support.
+---
 
-## Project Structure
+## 📂 Project Structure
 
 ```text
 mermaid-resort/
-├── admin.html              # Admin dashboard page
-├── index.html              # Main resort landing page
-├── restaurant.html         # Restaurant menu page
+├── index.html              # Main resort landing and booking page
+├── restaurant.html         # Resort restaurant menu page
+├── payment-status.html     # Dedicated payment success/failure receipt page
+├── admin.html              # Secure admin portal dashboard
 ├── css/
-│   ├── admin.css           # Admin dashboard styles
-│   ├── flatpickr-dark.css  # Flatpickr theme
-│   ├── main.css            # Global design system and shared components
-│   ├── resort.css          # Resort page styles
-│   ├── restaurant.css      # Restaurant page styles
-│   └── styles.css          # Legacy/shared stylesheet
+│   ├── main.css            # Global design tokens, layout & typography
+│   └── pages/
+│       ├── resort.css      # Styles for resort-specific elements
+│       ├── restaurant.css  # Styles for restaurant and starters cards
+│       ├── admin.css       # Dashboard layout and drawer panels
+│       ├── flatpickr-dark.css # Dark flatpickr datepicker theme
+│       └── payment-status.css # Styles for payment status receipt card
 ├── js/
-│   ├── admin.js            # Admin dashboard logic
-│   ├── restaurant.js       # Restaurant page interactions
-│   ├── rooms.js            # Room data definitions
-│   └── script.js           # Main resort page logic
-├── assets/                 # Brand, favicon, gallery, and room images
+│   ├── script.js           # Client booking logic & NID validation
+│   ├── data/
+│   │   └── rooms.js        # Room data models
+│   └── pages/
+│       ├── restaurant.js   # Restaurant interactions
+│       ├── admin.js        # Admin dashboard logic & API requests
+│       └── payment-status.js # Client payment status verification page logic
+├── assets/                 # Brand logos, favicons, and room graphics
 ├── backend/
-│   ├── package.json        # Backend dependencies and scripts
-│   ├── server.js           # Express server
-│   └── netlify/functions/  # Netlify serverless functions
-├── netlify.toml            # Netlify build and redirects config
-├── _redirects              # Static host redirects
-├── robots.txt              # Robots instructions
-├── sitemap.xml             # Sitemap
-└── README.md               # Project documentation
+│   ├── server.js           # Express.js app (endpoints, schemas & rate limiting)
+│   ├── package.json        # Backend NPM packages (Express, Multer, PG)
+│   ├── package-lock.json   # Locked dependency tree
+│   └── netlify/
+│       └── functions/
+│           └── api.js      # Serverless entrypoint for Netlify deployment
+├── netlify.toml            # Netlify build configurations and clean URL routing
+├── _redirects              # Static domain canonical redirection rules
+├── sitemap.xml             # Sitemap with clean paths
+└── robots.txt              # Search engine crawler instructions
 ```
 
-## Run Locally
+---
 
-### Frontend
+## 🛠 Features
 
-Open the static pages directly in a browser or serve the project root with your preferred static server.
+* **Room Reservation**: Dynamic room grid showing details, gallery slideshows, and instant checkout.
+* **bKash Tokenized Payment**: Integrated bKash Sandbox for payment checkout with automatic 30% advance amount verification.
+* **Brute-Force Lockout**: Security middleware that locks IP addresses out for 15 minutes after 5 consecutive failed admin logins.
+* **Document Upload**: Raw binary NID and selfie uploading (limited to 5MB) stored directly inside Neon PostgreSQL `BYTEA` column structures.
+* **Clean URLs**: Serverless rewrites mapping `/admin`, `/restaurant`, and `/payment-status` cleanly.
 
-### Backend
+---
 
+## ⚙️ Local Development Setup
+
+### 1. Setup Environment Variables
+Create a `.env` file inside the root directory:
+```env
+# Neon Database Connection String
+DATABASE_URL=your-neon-postgres-connection-string
+
+# Admin Access Credentials
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=admin123
+
+# bKash API Credentials (Sandbox)
+BKASH_USER_NAME=sandboxTokenizedUser02
+BKASH_PASSWORD=sandboxTokenizedUser02@12345
+BKASH_APP_KEY=4f6o0cjiki2rfm34kfdadl1eqq
+BKASH_APP_SECRET=2is7hdktrekvrbljjh44ll3d9l1dtjo4pasmjvs5vl5qr3fug4b
+BKASH_BASE_URL=https://tokenized.sandbox.bka.sh/v1.2.0-beta
+BKASH_CALLBACK_URL=http://localhost:3000/api/bkash/callback
+
+# Server Port
+PORT=3000
+```
+
+### 2. Install & Start Server
 ```bash
 cd backend
 npm install
 npm run dev
 ```
+The server will initialize your database tables automatically and run at `http://localhost:3000`.
 
-The backend starts from `backend/server.js`.
+---
 
-## Deployment
-
-The project is configured for Netlify with redirects in `netlify.toml` and serverless API support under `backend/netlify/functions/`.
+## 🧪 Testing bKash Payments
+When prompted on the bKash Sandbox payment portal:
+* **Wallet Number**: `01770618575` (or `01929918378`)
+* **Test PIN**: `12121`
+* **Test OTP**: `123456`
