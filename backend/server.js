@@ -491,8 +491,9 @@ app.get("/api/bkash/callback", async (req, res) => {
     if (booking) {
       booking.payment_status = "paid";
       booking.bkash_trx_id = "MOCK-BKASH-TRXID";
+      console.log(`Mock DB completed simulated payment for Booking ID: ${bookingId}`);
+      return res.redirect(`/?booking=success&id=${bookingId}&total=${booking.total_amount}&advance=${booking.advance_amount}`);
     }
-    console.log(`Mock DB completed simulated payment for Booking ID: ${bookingId}`);
     return res.redirect(`/?booking=success&id=${bookingId}`);
   }
 
@@ -545,8 +546,15 @@ app.get("/api/bkash/callback", async (req, res) => {
         "UPDATE bookings SET payment_status = 'paid', bkash_trx_id = $1 WHERE id = $2",
         [executeData.trxID || "MOCK-TRX-ID", parseInt(bookingId)]
       );
+      
+      const bResult = await pool.query(
+        "SELECT total_amount, advance_amount FROM bookings WHERE id = $1",
+        [parseInt(bookingId)]
+      );
+      const bData = bResult.rows[0] || { total_amount: 0, advance_amount: 0 };
+      
       console.log(`bKash payment success: Booking ID ${bookingId}, TrxID ${executeData.trxID}`);
-      return res.redirect(`/?booking=success&id=${bookingId}`);
+      return res.redirect(`/?booking=success&id=${bookingId}&total=${bData.total_amount}&advance=${bData.advance_amount}`);
     } else {
       console.error("bKash Execute Payment status not Completed:", executeData.statusMessage);
       await pool.query(
@@ -718,7 +726,9 @@ app.get("/api/admin/bookings", authorizeAdmin, async (req, res) => {
           id_photo_mime_type,
           customer_photo_name,
           customer_photo_mime_type,
-          ip_address 
+          ip_address,
+          payment_status,
+          bkash_trx_id
         FROM bookings 
         ORDER BY id DESC;
       `);

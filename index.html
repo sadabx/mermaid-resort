@@ -636,11 +636,11 @@
           </div>
 
           <div id="successView" class="success-view hidden">
-            <div class="success-icon-box">
+            <div class="success-icon-box" id="successIconBox">
               <i data-lucide="check"></i>
             </div>
-            <h3 class="success-title">Booking Received</h3>
-            <p class="success-subtitle">Please send payment to confirm.</p>
+            <h3 class="success-title" id="successTitle">Booking Received</h3>
+            <p class="success-subtitle" id="successSubtitle">Please send payment to confirm.</p>
             <div class="success-details">
               <div class="success-row">
                 <span class="success-row-label">Total Amount:</span>
@@ -648,15 +648,15 @@
                   >৳0</span
                 >
               </div>
-              <div class="success-row success-payment-divider">
-                <span class="success-row-label">Advance Needed (30%):</span>
+              <div class="success-row success-payment-divider" id="successAdvanceRow">
+                <span class="success-row-label" id="successAdvanceLabel">Advance Needed (30%):</span>
                 <span
                   id="successAdvance"
                   class="success-row-val price font-mono"
                   >৳0</span
                 >
               </div>
-              <div class="success-payment-instructions">
+              <div class="success-payment-instructions" id="successInstructions">
                 <p class="success-payment-title">Send via bKash/Nagad</p>
                 <p class="success-payment-number">01819-077914</p>
               </div>
@@ -674,6 +674,6 @@
     </div>
 
     <script src="js/rooms.js"></script>
-    <script src="js/script.js?v=3"></script>
+    <script src="js/script.js?v=4"></script>
   </body>
 </html>

@@ -243,6 +243,30 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   };
 
+  // Helper to render beautiful payment status badge
+  const getPaymentStatusBadge = (status) => {
+    status = (status || 'pending').toLowerCase();
+    let bgColor = 'rgba(239, 68, 68, 0.1)'; // red for failed/cancelled
+    let textColor = '#ef4444';
+    let label = 'Unpaid';
+
+    if (status === 'paid') {
+      bgColor = 'rgba(16, 185, 129, 0.1)'; // green for paid
+      textColor = '#10b981';
+      label = 'Paid';
+    } else if (status === 'pending') {
+      bgColor = 'rgba(245, 158, 11, 0.1)'; // amber for pending
+      textColor = '#f59e0b';
+      label = 'Pending';
+    } else if (status === 'cancelled') {
+      bgColor = 'rgba(156, 163, 175, 0.1)'; // gray for cancelled
+      textColor = '#9ca3af';
+      label = 'Cancelled';
+    }
+
+    return `<span class="badge" style="background-color: ${bgColor}; color: ${textColor}; border: 1px solid ${textColor}40; margin: 0; padding: 0.2rem 0.5rem; font-size: 0.6875rem;">${label}</span>`;
+  };
+
   // Render Bookings Table
   const renderTable = () => {
     if (!bookingsTableBody) return;
@@ -278,6 +302,7 @@ document.addEventListener("DOMContentLoaded", () => {
         </td>
         <td><span class="font-mono text-white">৳${parseInt(b.total_amount).toLocaleString()}</span></td>
         <td><span class="font-mono text-white">৳${parseInt(b.advance_amount).toLocaleString()}</span></td>
+        <td>${getPaymentStatusBadge(b.payment_status)}</td>
         <td class="text-right">
           <div class="booking-actions">
             <button class="btn-icon btn-view-detail" title="View Details" data-id="${b.id}">
@@ -390,6 +415,20 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="detail-item">
             <span class="detail-label">Advance Needed (30%)</span>
             <span class="detail-value price text-red-500">৳${parseInt(booking.advance_amount).toLocaleString()}</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="detail-section">
+        <h4 class="detail-section-title">Payment Information</h4>
+        <div class="detail-grid">
+          <div class="detail-item">
+            <span class="detail-label">Payment Status</span>
+            <span class="detail-value">${getPaymentStatusBadge(booking.payment_status)}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">bKash Transaction ID</span>
+            <span class="detail-value font-mono text-white">${escapeHtml(booking.bkash_trx_id || "N/A")}</span>
           </div>
         </div>
       </div>
