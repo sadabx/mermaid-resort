@@ -83,6 +83,15 @@ if (!process.env.DATABASE_URL) {
       await client.query(
         "ALTER TABLE bookings ADD COLUMN IF NOT EXISTS customer_photo_data BYTEA;",
       );
+      await client.query(
+        "ALTER TABLE bookings ADD COLUMN IF NOT EXISTS payment_status VARCHAR(50) DEFAULT 'pending';",
+      );
+      await client.query(
+        "ALTER TABLE bookings ADD COLUMN IF NOT EXISTS bkash_payment_id VARCHAR(100);",
+      );
+      await client.query(
+        "ALTER TABLE bookings ADD COLUMN IF NOT EXISTS bkash_trx_id VARCHAR(100);",
+      );
       console.log("Database tables initialized.");
       client.release();
     } catch (err) {
@@ -295,6 +304,9 @@ app.post(
           customer_photo_name: customerPhotoName,
           customer_photo_mime_type: customerPhotoMime,
           ip_address: ipAddress || "Unknown",
+          payment_status: "pending",
+          bkash_payment_id: null,
+          bkash_trx_id: null,
         };
         mockBookings.push(newBooking);
         console.log(
@@ -347,6 +359,208 @@ app.post(
     }
   },
 );
+
+// =========================================================================
+// bKASH TOKENIZED CHECKOUT API ENDPOINTS (SANDBOX)
+// =========================================================================
+
+// API: Initiate bKash Payment
+app.get("/api/bkash/initiate", async (req, res) => {
+  const { bookingId } = req.query;
+  if (!bookingId) {
+    return res.status(400).send("Booking ID is required");
+  }
+
+  // If using in-memory mock DB, simulate successful redirect to mock success callback
+  if (useMockDb) {
+    console.log(`Mock DB initiating simulated bKash payment for Booking ID: ${bookingId}`);
+    return res.redirect(`/api/bkash/callback?status=success&paymentID=MOCK_PAYMENT_ID&bookingId=${bookingId}`);
+  }
+
+  try {
+    // 1. Fetch booking details to get the amount (advance_amount) and phone
+    const dbResult = await pool.query(
+      "SELECT advance_amount, phone FROM bookings WHERE id = $1",
+      [parseInt(bookingId)]
+    );
+    if (dbResult.rows.length === 0) {
+      return res.status(404).send("Booking not found");
+    }
+    const booking = dbResult.rows[0];
+
+    // 2. Grant Token from bKash Sandbox
+    const tokenResponse = await fetch(`${process.env.BKASH_BASE_URL}/tokenized/checkout/token/grant`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "username": process.env.BKASH_USER_NAME,
+        "password": process.env.BKASH_PASSWORD
+      },
+      body: JSON.stringify({
+        app_key: process.env.BKASH_APP_KEY,
+        app_secret: process.env.BKASH_APP_SECRET
+      })
+    });
+    
+    if (!tokenResponse.ok) {
+      const errorText = await tokenResponse.text();
+      console.error("bKash Grant Token error:", errorText);
+      return res.redirect(`/?booking=failed&reason=bkash_auth_failed`);
+    }
+    
+    const tokenData = await tokenResponse.json();
+    const idToken = tokenData.id_token;
+
+    // 3. Create Payment with bKash Sandbox
+    const callbackURL = `${process.env.BKASH_CALLBACK_URL || 'https://mermaid.trionine.xyz/api/bkash/callback'}?bookingId=${bookingId}`;
+    const createResponse = await fetch(`${process.env.BKASH_BASE_URL}/tokenized/checkout/create`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": idToken,
+        "X-APP-Key": process.env.BKASH_APP_KEY
+      },
+      body: JSON.stringify({
+        mode: "0011",
+        payerReference: booking.phone || "01770618575",
+        callbackURL: callbackURL,
+        amount: booking.advance_amount.toString(),
+        currency: "BDT",
+        intent: "sale",
+        merchantInvoiceNumber: `INV-${bookingId}-${Date.now().toString().slice(-4)}`
+      })
+    });
+
+    if (!createResponse.ok) {
+      const errorText = await createResponse.text();
+      console.error("bKash Create Payment error:", errorText);
+      return res.redirect(`/?booking=failed&reason=bkash_create_failed`);
+    }
+
+    const createData = await createResponse.json();
+    
+    if (createData.statusCode && createData.statusCode !== "0000") {
+      console.error("bKash API create payment returned status error:", createData.statusMessage);
+      return res.redirect(`/?booking=failed&reason=${encodeURIComponent(createData.statusMessage)}`);
+    }
+
+    // 4. Save bKash PaymentID in Database
+    await pool.query(
+      "UPDATE bookings SET bkash_payment_id = $1 WHERE id = $2",
+      [createData.paymentID, parseInt(bookingId)]
+    );
+
+    // 5. Redirect user to bKash portal (OTP/PIN entry screen)
+    return res.redirect(createData.bkashURL);
+
+  } catch (err) {
+    console.error("Error in bKash initiate route:", err.message);
+    return res.redirect(`/?booking=failed&reason=internal_server_error`);
+  }
+});
+
+// API: bKash Callback Endpoint
+app.get("/api/bkash/callback", async (req, res) => {
+  const { paymentID, status, bookingId } = req.query;
+
+  if (!bookingId) {
+    return res.status(400).send("Booking ID is missing");
+  }
+
+  // Handle cancelled or failed states
+  if (status === "cancel" || status === "failure") {
+    if (useMockDb) {
+      const booking = mockBookings.find(b => b.id === parseInt(bookingId));
+      if (booking) booking.payment_status = "cancelled";
+    } else {
+      await pool.query(
+        "UPDATE bookings SET payment_status = $1 WHERE id = $2",
+        [status === "cancel" ? "cancelled" : "failed", parseInt(bookingId)]
+      );
+    }
+    return res.redirect(`/?booking=failed&reason=${status}`);
+  }
+
+  if (status !== "success" || !paymentID) {
+    return res.redirect(`/?booking=failed&reason=unknown_status`);
+  }
+
+  // Handle mock DB mode
+  if (useMockDb) {
+    const booking = mockBookings.find(b => b.id === parseInt(bookingId));
+    if (booking) {
+      booking.payment_status = "paid";
+      booking.bkash_trx_id = "MOCK-BKASH-TRXID";
+    }
+    console.log(`Mock DB completed simulated payment for Booking ID: ${bookingId}`);
+    return res.redirect(`/?booking=success&id=${bookingId}`);
+  }
+
+  try {
+    // 1. Grant Token
+    const tokenResponse = await fetch(`${process.env.BKASH_BASE_URL}/tokenized/checkout/token/grant`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "username": process.env.BKASH_USER_NAME,
+        "password": process.env.BKASH_PASSWORD
+      },
+      body: JSON.stringify({
+        app_key: process.env.BKASH_APP_KEY,
+        app_secret: process.env.BKASH_APP_SECRET
+      })
+    });
+    
+    if (!tokenResponse.ok) {
+      console.error("bKash Grant Token failed in callback");
+      return res.redirect(`/?booking=failed&reason=bkash_auth_failed`);
+    }
+    
+    const tokenData = await tokenResponse.json();
+    const idToken = tokenData.id_token;
+
+    // 2. Execute Payment with bKash Sandbox to finalize charges
+    const executeResponse = await fetch(`${process.env.BKASH_BASE_URL}/tokenized/checkout/execute`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": idToken,
+        "X-APP-Key": process.env.BKASH_APP_KEY
+      },
+      body: JSON.stringify({ paymentID })
+    });
+
+    if (!executeResponse.ok) {
+      const errorText = await executeResponse.text();
+      console.error("bKash Execute Payment request failed:", errorText);
+      return res.redirect(`/?booking=failed&reason=execute_failed`);
+    }
+
+    const executeData = await executeResponse.json();
+
+    // Check if bKash successfully finalized the transaction
+    if (executeData.transactionStatus === "Completed" || (executeData.statusCode === "0000")) {
+      // 3. Mark booking as paid in Neon PostgreSQL Database
+      await pool.query(
+        "UPDATE bookings SET payment_status = 'paid', bkash_trx_id = $1 WHERE id = $2",
+        [executeData.trxID || "MOCK-TRX-ID", parseInt(bookingId)]
+      );
+      console.log(`bKash payment success: Booking ID ${bookingId}, TrxID ${executeData.trxID}`);
+      return res.redirect(`/?booking=success&id=${bookingId}`);
+    } else {
+      console.error("bKash Execute Payment status not Completed:", executeData.statusMessage);
+      await pool.query(
+        "UPDATE bookings SET payment_status = 'failed' WHERE id = $1",
+        [parseInt(bookingId)]
+      );
+      return res.redirect(`/?booking=failed&reason=${encodeURIComponent(executeData.statusMessage || 'unsuccessful')}`);
+    }
+
+  } catch (err) {
+    console.error("Error in bKash callback route:", err.message);
+    return res.redirect(`/?booking=failed&reason=internal_server_error`);
+  }
+});
 
 // Admin Authorization Middleware (supports header token & query param token)
 const authorizeAdmin = (req, res, next) => {

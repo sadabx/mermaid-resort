@@ -3,9 +3,37 @@ lucide.createIcons();
 
 window.addEventListener('load', () => {
   const preloader = document.getElementById('pagePreloader');
-  if (!preloader) return;
-  preloader.classList.add('is-hidden');
-  setTimeout(() => preloader.remove(), 400);
+  if (preloader) {
+    preloader.classList.add('is-hidden');
+    setTimeout(() => preloader.remove(), 400);
+  }
+
+  // Check bKash payment redirection queries
+  const urlParams = new URLSearchParams(window.location.search);
+  const bookingStatus = urlParams.get('booking');
+  const bookingId = urlParams.get('id');
+  const failReason = urlParams.get('reason');
+
+  if (bookingStatus === 'success' && bookingId) {
+    const successTotal = document.getElementById('successTotal');
+    const successAdvance = document.getElementById('successAdvance');
+    const bookingFormView = document.getElementById('bookingFormView');
+    const successView = document.getElementById('successView');
+    const bookingModal = document.getElementById('bookingModal');
+
+    if (successTotal) successTotal.innerText = `Verified`;
+    if (successAdvance) successAdvance.innerText = `Confirmed (Paid)`;
+
+    if (bookingModal) bookingModal.classList.remove('hidden');
+    if (bookingFormView) bookingFormView.classList.add('hidden');
+    if (successView) successView.classList.remove('hidden');
+    
+    // Clear URL query parameters
+    window.history.replaceState({}, document.title, "/");
+  } else if (bookingStatus === 'failed') {
+    alert(`bKash payment failed or was cancelled. Reason: ${failReason || 'Unknown error'}`);
+    window.history.replaceState({}, document.title, "/");
+  }
 });
 
 let currentRoom = '';
@@ -483,16 +511,14 @@ if (submitBtn) {
         body: formData
       });
       if (!response.ok) throw new Error('Submission failed');
-      
-      const successTotal = document.getElementById('successTotal');
-      const successAdvance = document.getElementById('successAdvance');
-      
-      if (successTotal) successTotal.innerText = `৳${total.toLocaleString()}`;
-      if (successAdvance) successAdvance.innerText = `৳${advance.toLocaleString()}`;
-      
-      if (bookingFormView) bookingFormView.classList.add('hidden');
-      if (successView) successView.classList.remove('hidden');
-      lucide.createIcons();
+      const data = await response.json();
+
+      if (data.success && data.bookingId) {
+        // Redirect browser to bKash payment portal
+        window.location.href = `/api/bkash/initiate?bookingId=${data.bookingId}`;
+      } else {
+        throw new Error('Invalid booking response');
+      }
       
     } catch (error) {
       if (formError) formError.innerText = 'Submission failed. Please try again.';
