@@ -801,6 +801,15 @@
     color: var(--text-gray-400);
 }
 
+.file-upload-help {
+    display: block;
+    font-size: 0.65rem;
+    color: var(--text-gray-500);
+    margin-top: 0.35rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
 /* Calculation summary panel */
 .calc-box {
     background-color: var(--bg-card);

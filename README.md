@@ -1,4 +1,4 @@
-# 🌊 Mermaid Resort
+# Mermaid Resort
 
 Live site: [Mermaid Resort](https://mermaid.trionine.xyz)
 
@@ -6,7 +6,7 @@ Mermaid Resort is a premium resort booking and island restaurant portal with an 
 
 ---
 
-## 📂 Project Structure
+## Project Structure
 
 ```text
 mermaid-resort/
@@ -46,17 +46,7 @@ mermaid-resort/
 
 ---
 
-## 🛠 Features
-
-* **Room Reservation**: Dynamic room grid showing details, gallery slideshows, and instant checkout.
-* **bKash Tokenized Payment**: Integrated bKash Sandbox for payment checkout with automatic 30% advance amount verification.
-* **Brute-Force Lockout**: Security middleware that locks IP addresses out for 15 minutes after 5 consecutive failed admin logins.
-* **Document Upload**: Raw binary NID and selfie uploading (limited to 5MB) stored directly inside Neon PostgreSQL `BYTEA` column structures.
-* **Clean URLs**: Serverless rewrites mapping `/admin`, `/restaurant`, and `/payment-status` cleanly.
-
----
-
-## ⚙️ Local Development Setup
+## Local Development Setup
 
 ### 1. Setup Environment Variables
 Create a `.env` file inside the root directory:
@@ -90,7 +80,7 @@ The server will initialize your database tables automatically and run at `http:/
 
 ---
 
-## 🧪 Testing bKash Payments
+## Testing bKash Payments
 When prompted on the bKash Sandbox payment portal:
 * **Wallet Number**: `01770618575` (or `01929918378`)
 * **Test PIN**: `12121`
