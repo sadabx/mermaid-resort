@@ -7,65 +7,6 @@ window.addEventListener('load', () => {
     preloader.classList.add('is-hidden');
     setTimeout(() => preloader.remove(), 400);
   }
-
-  // Check bKash payment redirection queries
-  const urlParams = new URLSearchParams(window.location.search);
-  const bookingStatus = urlParams.get('booking');
-  const bookingId = urlParams.get('id');
-  const failReason = urlParams.get('reason');
-
-  if (bookingStatus === 'success' && bookingId) {
-    const successTotal = document.getElementById('successTotal');
-    const successAdvance = document.getElementById('successAdvance');
-    const bookingFormView = document.getElementById('bookingFormView');
-    const successView = document.getElementById('successView');
-    const bookingModal = document.getElementById('bookingModal');
-
-    // bKash success updates
-    const successTitle = document.getElementById('successTitle');
-    const successSubtitle = document.getElementById('successSubtitle');
-    const successInstructions = document.getElementById('successInstructions');
-    const successAdvanceLabel = document.getElementById('successAdvanceLabel');
-    const whatsappBtn = document.getElementById('whatsappConfirmBtn');
-
-    if (successTitle) successTitle.innerText = "Booking Confirmed!";
-    if (successSubtitle) successSubtitle.innerText = "Your 30% advance payment has been verified via bKash.";
-    if (successInstructions) successInstructions.style.display = 'none';
-    if (successAdvanceLabel) successAdvanceLabel.innerText = "Advance Paid (30%):";
-
-    // Read paid totals from redirect URL
-    const totalVal = parseInt(urlParams.get('total')) || 0;
-    const advanceVal = parseInt(urlParams.get('advance')) || 0;
-
-    if (successTotal) successTotal.innerText = `৳${totalVal.toLocaleString()}`;
-    if (successAdvance) successAdvance.innerText = `৳${advanceVal.toLocaleString()}`;
-
-    // Update WhatsApp button text and link dynamically to be a receipt confirmation
-    if (whatsappBtn) {
-      whatsappBtn.innerHTML = '<i data-lucide="message-circle"></i> Contact Front Desk';
-      // remove old click listener by cloning it or overriding it
-      const newWhatsappBtn = whatsappBtn.cloneNode(true);
-      whatsappBtn.parentNode.replaceChild(newWhatsappBtn, whatsappBtn);
-      newWhatsappBtn.addEventListener('click', () => {
-        const phoneNumber = '8801819077914';
-        const message = encodeURIComponent(`Hi Mermaid Resort! I just completed my online payment for Booking ID #${bookingId}. Total: ৳${totalVal.toLocaleString()} (Paid 30% Advance: ৳${advanceVal.toLocaleString()}). Please note my booking.`);
-        window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
-      });
-    }
-
-    if (bookingModal) bookingModal.classList.remove('hidden');
-    if (bookingFormView) bookingFormView.classList.add('hidden');
-    if (successView) successView.classList.remove('hidden');
-    
-    // Force icons to render inside the updated button
-    if (typeof lucide !== 'undefined') lucide.createIcons();
-
-    // Clear URL query parameters
-    window.history.replaceState({}, document.title, "/");
-  } else if (bookingStatus === 'failed') {
-    alert(`bKash payment failed or was cancelled. Reason: ${failReason || 'Unknown error'}`);
-    window.history.replaceState({}, document.title, "/");
-  }
 });
 
 let currentRoom = '';

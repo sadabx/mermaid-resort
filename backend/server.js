@@ -405,7 +405,7 @@ app.get("/api/bkash/initiate", async (req, res) => {
     if (!tokenResponse.ok) {
       const errorText = await tokenResponse.text();
       console.error("bKash Grant Token error:", errorText);
-      return res.redirect(`/?booking=failed&reason=bkash_auth_failed`);
+      return res.redirect(`/payment-status?status=failed&reason=bkash_auth_failed`);
     }
     
     const tokenData = await tokenResponse.json();
@@ -434,14 +434,14 @@ app.get("/api/bkash/initiate", async (req, res) => {
     if (!createResponse.ok) {
       const errorText = await createResponse.text();
       console.error("bKash Create Payment error:", errorText);
-      return res.redirect(`/?booking=failed&reason=bkash_create_failed`);
+      return res.redirect(`/payment-status?status=failed&reason=bkash_create_failed`);
     }
 
     const createData = await createResponse.json();
     
     if (createData.statusCode && createData.statusCode !== "0000") {
       console.error("bKash API create payment returned status error:", createData.statusMessage);
-      return res.redirect(`/?booking=failed&reason=${encodeURIComponent(createData.statusMessage)}`);
+      return res.redirect(`/payment-status?status=failed&reason=${encodeURIComponent(createData.statusMessage)}`);
     }
 
     // 4. Save bKash PaymentID in Database
@@ -455,7 +455,7 @@ app.get("/api/bkash/initiate", async (req, res) => {
 
   } catch (err) {
     console.error("Error in bKash initiate route:", err.message);
-    return res.redirect(`/?booking=failed&reason=internal_server_error`);
+    return res.redirect(`/payment-status?status=failed&reason=internal_server_error`);
   }
 });
 
@@ -478,11 +478,11 @@ app.get("/api/bkash/callback", async (req, res) => {
         [status === "cancel" ? "cancelled" : "failed", parseInt(bookingId)]
       );
     }
-    return res.redirect(`/?booking=failed&reason=${status}`);
+    return res.redirect(`/payment-status?status=failed&reason=${status}`);
   }
 
   if (status !== "success" || !paymentID) {
-    return res.redirect(`/?booking=failed&reason=unknown_status`);
+    return res.redirect(`/payment-status?status=failed&reason=unknown_status`);
   }
 
   // Handle mock DB mode
@@ -492,9 +492,9 @@ app.get("/api/bkash/callback", async (req, res) => {
       booking.payment_status = "paid";
       booking.bkash_trx_id = "MOCK-BKASH-TRXID";
       console.log(`Mock DB completed simulated payment for Booking ID: ${bookingId}`);
-      return res.redirect(`/?booking=success&id=${bookingId}&total=${booking.total_amount}&advance=${booking.advance_amount}`);
+      return res.redirect(`/payment-status?status=success&id=${bookingId}&total=${booking.total_amount}&advance=${booking.advance_amount}&trx=MOCK-BKASH-TRXID`);
     }
-    return res.redirect(`/?booking=success&id=${bookingId}`);
+    return res.redirect(`/payment-status?status=success&id=${bookingId}`);
   }
 
   try {
@@ -514,7 +514,7 @@ app.get("/api/bkash/callback", async (req, res) => {
     
     if (!tokenResponse.ok) {
       console.error("bKash Grant Token failed in callback");
-      return res.redirect(`/?booking=failed&reason=bkash_auth_failed`);
+      return res.redirect(`/payment-status?status=failed&reason=bkash_auth_failed`);
     }
     
     const tokenData = await tokenResponse.json();
@@ -534,7 +534,7 @@ app.get("/api/bkash/callback", async (req, res) => {
     if (!executeResponse.ok) {
       const errorText = await executeResponse.text();
       console.error("bKash Execute Payment request failed:", errorText);
-      return res.redirect(`/?booking=failed&reason=execute_failed`);
+      return res.redirect(`/payment-status?status=failed&reason=execute_failed`);
     }
 
     const executeData = await executeResponse.json();
@@ -554,19 +554,19 @@ app.get("/api/bkash/callback", async (req, res) => {
       const bData = bResult.rows[0] || { total_amount: 0, advance_amount: 0 };
       
       console.log(`bKash payment success: Booking ID ${bookingId}, TrxID ${executeData.trxID}`);
-      return res.redirect(`/?booking=success&id=${bookingId}&total=${bData.total_amount}&advance=${bData.advance_amount}`);
+      return res.redirect(`/payment-status?status=success&id=${bookingId}&total=${bData.total_amount}&advance=${bData.advance_amount}&trx=${executeData.trxID || "MOCK-TRX-ID"}`);
     } else {
       console.error("bKash Execute Payment status not Completed:", executeData.statusMessage);
       await pool.query(
         "UPDATE bookings SET payment_status = 'failed' WHERE id = $1",
         [parseInt(bookingId)]
       );
-      return res.redirect(`/?booking=failed&reason=${encodeURIComponent(executeData.statusMessage || 'unsuccessful')}`);
+      return res.redirect(`/payment-status?status=failed&reason=${encodeURIComponent(executeData.statusMessage || 'unsuccessful')}`);
     }
 
   } catch (err) {
     console.error("Error in bKash callback route:", err.message);
-    return res.redirect(`/?booking=failed&reason=internal_server_error`);
+    return res.redirect(`/payment-status?status=failed&reason=internal_server_error`);
   }
 });
 
@@ -889,6 +889,9 @@ app.get("/admin", (req, res) => {
 });
 app.get("/restaurant", (req, res) => {
   res.sendFile(path.join(__dirname, "../restaurant.html"));
+});
+app.get("/payment-status", (req, res) => {
+  res.sendFile(path.join(__dirname, "../payment-status.html"));
 });
 
 // Global error handler (handles Multer file size limits)

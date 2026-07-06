@@ -301,8 +301,12 @@ document.addEventListener("DOMContentLoaded", () => {
           <div class="text-xs text-red-500">${b.nights} ${b.nights === 1 ? 'night' : 'nights'} (${b.guests} guests)</div>
         </td>
         <td><span class="font-mono text-white">৳${parseInt(b.total_amount).toLocaleString()}</span></td>
-        <td><span class="font-mono text-white">৳${parseInt(b.advance_amount).toLocaleString()}</span></td>
-        <td>${getPaymentStatusBadge(b.payment_status)}</td>
+        <td>
+          <div style="display: flex; align-items: center; gap: 0.5rem;">
+            <span class="font-mono text-white">৳${parseInt(b.advance_amount).toLocaleString()}</span>
+            ${getPaymentStatusBadge(b.payment_status)}
+          </div>
+        </td>
         <td class="text-right">
           <div class="booking-actions">
             <button class="btn-icon btn-view-detail" title="View Details" data-id="${b.id}">
@@ -414,22 +418,17 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
           <div class="detail-item">
             <span class="detail-label">Advance Needed (30%)</span>
-            <span class="detail-value price text-red-500">৳${parseInt(booking.advance_amount).toLocaleString()}</span>
+            <span class="detail-value price text-red-500" style="display: flex; align-items: center; gap: 0.5rem;">
+              ৳${parseInt(booking.advance_amount).toLocaleString()}
+              ${getPaymentStatusBadge(booking.payment_status)}
+            </span>
           </div>
-        </div>
-      </div>
-
-      <div class="detail-section">
-        <h4 class="detail-section-title">Payment Information</h4>
-        <div class="detail-grid">
-          <div class="detail-item">
-            <span class="detail-label">Payment Status</span>
-            <span class="detail-value">${getPaymentStatusBadge(booking.payment_status)}</span>
-          </div>
+          ${booking.bkash_trx_id ? `
           <div class="detail-item">
             <span class="detail-label">bKash Transaction ID</span>
-            <span class="detail-value font-mono text-white">${escapeHtml(booking.bkash_trx_id || "N/A")}</span>
+            <span class="detail-value font-mono text-white">${escapeHtml(booking.bkash_trx_id)}</span>
           </div>
+          ` : ''}
         </div>
       </div>
 
