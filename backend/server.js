@@ -412,7 +412,7 @@ app.get("/api/bkash/initiate", async (req, res) => {
     const idToken = tokenData.id_token;
 
     // 3. Create Payment with bKash Sandbox
-    const callbackURL = `${process.env.BKASH_CALLBACK_URL || 'https://mermaid.trionine.xyz/api/bkash/callback'}?bookingId=${bookingId}`;
+    const callbackURL = `${process.env.BKASH_CALLBACK_URL || 'https://mermaid.trionine.com/api/bkash/callback'}?bookingId=${bookingId}`;
     const createResponse = await fetch(`${process.env.BKASH_BASE_URL}/tokenized/checkout/create`, {
       method: "POST",
       headers: {

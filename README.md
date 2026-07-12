@@ -1,6 +1,6 @@
 # Mermaid Resort
 
-Live site: [Mermaid Resort](https://mermaid.trionine.xyz)
+Live site: [Mermaid Resort](https://mermaid.trionine.com)
 
 Mermaid Resort is a premium resort booking and island restaurant portal with an Express/Node.js backend, integrated PostgreSQL (Neon DB) storage, and bKash Tokenized Checkout (Sandbox) automated payment verification.
 
