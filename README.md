@@ -36,8 +36,8 @@ mermaid-resort/
 │   ├── package.json        # Backend NPM packages (Express, Multer, PG)
 │   └── package-lock.json   # Locked dependency tree
 ├── api/
-│   └── [...path].js        # Vercel serverless entrypoint for Express API routes
-├── vercel.json             # Vercel install command and clean URL rewrites
+│   └── index.js            # Vercel serverless entrypoint for Express API routes
+├── vercel.json             # Vercel API and clean URL rewrites
 ├── package.json            # Root scripts for local startup and Vercel metadata
 ├── sitemap.xml             # Sitemap with clean paths
 └── robots.txt              # Search engine crawler instructions
@@ -96,9 +96,9 @@ npm run dev
 This project is configured for Vercel:
 
 * Static HTML, CSS, JavaScript, and assets are served from the project root.
-* `/api/*` requests are handled by `api/[...path].js`, which reuses the existing Express app in `backend/server.js`.
+* `/api/*` requests are rewritten to `api/index.js`, which reuses the existing Express app in `backend/server.js`.
 * Clean URLs for `/admin`, `/restaurant`, and `/payment-status` are handled in `vercel.json`.
-* Backend dependencies are installed with `npm install --prefix backend`.
+* Backend dependencies are listed in the root `package.json` so Vercel installs them for the serverless function.
 
 In Vercel, keep the project root as the root directory and leave the framework preset as **Other**.
 

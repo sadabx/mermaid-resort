@@ -122,7 +122,14 @@ document.addEventListener("DOMContentLoaded", () => {
           body: JSON.stringify({ username, password })
         });
 
-        const data = await response.json();
+        const contentType = response.headers.get("content-type") || "";
+        const data = contentType.includes("application/json")
+          ? await response.json()
+          : { success: false, error: await response.text() };
+        if (!response.ok) {
+          if (loginError) loginError.innerText = data.error || `Request failed with status ${response.status}.`;
+          return;
+        }
         
         if (data.success && data.token) {
           localStorage.setItem("adminToken", data.token);
