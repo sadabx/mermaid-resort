@@ -34,12 +34,11 @@ mermaid-resort/
 ├── backend/
 │   ├── server.js           # Express.js app (endpoints, schemas & rate limiting)
 │   ├── package.json        # Backend NPM packages (Express, Multer, PG)
-│   ├── package-lock.json   # Locked dependency tree
-│   └── netlify/
-│       └── functions/
-│           └── api.js      # Serverless entrypoint for Netlify deployment
-├── netlify.toml            # Netlify build configurations and clean URL routing
-├── _redirects              # Static domain canonical redirection rules
+│   └── package-lock.json   # Locked dependency tree
+├── api/
+│   └── [...path].js        # Vercel serverless entrypoint for Express API routes
+├── vercel.json             # Vercel install command and clean URL rewrites
+├── package.json            # Root scripts for local startup and Vercel metadata
 ├── sitemap.xml             # Sitemap with clean paths
 └── robots.txt              # Search engine crawler instructions
 ```
@@ -70,6 +69,12 @@ BKASH_CALLBACK_URL=http://localhost:3000/api/bkash/callback
 PORT=3000
 ```
 
+For production on Vercel, add the same variables in **Project Settings → Environment Variables**. Set `BKASH_CALLBACK_URL` to your production callback URL, for example:
+
+```env
+BKASH_CALLBACK_URL=https://mermaid.trionine.com/api/bkash/callback
+```
+
 ### 2. Install & Start Server
 ```bash
 cd backend
@@ -77,6 +82,25 @@ npm install
 npm run dev
 ```
 The server will initialize your database tables automatically and run at `http://localhost:3000`.
+
+You can also start it from the project root:
+
+```bash
+npm run dev
+```
+
+---
+
+## Vercel Deployment
+
+This project is configured for Vercel:
+
+* Static HTML, CSS, JavaScript, and assets are served from the project root.
+* `/api/*` requests are handled by `api/[...path].js`, which reuses the existing Express app in `backend/server.js`.
+* Clean URLs for `/admin`, `/restaurant`, and `/payment-status` are handled in `vercel.json`.
+* Backend dependencies are installed with `npm install --prefix backend`.
+
+In Vercel, keep the project root as the root directory and leave the framework preset as **Other**.
 
 ---
 

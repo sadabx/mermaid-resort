@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "installCommand": "npm install --prefix backend",
+  "rewrites": [
+    {
+      "source": "/admin",
+      "destination": "/admin.html"
+    },
+    {
+      "source": "/restaurant",
+      "destination": "/restaurant.html"
+    },
+    {
+      "source": "/payment-status",
+      "destination": "/payment-status.html"
+    }
+  ]
+}

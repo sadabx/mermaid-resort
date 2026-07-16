@@ -819,7 +819,7 @@ app.get(
         return res.status(404).json({ error: "Attachment not found" });
       }
 
-      // Serverless/Netlify-compatible response headers
+      // Serverless-compatible response headers
       const finalMimeType = mimeType || "application/octet-stream";
       res.setHeader("Content-Type", finalMimeType);
       res.setHeader("Content-Length", fileData.length);
