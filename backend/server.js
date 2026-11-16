@@ -894,6 +894,14 @@ app.get("/payment-status", (req, res) => {
   res.sendFile(path.join(__dirname, "../payment-status.html"));
 });
 
+// 404 Not Found fallback routing
+app.use((req, res) => {
+  if (req.accepts("html")) {
+    return res.status(404).sendFile(path.join(__dirname, "../404.html"));
+  }
+  res.status(404).json({ error: "Endpoint not found" });
+});
+
 // Global error handler (handles Multer file size limits)
 app.use((err, req, res, next) => {
   if (err instanceof multer.MulterError) {

@@ -1,4 +1,7 @@
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /payment-status
+Disallow: /api/
 
 Sitemap: https://mermaid.trionine.com/sitemap.xml

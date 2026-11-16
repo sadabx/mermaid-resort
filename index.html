@@ -28,7 +28,9 @@
       property="og:description"
       content="Book your stay at Mermaid Beach Resort. Experience luxury suites, oceanfront views, and premium island hospitality."
     />
-    <meta property="og:image" content="assets/general/hero-bg.jpg" />
+    <meta property="og:image" content="https://mermaid.trionine.com/assets/general/hero-bg.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content="https://mermaid.trionine.com/assets/general/hero-bg.jpg" />
 
     <link rel="icon" type="image/ico" href="/assets/favicon/favicon.ico" />
 
@@ -37,11 +39,16 @@
         "@context": "https://schema.org",
         "@type": "Resort",
         "name": "Mermaid Beach Resort",
-        "image": "assets/general/hero-bg.jpg",
-        "@id": "",
+        "image": "https://mermaid.trionine.com/assets/general/hero-bg.jpg",
+        "@id": "https://mermaid.trionine.com",
         "url": "https://mermaid.trionine.com",
         "telephone": "+8801819077914",
         "email": "mermaid.com.bd@gmail.com",
+        "aggregateRating": {
+          "@type": "AggregateRating",
+          "ratingValue": "4.2",
+          "reviewCount": "412"
+        },
         "address": {
           "@type": "PostalAddress",
           "streetAddress": "Mermaid Rd",
@@ -51,8 +58,8 @@
         },
         "geo": {
           "@type": "GeoCoordinates",
-          "latitude": 20.62768,
-          "longitude": 92.325514
+          "latitude": 20.6338914,
+          "longitude": 92.3205847
         },
         "sameAs": "https://www.facebook.com/saintmrtin"
       }
@@ -86,7 +93,7 @@
     />
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <link rel="stylesheet" href="css/main.css" />
-    <link rel="stylesheet" href="css/pages/resort.css" />
+    <link rel="stylesheet" href="css/pages/resort.css?v=2" />
     <link rel="stylesheet" href="css/pages/flatpickr-dark.css" />
   </head>
 
@@ -115,6 +122,7 @@
           <a href="#home" class="navbar-link">Home</a>
           <a href="#about" class="navbar-link">About</a>
           <a href="#rooms" class="navbar-link">Rooms</a>
+          <a href="/restaurant" class="navbar-link">Restaurant</a>
           <a href="#amenities" class="navbar-link">Amenities</a>
           <a href="#gallery" class="navbar-link">Gallery</a>
           <a href="#contact" class="navbar-link">Contact</a>
@@ -136,6 +144,7 @@
           <a href="#home" class="mobile-link">Home</a>
           <a href="#about" class="mobile-link">About</a>
           <a href="#rooms" class="mobile-link">Rooms</a>
+          <a href="/restaurant" class="mobile-link">Restaurant</a>
           <a href="#amenities" class="mobile-link">Amenities</a>
           <a href="#gallery" class="mobile-link">Gallery</a>
           <a href="#contact" class="mobile-link">Contact</a>
@@ -180,16 +189,32 @@
             Nestled on the pristine shores of the Bay of Bengal, Mermaid Resort
             offers an unparalleled escape to Bangladesh's only coral island.
           </p>
-          <div class="about-location">
-            <div class="location-icon">
-              <i data-lucide="map-pin" class="text-red-500"></i>
+          <div class="about-meta">
+            <div class="about-location">
+              <div class="location-icon">
+                <i data-lucide="map-pin" class="text-red-500"></i>
+              </div>
+              <a
+                href="https://maps.app.goo.gl/DWN7BiUi3a7Eds8c7"
+                target="_blank"
+                rel="noopener"
+                class="location-link"
+              >
+                Mermaid Rd, Saint Martin
+              </a>
             </div>
             <a
               href="https://maps.app.goo.gl/DWN7BiUi3a7Eds8c7"
               target="_blank"
-              class="location-link"
+              rel="noopener"
+              class="google-rating-badge"
+              title="View 412+ verified reviews on Google Maps"
             >
-              Mermaid Rd, Saint Martin
+              <div class="google-rating-stars">★★★★☆</div>
+              <span class="google-rating-score">4.2</span>
+              <span class="google-rating-divider">·</span>
+              <span class="google-rating-count">412 Google Reviews</span>
+              <i data-lucide="external-link" class="google-rating-icon"></i>
             </a>
           </div>
         </div>
@@ -229,7 +254,7 @@
             <p class="amenity-desc">Private Area</p>
           </div>
           <a
-            href="restaurant.html"
+            href="/restaurant"
             class="amenity-card block fade-in-up scroll-reveal"
             style="transition-delay: 0.1s"
           >
@@ -295,6 +320,33 @@
             />
             <div class="gallery-overlay"></div>
           </div>
+          <div class="gallery-item">
+            <img
+              src="assets/restaurant/restaurant-night.jpg"
+              alt="Mermaid Resort Night Courtyard"
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="gallery-overlay"></div>
+          </div>
+          <div class="gallery-item">
+            <img
+              src="assets/restaurant/coral-fish-bbq.jpg"
+              alt="Fresh Island Coral Fish BBQ"
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="gallery-overlay"></div>
+          </div>
+          <div class="gallery-item">
+            <img
+              src="assets/restaurant/fresh-catch-boats.jpg"
+              alt="Saint Martin Coastline & Daily Catch"
+              loading="lazy"
+              decoding="async"
+            />
+            <div class="gallery-overlay"></div>
+          </div>
         </div>
       </div>
     </section>
@@ -317,15 +369,16 @@
               </div>
             </div>
             <div class="contact-info-item">
-              <i data-lucide="map"></i>
+              <i data-lucide="map-pin"></i>
               <div>
-                <p class="contact-info-label">Google Hotels</p>
+                <p class="contact-info-label">Google Maps & Reviews</p>
                 <a
-                  href="https://www.google.com/travel/hotels/s/tRm7Ym7j8Yy91ihb6"
+                  href="https://maps.app.goo.gl/DWN7BiUi3a7Eds8c7"
                   target="_blank"
+                  rel="noopener"
                   class="contact-info-value"
                 >
-                  View Listings & Reviews
+                  4.2 ★ (412 Reviews) · Open in Maps
                 </a>
               </div>
             </div>
@@ -461,15 +514,31 @@
       </div>
     </footer>
 
+    <!-- Agency Badge -->
+    <a
+      href="https://trionine.com"
+      target="_blank"
+      rel="noopener"
+      class="agency-badge"
+      title="Website Designed & Developed by Trionine"
+    >
+      <span class="agency-dot"></span>
+      <span>Built by <strong>Trionine</strong></span>
+      <span class="agency-badge-action">Get a website &rarr;</span>
+    </a>
+
     <!-- Floating Buttons -->
     <div class="float-buttons">
       <button id="backToTopBtn" class="btn-back-to-top">
         <i data-lucide="arrow-up"></i>
       </button>
       <a
-        href="https://wa.me/8801819077914"
+        href="https://wa.me/8801819077914?text=Hello!%20I%20would%20like%20to%20inquire%20about%20booking%20a%20stay%20at%20Mermaid%20Resort,%20Saint%20Martin."
         target="_blank"
+        rel="noopener"
         class="btn-whatsapp-float"
+        title="Chat with Mermaid Resort on WhatsApp"
+        aria-label="Chat on WhatsApp"
       >
         <i data-lucide="message-circle"></i>
       </a>
@@ -674,6 +743,6 @@
     </div>
 
     <script src="js/data/rooms.js"></script>
-    <script src="js/script.js?v=4"></script>
+    <script src="js/script.js?v=5"></script>
   </body>
 </html>

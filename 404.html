@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 - Page Not Found | Mermaid Beach Resort</title>
+  <meta name="robots" content="noindex, follow">
+  <link rel="icon" type="image/ico" href="/assets/favicon/favicon.ico" />
+  <link rel="stylesheet" href="css/main.css" />
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      background: radial-gradient(circle at 50% 30%, #1a0f0f 0%, var(--bg-dark) 70%);
+      padding: 1.5rem;
+      text-align: center;
+      color: var(--text-gray-200);
+    }
+    .error-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      max-width: 520px;
+      width: 100%;
+      padding: 3rem 2rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+      position: relative;
+      overflow: hidden;
+    }
+    .error-card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+    }
+    .error-logo {
+      width: 64px;
+      height: 64px;
+      object-fit: contain;
+      margin: 0 auto 1.25rem;
+      filter: drop-shadow(0 4px 12px rgba(220, 38, 38, 0.3));
+    }
+    .error-code {
+      font-size: 5rem;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      line-height: 1;
+      color: var(--primary-color);
+      text-shadow: 0 0 30px rgba(220, 38, 38, 0.35);
+      margin-bottom: 0.5rem;
+      font-family: inherit;
+    }
+    .error-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--text-white);
+      margin-bottom: 0.75rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .error-desc {
+      color: var(--text-gray-400);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+    .error-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .btn-w-full {
+      width: 100%;
+      justify-content: center;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.875rem 1.5rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-size: 0.875rem;
+      border-radius: 4px;
+      transition: var(--transition-normal);
+    }
+    .btn-primary {
+      background-color: var(--primary-color);
+      color: var(--text-white);
+    }
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
+      transform: translateY(-1px);
+    }
+    .btn-secondary {
+      background-color: var(--bg-alt);
+      color: var(--text-gray-200);
+      border: 1px solid var(--border-light);
+    }
+    .btn-secondary:hover {
+      background-color: rgba(255, 255, 255, 0.08) !important;
+      border-color: var(--primary-color) !important;
+      color: var(--text-white) !important;
+      transform: translateY(-1px);
+    }
+    .error-footer {
+      margin-top: 2rem;
+      font-size: 0.8rem;
+      color: var(--text-gray-500);
+    }
+    .error-footer a {
+      color: var(--primary-color);
+      transition: var(--transition-fast);
+      text-decoration: underline;
+    }
+    .error-footer a:hover {
+      color: var(--text-white);
+    }
+  </style>
+</head>
+<body>
+  <div class="error-card">
+    <img src="assets/brand/logo.png" alt="Mermaid Resort Logo" class="error-logo" />
+    <div class="error-code">404</div>
+    <h1 class="error-title">Lost at Sea?</h1>
+    <p class="error-desc">
+      The shore you are looking for does not exist or has drifted away with the tide. Let's guide you back to the resort.
+    </p>
+
+    <div class="error-actions">
+      <a href="/" class="btn-w-full btn-primary">
+        <i data-lucide="home"></i> Return to Homepage
+      </a>
+      <a href="/restaurant" class="btn-w-full btn-secondary">
+        <i data-lucide="utensils"></i> Island Restaurant Menu
+      </a>
+    </div>
+
+    <div class="error-footer">
+      Mermaid Beach Resort • Saint Martin's Island<br />
+      Designed &amp; Developed by <a href="https://trionine.com" target="_blank" rel="noopener">Trionine</a>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      lucide.createIcons();
+    });
+  </script>
+</body>
+</html>

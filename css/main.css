@@ -702,3 +702,68 @@ button {
     font-size: 1rem;
   }
 }
+
+/* =========================================
+   AGENCY BADGE (PROMOTIONAL PILL)
+   ========================================= */
+.agency-badge {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  z-index: 45;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.85rem;
+  background: rgba(17, 17, 17, 0.88);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  color: var(--text-gray-300);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.6);
+  transition: var(--transition-normal);
+  text-decoration: none;
+}
+
+.agency-badge:hover {
+  background: rgba(22, 22, 22, 0.98);
+  border-color: var(--primary-color);
+  color: var(--text-white);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -5px rgba(220, 38, 38, 0.3);
+}
+
+.agency-badge .agency-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  box-shadow: 0 0 8px var(--primary-color);
+}
+
+.agency-badge strong {
+  color: var(--text-white);
+  font-weight: 600;
+}
+
+.agency-badge-action {
+  color: var(--primary-color);
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  margin-left: 0.25rem;
+  padding-left: 0.5rem;
+  border-left: 1px solid var(--border-light);
+}
+
+@media (max-width: 640px) {
+  .agency-badge {
+    bottom: 1rem;
+    left: 1rem;
+    padding: 0.35rem 0.65rem;
+    font-size: 0.7rem;
+  }
+}

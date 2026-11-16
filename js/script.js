@@ -443,6 +443,19 @@ if (submitBtn) {
     
     if (!name || !phone || !email) { if (formError) formError.innerText = 'Name, phone and email are required.'; return; }
 
+    const cleanedPhone = phone.replace(/[\s-]/g, '');
+    const bdPhoneRegex = /^(?:\+?8801|01)[3-9]\d{8}$/;
+    if (!bdPhoneRegex.test(cleanedPhone)) {
+      if (formError) formError.innerText = 'Please enter a valid 11-digit Bangladeshi mobile number (e.g. 01819077914).';
+      return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      if (formError) formError.innerText = 'Please enter a valid email address.';
+      return;
+    }
+
     const guestCount = guests ? parseInt(guests.value) || 1 : 1;
     if (guestCount < 1 || guestCount > 6) { if (formError) formError.innerText = 'Guests must be between 1 and 6.'; return; }
 
@@ -488,8 +501,19 @@ if (submitBtn) {
       const data = await response.json();
 
       if (data.success && data.bookingId) {
-        // Redirect browser to bKash payment portal
-        window.location.href = `/api/bkash/initiate?bookingId=${data.bookingId}`;
+        // Show success confirmation screen with WhatsApp notification button
+        if (bookingFormView) bookingFormView.classList.add('hidden');
+        if (successView) successView.classList.remove('hidden');
+
+        const sTotal = document.getElementById('successTotal');
+        const sAdvance = document.getElementById('successAdvance');
+        if (sTotal) sTotal.innerText = `৳${currentTotal.toLocaleString()}`;
+        if (sAdvance) sAdvance.innerText = `৳${currentAdvance.toLocaleString()}`;
+
+        const modalContainer = document.querySelector('.modal-container');
+        if (modalContainer) modalContainer.scrollTop = 0;
+
+        lucide.createIcons();
       } else {
         throw new Error('Invalid booking response');
       }
@@ -508,7 +532,7 @@ const whatsappBtn = document.getElementById('whatsappConfirmBtn');
 if (whatsappBtn) {
   whatsappBtn.addEventListener('click', () => {
     const phoneNumber = '8801819077914';
-    const message = encodeURIComponent(`Hi Mermaid Resort! I just submitted a booking for ${currentGuestName || 'a guest'}. I am sending the 30% advance of ৳${currentAdvance.toLocaleString()} now. Please confirm my reservation.`);
+    const message = encodeURIComponent(`Hi Mermaid Resort! I just placed a booking on your website.\n\nGuest: ${currentGuestName || 'Guest'}\nRoom: ${currentRoom || 'Resort Room'}\nTotal: ৳${currentTotal.toLocaleString()}\n30% Advance: ৳${currentAdvance.toLocaleString()}\n\nI am sending the advance payment via bKash/Nagad. Please confirm my reservation!`);
     window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
   });
 }

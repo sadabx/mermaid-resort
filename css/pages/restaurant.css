@@ -67,11 +67,66 @@
   gap: 2rem;
 }
 
+/* Card with Image Support */
+.menu-item-card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  overflow: hidden;
+  transition: var(--transition-normal);
+  display: flex;
+  flex-direction: column;
+}
+
+.menu-item-card:hover {
+  border-color: var(--primary-color);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 30px -10px rgba(0, 0, 0, 0.7);
+}
+
+.menu-item-media {
+  position: relative;
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+  background-color: #070707;
+}
+
+.menu-item-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.menu-item-card:hover .menu-item-media img {
+  transform: scale(1.05);
+}
+
+.menu-item-media .menu-item-badge {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  margin-top: 0;
+  background: rgba(10, 10, 10, 0.88);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid var(--primary-color);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+
+.menu-item-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
 .menu-item {
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);
   padding: 1.5rem;
-  border-radius: 2px;
+  border-radius: 4px;
   transition: var(--transition-normal);
 }
 
@@ -84,13 +139,22 @@
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 0.5rem;
+  gap: 0.75rem;
 }
 
 .menu-item-title {
   font-size: 1.25rem;
   font-weight: 700;
   color: var(--text-white);
-  letter-spacing: 0.05em;
+  letter-spacing: 0.03em;
+}
+
+.menu-item-bengali {
+  font-size: 0.85rem;
+  color: var(--text-gray-500);
+  font-weight: 400;
+  margin-top: 0.15rem;
+  display: block;
 }
 
 .menu-item-price {
@@ -98,12 +162,42 @@
   font-family: monospace;
   font-weight: 700;
   font-size: 1.25rem;
+  white-space: nowrap;
 }
 
 .menu-item-desc {
-  color: var(--text-gray-500);
+  color: var(--text-gray-400);
   font-size: 0.875rem;
-  font-weight: 300;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.menu-item-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.menu-item-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background-color: var(--bg-alt);
+  border: 1px solid var(--border-light);
+  padding: 0.25rem 0.55rem;
+  border-radius: 2px;
+  font-size: 0.7rem;
+  color: var(--text-gray-300);
+  letter-spacing: 0.02em;
+}
+
+.menu-item-tag i, .menu-item-tag svg {
+  width: 0.8rem;
+  height: 0.8rem;
+  color: var(--primary-color);
 }
 
 .menu-item.beverage-item {
@@ -134,6 +228,78 @@
   border: 1px solid var(--primary-color);
   padding: 0.2rem 0.6rem;
   border-radius: 2px;
+}
+
+/* Authentic Atmosphere Showcase */
+.atmosphere-section {
+  margin-top: 5rem;
+  margin-bottom: 4rem;
+}
+
+.atmosphere-header {
+  text-align: center;
+  margin-bottom: 2.5rem;
+}
+
+.atmosphere-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--text-white);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.5rem;
+}
+
+.atmosphere-subtitle {
+  color: var(--text-gray-400);
+  font-size: 0.95rem;
+}
+
+.atmosphere-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+.atmosphere-card {
+  position: relative;
+  border-radius: 4px;
+  overflow: hidden;
+  height: 240px;
+  border: 1px solid var(--border-color);
+  background-color: #000;
+}
+
+.atmosphere-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.atmosphere-card:hover img {
+  transform: scale(1.06);
+}
+
+.atmosphere-caption {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.25rem 1rem 0.75rem;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9) 0%, transparent 100%);
+  color: var(--text-white);
+  font-size: 0.85rem;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.atmosphere-caption i, .atmosphere-caption svg {
+  width: 1rem;
+  height: 1rem;
+  color: var(--primary-color);
 }
 
 .menu-grid-4 {
@@ -206,7 +372,8 @@
    ========================================= */
 @media (max-width: 768px) {
   .menu-grid,
-  .menu-grid-4 {
+  .menu-grid-4,
+  .atmosphere-grid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }

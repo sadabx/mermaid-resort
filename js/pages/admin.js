@@ -55,13 +55,11 @@ document.addEventListener("DOMContentLoaded", () => {
   // Toggle Password Visibility
   if (togglePasswordBtn && adminPasswordInput) {
     togglePasswordBtn.addEventListener("click", () => {
-      const type = adminPasswordInput.getAttribute("type") === "password" ? "text" : "password";
-      adminPasswordInput.setAttribute("type", type);
-      const icon = togglePasswordBtn.querySelector("i") || togglePasswordBtn.querySelector("svg");
-      if (icon) {
-        icon.setAttribute("data-lucide", type === "password" ? "eye" : "eye-off");
-        lucide.createIcons();
-      }
+      const isCurrentlyPassword = adminPasswordInput.getAttribute("type") === "password";
+      const nextType = isCurrentlyPassword ? "text" : "password";
+      adminPasswordInput.setAttribute("type", nextType);
+      togglePasswordBtn.innerHTML = `<i data-lucide="${nextType === "password" ? "eye" : "eye-off"}"></i>`;
+      lucide.createIcons();
     });
   }
 
