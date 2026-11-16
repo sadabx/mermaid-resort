@@ -276,8 +276,8 @@ function closeModal() {
 
 if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
 if (closeSuccessBtn) closeSuccessBtn.addEventListener('click', closeModal);
-modal.addEventListener('click', (e) => { 
-  if (e.target === modal || e.target.closest('.modal-backdrop') || e.target.classList.contains('modal-wrapper')) closeModal(); 
+modal.addEventListener('click', (e) => {
+  if (e.target === modal || e.target.closest('.modal-backdrop') || e.target.classList.contains('modal-wrapper')) closeModal();
 });
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal(); });
 
@@ -289,7 +289,7 @@ let checkinPicker, checkoutPicker;
 if (checkinInput) {
   checkinPicker = flatpickr(checkinInput, {
     minDate: 'today', dateFormat: 'Y-m-d',
-    onChange: function(selectedDates) {
+    onChange: function (selectedDates) {
       if (selectedDates.length > 0 && checkoutPicker) checkoutPicker.set('minDate', selectedDates[0]);
       validateDates(); updateCalculation();
     }
@@ -301,7 +301,7 @@ if (checkinInput) {
 if (checkoutInput) {
   checkoutPicker = flatpickr(checkoutInput, {
     minDate: 'today', dateFormat: 'Y-m-d',
-    onChange: function() { validateDates(); updateCalculation(); }
+    onChange: function () { validateDates(); updateCalculation(); }
   });
   checkoutInput.addEventListener('input', () => { validateDates(); updateCalculation(); });
   checkoutInput.addEventListener('change', () => { validateDates(); updateCalculation(); });
@@ -316,7 +316,7 @@ const formError = document.getElementById('formError');
 
 // Limit Guest Input dynamically
 if (guests) {
-  guests.addEventListener('change', function() {
+  guests.addEventListener('change', function () {
     if (this.value < 1) this.value = 1;
     if (this.value > 6) this.value = 6;
   });
@@ -374,7 +374,7 @@ const fileNameDisplay = document.getElementById('fileNameDisplay');
 let currentPhotoFile = null;
 
 if (idPhotoInput) {
-  idPhotoInput.addEventListener('change', function() {
+  idPhotoInput.addEventListener('change', function () {
     if (this.files && this.files[0]) {
       const file = this.files[0];
       if (file.size > 5 * 1024 * 1024) {
@@ -400,7 +400,7 @@ const customerPhotoNameDisplay = document.getElementById('customerPhotoNameDispl
 let currentCustomerPhotoFile = null;
 
 if (customerPhotoInput) {
-  customerPhotoInput.addEventListener('change', function() {
+  customerPhotoInput.addEventListener('change', function () {
     if (this.files && this.files[0]) {
       const file = this.files[0];
       if (file.size > 5 * 1024 * 1024) {
@@ -435,12 +435,12 @@ if (submitBtn) {
     const nameInput = document.getElementById('fullName');
     const phoneInput = document.getElementById('phone');
     const emailInput = document.getElementById('email');
-    
+
     const name = nameInput ? nameInput.value.trim() : '';
     const phone = phoneInput ? phoneInput.value.trim() : '';
     const email = emailInput ? emailInput.value.trim() : '';
     currentGuestName = name;
-    
+
     if (!name || !phone || !email) { if (formError) formError.innerText = 'Name, phone and email are required.'; return; }
 
     const cleanedPhone = phone.replace(/[\s-]/g, '');
@@ -465,7 +465,7 @@ if (submitBtn) {
     currentTotal = total; currentAdvance = advance;
 
     let userIP = "Unknown";
-    try { const r = await fetch('https://api.ipify.org?format=json'); const d = await r.json(); userIP = d.ip; } catch (err) {}
+    try { const r = await fetch('https://api.ipify.org?format=json'); const d = await r.json(); userIP = d.ip; } catch (err) { }
 
     const formData = new FormData();
     formData.append('room', currentRoom);
@@ -517,7 +517,7 @@ if (submitBtn) {
       } else {
         throw new Error('Invalid booking response');
       }
-      
+
     } catch (error) {
       if (formError) formError.innerText = 'Submission failed. Please try again.';
     } finally {
@@ -542,7 +542,7 @@ const contactForm = document.getElementById('contactForm');
 const contactSubmitBtn = document.getElementById('contactSubmitBtn');
 
 if (contactForm && contactSubmitBtn) {
-  contactForm.addEventListener('submit', function(e) {
+  contactForm.addEventListener('submit', function (e) {
     e.preventDefault();
     const originalText = contactSubmitBtn.innerHTML;
     contactSubmitBtn.innerHTML = '<span class="loading-dots">Sending</span>';
@@ -557,27 +557,27 @@ if (contactForm && contactSubmitBtn) {
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
       body: json
     })
-    .then(async (response) => {
-      let json = await response.json();
-      if (response.status == 200) {
-        contactSubmitBtn.innerHTML = 'Message Sent ✓';
-        contactSubmitBtn.style.backgroundColor = '#16a34a'; // green-600 color
-      } else {
+      .then(async (response) => {
+        let json = await response.json();
+        if (response.status == 200) {
+          contactSubmitBtn.innerHTML = 'Message Sent ✓';
+          contactSubmitBtn.style.backgroundColor = '#16a34a'; // green-600 color
+        } else {
+          contactSubmitBtn.innerHTML = 'Error. Try Again';
+        }
+      })
+      .catch(error => {
         contactSubmitBtn.innerHTML = 'Error. Try Again';
-      }
-    })
-    .catch(error => {
-      contactSubmitBtn.innerHTML = 'Error. Try Again';
-    })
-    .finally(() => {
-      contactForm.reset();
-      // Revert button back to normal after 4 seconds
-      setTimeout(() => {
-        contactSubmitBtn.innerHTML = originalText;
-        contactSubmitBtn.disabled = false;
-        contactSubmitBtn.style.backgroundColor = '';
-      }, 4000);
-    });
+      })
+      .finally(() => {
+        contactForm.reset();
+        // Revert button back to normal after 4 seconds
+        setTimeout(() => {
+          contactSubmitBtn.innerHTML = originalText;
+          contactSubmitBtn.disabled = false;
+          contactSubmitBtn.style.backgroundColor = '';
+        }, 4000);
+      });
   });
 }
 
