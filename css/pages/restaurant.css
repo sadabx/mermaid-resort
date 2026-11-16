@@ -90,6 +90,7 @@
   height: 220px;
   overflow: hidden;
   background-color: #070707;
+  cursor: pointer;
 }
 
 .menu-item-media img {
@@ -268,6 +269,7 @@
   height: 240px;
   border: 1px solid var(--border-color);
   background-color: #000;
+  cursor: pointer;
 }
 
 .atmosphere-card img {

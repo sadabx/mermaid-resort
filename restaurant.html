@@ -429,6 +429,39 @@
       <span class="agency-badge-action">Get a website &rarr;</span>
     </a>
 
-    <script src="js/pages/restaurant.js"></script>
+    <!-- Photo Preview Popup Modal (Card Popup) -->
+    <div id="photoPreviewModal" class="photo-preview-modal" aria-hidden="true" role="dialog">
+      <div class="photo-popup-backdrop" id="photoPreviewBackdrop"></div>
+      <div class="photo-popup-wrapper">
+        <div class="photo-popup-container">
+          <div class="photo-popup-header">
+            <div>
+              <h3 class="photo-popup-title" id="photoPopupTitle">Dining Gallery</h3>
+              <p class="photo-popup-caption" id="photoPopupCaption">Mermaid Resort Dining</p>
+            </div>
+            <div class="photo-popup-header-right">
+              <span class="photo-popup-counter font-mono" id="photoPopupCounter">1 / 4</span>
+              <button id="photoPreviewClose" class="photo-popup-close" aria-label="Close preview">
+                <i data-lucide="x"></i>
+              </button>
+            </div>
+          </div>
+          <div class="photo-popup-body">
+            <div class="photo-slider-frame">
+              <img id="photoPopupImg" src="" alt="Photo Preview" class="photo-popup-img" />
+              <button class="photo-slider-btn prev-btn" id="photoPopupPrev" aria-label="Previous photo">
+                <i data-lucide="chevron-left"></i>
+              </button>
+              <button class="photo-slider-btn next-btn" id="photoPopupNext" aria-label="Next photo">
+                <i data-lucide="chevron-right"></i>
+              </button>
+            </div>
+            <div class="photo-thumbnails-bar" id="photoThumbnailsBar"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/pages/restaurant.js?v=3"></script>
   </body>
 </html>
