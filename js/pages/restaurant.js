@@ -156,6 +156,11 @@ setTimeout(() => {
 
   if (closeBtn) closeBtn.addEventListener("click", closePopup);
   if (backdrop) backdrop.addEventListener("click", closePopup);
+  modal.addEventListener("click", (e) => {
+    if (!e.target.closest(".photo-popup-container")) {
+      closePopup();
+    }
+  });
   if (nextBtn) nextBtn.addEventListener("click", (e) => { e.stopPropagation(); nextSlide(); });
   if (prevBtn) prevBtn.addEventListener("click", (e) => { e.stopPropagation(); prevSlide(); });
 

@@ -85,45 +85,12 @@
    ABOUT SECTION
    ========================================= */
 .about-section {
-    position: relative;
-    overflow: hidden;
     background-color: var(--bg-alt);
     border-top: 1px solid var(--border-color);
     border-bottom: 1px solid var(--border-color);
 }
 
-.about-bg-underlay {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
-}
-
-.about-bg-img {
-    position: absolute;
-    top: 50%;
-    left: -5%;
-    transform: translateY(-50%) scale(1.05);
-    width: 60%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-    opacity: 0.12;
-    filter: blur(1.5px) grayscale(20%);
-    mask-image: radial-gradient(ellipse at 40% 50%, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0) 85%);
-    -webkit-mask-image: radial-gradient(ellipse at 40% 50%, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.4) 60%, rgba(0, 0, 0, 0) 85%);
-}
-
-.about-bg-gradient {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(circle at 25% 50%, transparent 0%, rgba(10, 10, 10, 0.8) 70%, var(--bg-alt) 100%);
-}
-
 .about-grid {
-    position: relative;
-    z-index: 1;
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 4rem;
@@ -249,18 +216,16 @@
 .about-image {
     position: relative;
     overflow: hidden;
-    border-radius: 6px;
+    border-radius: 4px;
     border: 1px solid var(--border-color);
-    box-shadow: 0 20px 45px -12px rgba(0, 0, 0, 0.85), 0 0 0 1px rgba(255, 255, 255, 0.05);
-    background-color: #050505;
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7);
 }
 
 .about-image img {
-    border-radius: 6px;
+    border-radius: 4px;
     width: 100%;
-    height: 330px;
+    height: 480px;
     object-fit: cover;
-    object-position: center 30%;
     display: block;
 }
 
@@ -559,37 +524,14 @@
 .gallery-overlay {
     position: absolute;
     inset: 0;
-    background-color: rgba(0, 0, 0, 0);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 0.35s ease;
+    background-color: rgba(220, 38, 38, 0);
+    transition: background-color 0.5s ease;
     z-index: 10;
     pointer-events: none;
 }
 
-.gallery-overlay::after {
-    content: "";
-    width: 46px;
-    height: 46px;
-    border-radius: 50%;
-    background-color: rgba(220, 38, 38, 0.9);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='22' height='22' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='15 3 21 3 21 9'/%3E%3Cpolyline points='9 21 3 21 3 15'/%3E%3Cline x1='21' y1='3' x2='14' y2='10'/%3E%3Cline x1='3' y1='21' x2='10' y2='14'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: center;
-    opacity: 0;
-    transform: scale(0.65);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-}
-
 .gallery-item:hover .gallery-overlay {
-    background-color: rgba(0, 0, 0, 0.38);
-}
-
-.gallery-item:hover .gallery-overlay::after {
-    opacity: 1;
-    transform: scale(1);
+    background-color: rgba(220, 38, 38, 0.1);
 }
 
 /* =========================================
@@ -1172,8 +1114,7 @@
     }
 
     .about-image img {
-        height: 250px;
-        object-position: center 30%;
+        height: 350px;
     }
 
     /* Sections */
