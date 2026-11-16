@@ -754,6 +754,17 @@ if (backToTopBtn) {
     }
   }, { passive: true });
 
+  // --- Attach to About Section Image ---
+  const aboutImageWrapper = document.querySelector('.about-image');
+  if (aboutImageWrapper) {
+    aboutImageWrapper.addEventListener('click', () => {
+      const img = aboutImageWrapper.querySelector('img');
+      if (img) {
+        openPopup([{ src: img.src, alt: img.alt || 'Mermaid Resort Courtyard' }], 0, 'About Mermaid Resort');
+      }
+    });
+  }
+
   // --- Attach to Experience Gallery Items ---
   const galleryGrid = document.querySelector('.gallery-grid');
   if (galleryGrid) {
