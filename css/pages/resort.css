@@ -569,6 +569,79 @@
     background-color: rgba(220, 38, 38, 0.1);
 }
 
+/* Gallery More Photos Badge */
+.gallery-item.has-more {
+    position: relative;
+}
+
+.gallery-more-badge {
+    position: absolute;
+    bottom: 0.85rem;
+    right: 0.85rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    background: rgba(14, 14, 14, 0.88);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    border-radius: 6px;
+    padding: 0.45rem 0.85rem;
+    color: var(--text-white);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    z-index: 15;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    pointer-events: none;
+    user-select: none;
+}
+
+.gallery-more-badge i,
+.gallery-more-badge svg {
+    width: 1rem;
+    height: 1rem;
+    color: var(--primary-color);
+    stroke-width: 2.2;
+    transition: color 0.25s ease;
+}
+
+.gallery-more-count {
+    font-family: var(--font-heading, "Jost", sans-serif);
+    font-weight: 700;
+    color: var(--text-white);
+}
+
+.gallery-more-label {
+    font-family: var(--font-body, "Jost", sans-serif);
+    font-weight: 500;
+    font-size: 0.78rem;
+    color: var(--text-gray-300);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.gallery-item.has-more:hover .gallery-more-badge {
+    background: var(--primary-color);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 6px 20px rgba(220, 38, 38, 0.5);
+}
+
+.gallery-item.has-more:hover .gallery-more-badge i,
+.gallery-item.has-more:hover .gallery-more-badge svg {
+    color: var(--text-white);
+}
+
+.gallery-item.has-more:hover .gallery-more-label {
+    color: var(--text-white);
+}
+
+.gallery-item.gallery-hidden {
+    display: none !important;
+}
+
 /* =========================================
    CONTACT SECTION
    ========================================= */

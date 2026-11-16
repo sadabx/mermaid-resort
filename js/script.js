@@ -771,7 +771,15 @@ if (backToTopBtn) {
       };
     }).filter(item => item.src);
 
+    // Dynamic +N counter sync for hidden photos
+    const hiddenItems = galleryGrid.querySelectorAll('.gallery-item.gallery-hidden');
+    const countBadge = galleryGrid.querySelector('.gallery-more-count');
+    if (countBadge && hiddenItems.length > 0) {
+      countBadge.textContent = `+${hiddenItems.length}`;
+    }
+
     galleryItems.forEach((item, index) => {
+      if (item.classList.contains('gallery-hidden')) return;
       item.addEventListener('click', (e) => {
         e.preventDefault();
         openPopup(imagesList, index, 'Experience Gallery');

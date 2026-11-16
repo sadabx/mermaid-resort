@@ -67,7 +67,7 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" />
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
   <link rel="stylesheet" href="css/main.css?v=2" />
-  <link rel="stylesheet" href="css/pages/resort.css?v=3" />
+  <link rel="stylesheet" href="css/pages/resort.css?v=4" />
   <link rel="stylesheet" href="css/pages/flatpickr-dark.css" />
 </head>
 
@@ -255,9 +255,22 @@
           <img src="assets/gallery/resort-walkway.jpg" alt="Resort Courtyard & Palm Walkway" loading="lazy" decoding="async" />
           <div class="gallery-overlay"></div>
         </div>
-        <div class="gallery-item">
+        <div class="gallery-item has-more" title="View all photos">
           <img src="assets/general/about-resort.jpg" alt="Saint Martin Coral Stone Beach & Rock Formations" loading="lazy" decoding="async" />
           <div class="gallery-overlay"></div>
+          <div class="gallery-more-badge">
+            <i data-lucide="images"></i>
+            <span class="gallery-more-count">+2</span>
+            <span class="gallery-more-label">More</span>
+          </div>
+        </div>
+
+        <!-- Additional gallery photos accessible in preview slider -->
+        <div class="gallery-item gallery-hidden" aria-hidden="true">
+          <img src="assets/gallery/island-boats.jpg" alt="Saint Martin Island Wooden Fishing Boats on Beach" loading="lazy" decoding="async" />
+        </div>
+        <div class="gallery-item gallery-hidden" aria-hidden="true">
+          <img src="assets/gallery/resort-beachfront.jpg" alt="Mermaid Resort Coastal Shoreline & Sandy Beach" loading="lazy" decoding="async" />
         </div>
       </div>
     </div>
@@ -574,7 +587,7 @@
   </div>
 
   <script src="js/data/rooms.js"></script>
-  <script src="js/script.js?v=8"></script>
+  <script src="js/script.js?v=9"></script>
 </body>
 
 </html>
